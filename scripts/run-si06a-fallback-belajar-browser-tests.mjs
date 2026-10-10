@@ -195,7 +195,7 @@ async function inspectChoice(browser){
     assert.equal(await page.locator("[data-symbol-hunt]").count(),0,"english-find-blue stays on fallback choice owner");
 
     await page.getByRole("button",{name:"🔴",exact:true}).click();
-    await page.getByRole("status").filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:3000});
+    await page.getByRole("status").filter({hasText:"Try another one!"}).waitFor({state:"visible",timeout:3000});
     assert.equal(await completed(page,"english-find-blue"),false,"wrong fallback choice does not complete");
     assert.equal((await attemptsFor(page,"english-find-blue")).length,0,"wrong fallback choice writes no attempt");
 

@@ -30,7 +30,8 @@ import {
   resolveCharacterPresentation,
   type ResolvedCharacterPresentation
 } from "@/lib/learning/characterPresentation";
-import { MONEY_WORLD_PILOT_AGE_BAND } from "@/lib/learning/world/moneyWorldPresentation";
+import { MONEY_WORLD_PILOT_AGE_BAND, isMoneyWorldPilotAgeEligible } from "@/lib/learning/world/moneyWorldPresentation";
+import { ChildLoading, useLearningProfile } from "@/components/learning/LearningCommon";
 import { MONEY_WORLD_RUNTIME_CHARACTER_POLICY } from "@/lib/learning/world/moneyWorldAssets";
 import { audioStatus, playTone, unlockAudio, warmAudio, type SpeechStartStatus } from "@/lib/audio/feedback";
 import {
@@ -157,8 +158,25 @@ function WorldHero({
   );
 }
 
+function WorldPilotAgeNotice({ childId }: { childId: string }) {
+  return (
+    <main className={styles.catalogPage} data-world-age-gate="pilot-6-8">
+      <div className={styles.noticeCard}>
+        <LockKey size={36} weight="fill" aria-hidden />
+        <h1>Petualangan Uang untuk usia {MONEY_WORLD_PILOT_AGE_BAND.label} tahun</h1>
+        <p>Masih banyak dunia seru yang bisa kamu lihat. Petualangan untuk usiamu akan hadir nanti!</p>
+        <Link href={`/child/${childId}/worlds`}>Lihat semua World</Link>
+      </div>
+    </main>
+  );
+}
+
 export function WorldCatalogScreen({ childId }: { childId: string }) {
+  const profile = useLearningProfile(childId);
+  const eligible = isMoneyWorldPilotAgeEligible(profile?.age);
   const liveHref = "/child/" + childId + "/world/" + MONEY_WORLD_ID;
+
+  if (!profile) return <ChildLoading />;
 
   return (
     <main className={styles.catalogPage}>
@@ -182,7 +200,8 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
         data-core-thumbnail-grid="worlds"
       >
         {CORE_WORLD_CARDS.map((world) => {
-          const locked = world.status === "locked";
+          const ageGated = world.id === MONEY_WORLD_ID && !eligible;
+          const locked = world.status === "locked" || ageGated;
           const content = (
             <>
               <span className={styles.worldThumbnailFrame}>
@@ -201,6 +220,7 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
                 ) : null}
               </span>
               <strong className={styles.worldThumbnailName}>{world.title}</strong>
+              {ageGated ? <span className={styles.worldAgeLabel}>Untuk usia {MONEY_WORLD_PILOT_AGE_BAND.label} tahun</span> : null}
             </>
           );
 
@@ -210,9 +230,9 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
               className={cx(styles.worldThumbnailCard, styles.worldThumbnailCardLocked)}
               data-core-thumbnail-card="world"
               data-core-thumbnail-id={world.id}
-              data-world-status="locked"
+              data-world-status={ageGated ? "age-gated" : "locked"}
               aria-disabled="true"
-              aria-label={world.title + " terkunci"}
+              aria-label={ageGated ? world.title + " hanya untuk usia " + MONEY_WORLD_PILOT_AGE_BAND.label + " tahun" : world.title + " terkunci"}
             >
               {content}
             </div>
@@ -235,6 +255,13 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
 }
 
 export function MoneyWorldMapScreen({ childId, worldId }: { childId: string; worldId: string }) {
+  const profile = useLearningProfile(childId);
+  if (!profile) return <ChildLoading />;
+  if (!isMoneyWorldPilotAgeEligible(profile.age)) return <WorldPilotAgeNotice childId={childId} />;
+  return <MoneyWorldMapRuntime childId={childId} worldId={worldId} />;
+}
+
+function MoneyWorldMapRuntime({ childId, worldId }: { childId: string; worldId: string }) {
   const state = useMoneyWorldProgress(childId);
   const mapRef = useRef<HTMLElement>(null);
   const worldsHref = "/child/" + childId + "/worlds";
@@ -1480,6 +1507,21 @@ function MoneyWorldStageRuntime({
 }
 
 export function MoneyWorldStageScreen({
+  childId,
+  worldId,
+  stageId
+}: {
+  childId: string;
+  worldId: string;
+  stageId: string;
+}) {
+  const profile = useLearningProfile(childId);
+  if (!profile) return <ChildLoading />;
+  if (!isMoneyWorldPilotAgeEligible(profile.age)) return <WorldPilotAgeNotice childId={childId} />;
+  return <MoneyWorldStageRuntimeGate childId={childId} worldId={worldId} stageId={stageId} />;
+}
+
+function MoneyWorldStageRuntimeGate({
   childId,
   worldId,
   stageId

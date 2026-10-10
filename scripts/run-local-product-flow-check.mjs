@@ -86,7 +86,7 @@ async function main() {
       const openStage = journeyMap.locator("[data-journey-stage]:not([disabled])").first();
       await openStage.waitFor({ state: "visible", timeout: 8_000 });
       await openStage.click();
-      activityLink = page.locator(`[data-stage-detail-open] [data-stage-text-activity-list] a[href^="/child/${childId}/activity/"]`).first();
+      activityLink = page.locator(`[data-stage-detail-open] [data-stage-continue][href^="/child/${childId}/activity/"]`).first();
     } else {
       await page.locator("[data-activity-gallery]").waitFor({ state: "visible", timeout: 8_000 });
       if (await page.locator("[data-activity-id]").count() !== 100) throw new Error("gallery subject page must preserve the complete 100-activity catalog");

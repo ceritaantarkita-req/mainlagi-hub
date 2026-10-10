@@ -1,8 +1,22 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **9 October 2026**
+Last reviewed: **10 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 10 October 2026 — CHILD UX FINAL: BATCH 06 PR CI 7/7 GREEN (PRE-MERGE CHECKPOINT)
+
+PR **#487** run **38013491930** completed **SUCCESS in all 7 required PR jobs** at `1da3afbb0db89641024634c7de625f2446b142bc`: Ubuntu, Windows, Cloudflare/OpenNext production build, Chromium mobile including age-5/7/9 World guard and authored World closing checkpoints, Shop PostgreSQL staging, secret history scan, dependency audit. Earlier failures were test-fixture or presentation assertion issues fixed in **the same PR**; no World curriculum/earning/motion/shop changes were used as shortcuts. Detailed log: [`CHILD_UX_FINAL_REMEDIATION_BATCHES_2026-10-10.md`](CHILD_UX_FINAL_REMEDIATION_BATCHES_2026-10-10.md).
+
+**Snapshot status:** PR remains open while this docs checkpoint itself reruns exact-head CI. Do **not** call MERGED, deployed or LIVE VERIFIED yet. PR Cloudflare smoke skipped; push-to-main exact SHA smoke and real iPhone Safari acceptance required separately. Only after a successful exact-head rerun may PR #487 squash-merge; verify branch cleanup without deleting unrelated branches.
+
+## 10 October 2026 — CHILD UX FINAL REMEDIATION BATCH 00–07 (ONE BRANCH / IN PROGRESS)
+
+The user rejected remaining mobile clutter and approved one continuous eight-batch remediation plan, captured in [`CHILD_UX_FINAL_REMEDIATION_BATCHES_2026-10-10.md`](CHILD_UX_FINAL_REMEDIATION_BATCHES_2026-10-10.md). Source baseline `main@fbc993ccbd779b841061d37ed82c01daf00c1bd3`; single implementation branch `agent/child-ux-final-remediation-20261010`. Docs-first followed by World entry/age enforcement, mobile Garden, Home, Journey/Stage, Choice/Matching/Drawing, QA, then one PR/squash merge/deletion only if CI green.
+
+**World decision:** catalog browseable at all supported ages, shipped Petualangan Uang still **6–8 only**. Gian Demo is 5; no stage unlock and no invented 3–5 World variant. Align catalog and direct deep-link guards; presentation must not claim locked world is “missing”.
+
+**Status:** unmerged work; no PASS/production verification claim yet. Previous Wave 1–3 source and docs PRs were merged. Exact latest production smoke and fresh real-iPhone visual acceptance remain open in Issue #486. Keep content/evidence/mastery, all stage IDs, World progression, Motion Engine, Shop, auth and canonical character assets untouched.
 
 ## 9 October 2026 — CHILD VISUAL WAVES 1–3 MERGED / PR CI VERIFIED, NOT LIVE VERIFIED
 

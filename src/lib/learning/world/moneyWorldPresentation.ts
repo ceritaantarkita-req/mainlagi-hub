@@ -90,3 +90,11 @@ export const MONEY_WORLD_PRESENTATION_POLICY = {
 
 export const MONEY_WORLD_PILOT_AGE_BAND =
   MONEY_WORLD_PRESENTATION_POLICY.bands[MONEY_WORLD_PRESENTATION_POLICY.pilotBandId];
+
+/** Shipped curriculum eligibility; browse access is handled separately. */
+export function isMoneyWorldPilotAgeEligible(age: number | null | undefined): boolean {
+  return typeof age === "number" && Number.isFinite(age)
+    && age >= MONEY_WORLD_PILOT_AGE_BAND.minAge
+    && age <= MONEY_WORLD_PILOT_AGE_BAND.maxAge;
+}
+

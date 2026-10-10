@@ -4,6 +4,7 @@ import { mkdirSync, rmSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { worldAge7Context } from "./world-age7-browser-fixture.mjs";
 
 const root = process.cwd();
 const host = "127.0.0.1";
@@ -28,9 +29,9 @@ const ROUTES = [
   { path: "/child/demo-gian", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/home", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/learn", kind: "child-learning", touch: true },
-  { path: "/child/demo-gian/worlds", kind: "child-learning", touch: true },
-  { path: "/child/demo-gian/world/money-festival", kind: "child-learning", touch: true },
-  { path: "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use", kind: "child-learning", touch: true },
+  { path: "/child/qa-world-age7/worlds", kind: "child-learning", touch: true },
+  { path: "/child/qa-world-age7/world/money-festival", kind: "child-learning", touch: true },
+  { path: "/child/qa-world-age7/world/money-festival/stage/money-stage-01-money-use", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/subject/math", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/stage/math-angka", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
@@ -67,7 +68,7 @@ const RUNTIME_ROUTES = [
 const BATCH16_ACCESSIBILITY_ROUTES = [
   { path: "/child/demo-gian/home", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/learn", kind: "child-learning", touch: true },
-  { path: "/child/demo-gian/world/money-festival", kind: "child-learning", touch: true },
+  { path: "/child/qa-world-age7/world/money-festival", kind: "child-learning", touch: true },
   { path: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
   { path: "/parent/children/demo-gian/reports", kind: "parent", touch: false },
   { path: "/play/math-choice", kind: "game-play", touch: true }
@@ -81,9 +82,9 @@ const SCREENSHOTS = new Set([
   "1024:/parent",
   "320:/child/demo-gian/activity/color-gavi",
   "375:/child/demo-gian/learn",
-  "390:/child/demo-gian/worlds",
-  "390:/child/demo-gian/world/money-festival",
-  "390:/child/demo-gian/world/money-festival/stage/money-stage-01-money-use",
+  "390:/child/qa-world-age7/worlds",
+  "390:/child/qa-world-age7/world/money-festival",
+  "390:/child/qa-world-age7/world/money-festival/stage/money-stage-01-money-use",
   "390:/parent/children/demo-gian/reports",
   "430:/play/math-choice",
   "768:/child/demo-gian/stage/math-angka",
@@ -185,10 +186,11 @@ async function assertJm02Header(page, viewport, { backHref, currentHref, exercis
   const drawerRect = await drawer.boundingBox();
   assert.ok(drawerRect && drawerRect.x <= 1, `JM-02 product drawer must open from the left edge at ${viewport.width}px`);
 
+  const childKey = currentHref.startsWith("/child/qa-world-age7/") ? "qa-world-age7" : "demo-gian";
   for (const [label, href] of [
-    ["Belajar", "/child/demo-gian/home"],
-    ["Bermain", "/child/demo-gian/games"],
-    ["World", "/child/demo-gian/worlds"]
+    ["Belajar", `/child/${childKey}/home`],
+    ["Bermain", `/child/${childKey}/games`],
+    ["World", `/child/${childKey}/worlds`]
   ]) {
     const link = menu.locator(`a[href="${href}"]`);
     assert.equal(await link.count(), 1, `JM-02 menu must expose ${label} at ${viewport.width}px`);
@@ -341,10 +343,10 @@ async function inspectPage(page, route, viewport) {
       );
     }
 
-    if (route.path === "/child/demo-gian/worlds") {
+    if (route.path === "/child/qa-world-age7/worlds") {
       await assertJm02Header(page, viewport, {
-        backHref: "/child/demo-gian/home",
-        currentHref: "/child/demo-gian/worlds"
+        backHref: "/child/qa-world-age7/home",
+        currentHref: "/child/qa-world-age7/worlds"
       });
       const worldGrid = page.locator('[data-core-thumbnail-grid="worlds"]');
       await worldGrid.waitFor({ state: "visible", timeout: 5_000 });
@@ -354,7 +356,7 @@ async function inspectPage(page, route, viewport) {
       assert.equal(await page.locator('[data-world-status="locked"]').count(), 8, "World catalog must expose exactly eight locked concepts");
       assert.equal(
         await page.locator('[data-world-status="live"]').getAttribute("href"),
-        "/child/demo-gian/world/money-festival",
+        "/child/qa-world-age7/world/money-festival",
         "World thumbnail wave must preserve the live money-festival route"
       );
       assert.equal(
@@ -368,14 +370,14 @@ async function inspectPage(page, route, viewport) {
       assert.equal(columns, viewport.width <= 760 ? 2 : 3, `World catalog column count must match viewport at ${viewport.width}px`);
     }
 
-    if (route.path === "/child/demo-gian/world/money-festival") {
+    if (route.path === "/child/qa-world-age7/world/money-festival") {
       await assertJm02Header(page, viewport, {
-        backHref: "/child/demo-gian/worlds",
-        currentHref: "/child/demo-gian/worlds"
+        backHref: "/child/qa-world-age7/worlds",
+        currentHref: "/child/qa-world-age7/worlds"
       });
     }
 
-    if (route.path === "/child/demo-gian/world/money-festival" && viewport.width <= 430) {
+    if (route.path === "/child/qa-world-age7/world/money-festival" && viewport.width <= 430) {
       const geometry = await page.evaluate(() => {
         const one = document.querySelector('[data-world-stage-id="money-stage-01-money-use"]');
         const two = document.querySelector('[data-world-stage-id="money-stage-02-price-change"]');
@@ -644,7 +646,7 @@ async function main() {
   const browser = await chromium.launch({ headless: true });
   try {
     for (const viewport of VIEWPORTS) {
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       const page = await context.newPage();
       for (const route of ROUTES) {
         await inspectPage(page, route, viewport);
@@ -653,12 +655,41 @@ async function main() {
       console.log(`Mobile route matrix passed at ${viewport.width}px.`);
     }
 
+    // Batch 01: the World category is browseable, but the 6–8 pilot is not age-morphed.
+    {
+      const context = await worldAge7Context(browser,{ viewport: { width: 390, height: 844 } });
+      const page = await context.newPage();
+      const catalog = "/child/demo-gian/worlds";
+      await page.goto(baseUrl + catalog, { waitUntil: "domcontentloaded" });
+      await page.locator('[data-core-thumbnail-grid="worlds"]').waitFor({ state: "visible" });
+      assert.equal(await page.locator('[data-world-status="age-gated"]').count(), 1,
+        "Gian age 5 sees Petualangan Uang but cannot start 6–8 pilot");
+      assert.equal(await page.locator('[data-world-status="live"]').count(), 0,
+        "Gian age 5 has no World pilot playable card");
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival", { waitUntil: "domcontentloaded" });
+      await page.locator('[data-world-age-gate="pilot-6-8"]').waitFor({ state: "visible" });
+      assert.equal(await page.locator("[data-world-journey-map]").count(), 0,
+        "Gian must not bypass pilot via direct map URL");
+      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use",
+        { waitUntil: "domcontentloaded" });
+      await page.locator('[data-world-age-gate="pilot-6-8"]').waitFor({ state: "visible" });
+      assert.equal(await page.locator("[data-world-scene-frame]").count(), 0,
+        "Gian must not bypass 6–8 pilot via direct stage URL");
+      await page.goto(baseUrl + "/child/qa-world-age9/worlds", { waitUntil: "domcontentloaded" });
+      await page.locator('[data-world-status="age-gated"]').waitFor({ state: "visible" });
+      await page.goto(baseUrl + "/child/qa-world-age9/world/money-festival/stage/money-stage-01-money-use",
+        { waitUntil: "domcontentloaded" });
+      await page.locator('[data-world-age-gate="pilot-6-8"]').waitFor({ state: "visible" });
+      await context.close();
+      console.log("World catalog/open-category ages 5/7/9 and map/stage pilot guard boundaries PASS.");
+    }
+
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -671,16 +702,16 @@ async function main() {
         updatedAt: "2026-09-22T00:00:00.000Z"
       });
       const page = await context.newPage();
-      await page.goto(baseUrl + "/child/demo-gian/worlds", { waitUntil: "domcontentloaded" });
+      await page.goto(baseUrl + "/child/qa-world-age7/worlds", { waitUntil: "domcontentloaded" });
       const liveWorld = page.locator('[data-world-status="live"]');
       await liveWorld.waitFor({ state: "visible" });
       assert.equal(
         await liveWorld.getAttribute("href"),
-        "/child/demo-gian/world/money-festival",
+        "/child/qa-world-age7/world/money-festival",
         "live World catalog card must preserve money-festival destination"
       );
       await liveWorld.click();
-      await page.waitForURL(/\/child\/demo-gian\/world\/money-festival$/);
+      await page.waitForURL(/\/child\/qa-world-age7\/world\/money-festival$/);
       await page.getByText("2/8 Stage", { exact: true }).waitFor();
       assert.equal(
         await page.locator('[data-world-stage-id="money-stage-03-income-sources"] [data-current-stage="true"]').count(),
@@ -693,7 +724,7 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       const page = await context.newPage();
       const response = await page.goto(baseUrl + "/worlds/money-festival", { waitUntil: "domcontentloaded" });
       assert.ok(response && response.status() < 400, "public World share landing must load without authentication");
@@ -725,7 +756,7 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       const page = await context.newPage();
       const route = { path: "/child/demo-gian/subject/math?qa=unlock-all", kind: "child-learning", touch: true };
       await inspectPage(page, route, viewport);
@@ -743,7 +774,7 @@ async function main() {
 
     {
       const viewport = { width: 1280, height: 800 };
-      const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+      const context = await worldAge7Context(browser,{ viewport, reducedMotion: "reduce" });
       const page = await context.newPage();
       const route = { path: "/child/demo-gian/subject/math?qa=unlock-all", kind: "child-learning", touch: false };
       await inspectPage(page, route, viewport);
@@ -760,14 +791,14 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       const page = await context.newPage();
       const stageArtworkRequests = [];
       page.on("request", (request) => {
         const pathname = new URL(request.url()).pathname;
         if (pathname.startsWith("/artwork/")) stageArtworkRequests.push(pathname);
       });
-      const stageUrl = baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use";
+      const stageUrl = baseUrl + "/child/qa-world-age7/world/money-festival/stage/money-stage-01-money-use";
       await page.goto(stageUrl, { waitUntil: "domcontentloaded" });
       await page.getByText("Uang Buat Apa?", { exact: true }).waitFor();
       const stageOneScene = page.locator('[data-world-scene="1"]');
@@ -941,7 +972,7 @@ async function main() {
       assert.equal((await stageOneCompletion.locator("[data-world-completion-context]").textContent())?.trim(), "Chapter 1 · Stage 1/8", "Stage 1 completion must expose concise hierarchy context");
       assert.equal((await stageOneCompletion.locator("[data-world-completion-message]").textContent())?.trim(), "Uang Buat Apa? selesai. Stage 2 sekarang terbuka.", "Stage 1 completion must explain what unlocked next");
       assert.equal(await stageOneCompletion.locator('[aria-label="Tiga bintang"] svg').count(), 3, "World Stage 1 completion must show exactly three stars");
-      assert.equal(await stageOneCompletion.getByRole("link", { name: /Next/ }).getAttribute("href"), "/child/demo-gian/world/money-festival/stage/money-stage-02-price-change", "Stage 1 Next must point directly to Stage 2");
+      assert.equal(await stageOneCompletion.getByRole("link", { name: /Next/ }).getAttribute("href"), "/child/qa-world-age7/world/money-festival/stage/money-stage-02-price-change", "Stage 1 Next must point directly to Stage 2");
       await page.waitForTimeout(700);
       assert.equal(await page.getByRole("link", { name: /Back/ }).count(), 1, "World completion must expose Back");
       assert.equal(await page.getByRole("button", { name: /Again/ }).count(), 1, "World completion must expose Again");
@@ -976,7 +1007,7 @@ async function main() {
       assert.equal((await chapterTwoBanner.locator("strong").textContent())?.trim(), "Siapkan Festival!", "World map must expose authored Chapter 2 title");
       assert.equal((await chapterOneBanner.locator("span").textContent())?.trim(), "1/4 Stage selesai", "Chapter 1 map progress must reflect completed Stage 1");
       assert.equal((await chapterTwoBanner.locator("span").textContent())?.trim(), "0/4 Stage selesai", "Chapter 2 map progress must remain locked at zero after Stage 1");
-      const stageTwoLink = worldMap.locator('a[href="/child/demo-gian/world/money-festival/stage/money-stage-02-price-change"]');
+      const stageTwoLink = worldMap.locator('a[href="/child/qa-world-age7/world/money-festival/stage/money-stage-02-price-change"]');
       await stageTwoLink.waitFor();
       assert.equal(await stageTwoLink.count(), 1, "World Stage 1 completion must unlock Stage 2");
       assert.equal(await page.locator('[data-stage-order="2"][data-current-stage="true"]').count(), 1, "World map must visibly mark Stage 2 as the next journey stop");
@@ -993,10 +1024,10 @@ async function main() {
     for (const width of [320, 430]) {
       const viewport = VIEWPORTS.find((item) => item.width === width);
       assert.ok(viewport, "missing World map viewport " + width);
-      const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+      const context = await worldAge7Context(browser,{ viewport, reducedMotion: "reduce" });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1011,7 +1042,7 @@ async function main() {
         const pathname = new URL(request.url()).pathname;
         if (pathname.startsWith("/artwork/")) mapArtworkRequests.push(pathname);
       });
-      await page.goto(baseUrl + "/child/demo-gian/world/money-festival", { waitUntil: "domcontentloaded" });
+      await page.goto(baseUrl + "/child/qa-world-age7/world/money-festival", { waitUntil: "domcontentloaded" });
       const map = page.locator('[data-world-map="money-festival"]');
       await map.waitFor();
       const chapterBanners = map.locator("[data-world-chapter-id]");
@@ -1069,10 +1100,10 @@ async function main() {
     for (const width of [320, 430]) {
       const viewport = VIEWPORTS.find((item) => item.width === width);
       assert.ok(viewport, "missing World completion viewport " + width);
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1082,7 +1113,7 @@ async function main() {
         updatedAt: "2026-09-22T00:00:00.000Z"
       });
       const page = await context.newPage();
-      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use", { waitUntil: "domcontentloaded" });
+      await page.goto(baseUrl + "/child/qa-world-age7/world/money-festival/stage/money-stage-01-money-use", { waitUntil: "domcontentloaded" });
       await page.locator("[data-world-next]").waitFor();
       await advanceWorldNarrative(page);
       await page.getByRole("heading", { name: "Awesome!", exact: true }).waitFor();
@@ -1139,10 +1170,10 @@ async function main() {
       ];
 
       for (const stage of pilotStages) {
-        const context = await browser.newContext({ viewport });
+        const context = await worldAge7Context(browser,{ viewport });
         await context.addInitScript((seed) => {
           window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-            "demo-gian": {
+            "qa-world-age7": {
               "money-festival": {
                 worldId: "money-festival",
                 completedStageIds: seed.previous,
@@ -1154,7 +1185,7 @@ async function main() {
           }));
         }, stage);
         const page = await context.newPage();
-        await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/" + stage.id, { waitUntil: "domcontentloaded" });
+        await page.goto(baseUrl + "/child/qa-world-age7/world/money-festival/stage/" + stage.id, { waitUntil: "domcontentloaded" });
         const shell = page.locator('[data-world-pilot-stage="' + stage.id + '"]');
         await shell.waitFor();
         assert.equal(await shell.getAttribute("data-world-pilot-runtime-status"), "pilot-runtime-covered", stage.id + " must resolve the pilot production manifest");
@@ -1182,10 +1213,10 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1195,7 +1226,7 @@ async function main() {
         updatedAt: "2026-09-22T00:00:00.000Z"
       });
       const page = await context.newPage();
-      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-02-price-change", { waitUntil: "domcontentloaded" });
+      await page.goto(baseUrl + "/child/qa-world-age7/world/money-festival/stage/money-stage-02-price-change", { waitUntil: "domcontentloaded" });
       await page.getByText("Kok Jadi Lebih Mahal?", { exact: true }).waitFor();
       const stageTwoScene = page.locator('[data-world-scene="2"]');
       const stageTwoBackground = await stageTwoScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
@@ -1229,10 +1260,10 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1246,7 +1277,7 @@ async function main() {
         updatedAt: "2026-09-22T00:00:00.000Z"
       });
       const page = await context.newPage();
-      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-04-needs-wants", { waitUntil: "domcontentloaded" });
+      await page.goto(baseUrl + "/child/qa-world-age7/world/money-festival/stage/money-stage-04-needs-wants", { waitUntil: "domcontentloaded" });
       await page.getByText("Butuh atau Mau?", { exact: true }).waitFor();
       await advanceWorldNarrative(page);
       await page.getByRole("heading", { name: "Excellent!", exact: true }).waitFor();
@@ -1264,10 +1295,10 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1282,7 +1313,7 @@ async function main() {
         updatedAt: "2026-09-22T00:00:00.000Z"
       });
       const page = await context.newPage();
-      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-05-saving", { waitUntil: "domcontentloaded" });
+      await page.goto(baseUrl + "/child/qa-world-age7/world/money-festival/stage/money-stage-05-saving", { waitUntil: "domcontentloaded" });
       await page.getByText("Simpan Dulu Yuk", { exact: true }).waitFor();
       const stageFiveScene = page.locator('[data-world-scene="5"]');
       const stageFiveBackground = await stageFiveScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
@@ -1302,10 +1333,10 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript((progress) => {
         window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-          "demo-gian": { "money-festival": progress }
+          "qa-world-age7": { "money-festival": progress }
         }));
       }, {
         worldId: "money-festival",
@@ -1323,7 +1354,7 @@ async function main() {
         updatedAt: "2026-09-22T00:00:00.000Z"
       });
       const page = await context.newPage();
-      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-08-final-festival", { waitUntil: "domcontentloaded" });
+      await page.goto(baseUrl + "/child/qa-world-age7/world/money-festival/stage/money-stage-08-final-festival", { waitUntil: "domcontentloaded" });
       await page.getByText("Kebutuhan sudah lengkap. Masih ada delapan token. Kamu mau apa?", { exact: true }).waitFor();
       const stageEightScene = page.locator('[data-world-scene="8"]');
       const stageEightBackground = await stageEightScene.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
@@ -1459,10 +1490,10 @@ async function main() {
 
       for (const viewport of responsiveWorldViewports) {
         for (const scenario of sceneScenarios) {
-          const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
+          const context = await worldAge7Context(browser,{ viewport, reducedMotion: "reduce" });
           await context.addInitScript((seed) => {
             window.localStorage.setItem("mainlagi-world-progress-v1", JSON.stringify({
-              "demo-gian": {
+              "qa-world-age7": {
                 "money-festival": {
                   worldId: "money-festival",
                   completedStageIds: seed.completedStageIds,
@@ -1483,7 +1514,7 @@ async function main() {
           });
 
           await page.goto(
-            baseUrl + "/child/demo-gian/world/money-festival/stage/" + scenario.stageId,
+            baseUrl + "/child/qa-world-age7/world/money-festival/stage/" + scenario.stageId,
             { waitUntil: "domcontentloaded" }
           );
 
@@ -1558,7 +1589,7 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       const page = await context.newPage();
       await page.goto(`${baseUrl}/child/demo-gian/activity/english-match-hello`, { waitUntil: "domcontentloaded" });
       const board = page.locator("[data-visible-matching]");
@@ -1657,7 +1688,7 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript(() => {
         window.__mainlagiAudioEntrySamples = [];
 
@@ -1757,7 +1788,7 @@ async function main() {
 
     {
       const viewport = { width: 390, height: 844 };
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       await context.addInitScript(() => {
         const childId = "demo-gian";
         const progressKey = "mainlagi-learning-progress-v1";
@@ -1838,7 +1869,7 @@ async function main() {
     for (const width of [320, 430]) {
       const viewport = VIEWPORTS.find((item) => item.width === width);
       assert.ok(viewport, `missing viewport ${width}px`);
-      const context = await browser.newContext({ viewport });
+      const context = await worldAge7Context(browser,{ viewport });
       const page = await context.newPage();
       for (const [runtime, routePath] of RUNTIME_ROUTES) {
         await inspectPage(page, { path: routePath, kind: "child-learning", touch: true }, viewport);
@@ -1866,7 +1897,7 @@ async function main() {
       await context.close();
     }
 
-    const accessibilityContext = await browser.newContext({
+    const accessibilityContext = await worldAge7Context(browser,{
       viewport: { width: 390, height: 844 },
       reducedMotion: "reduce"
     });

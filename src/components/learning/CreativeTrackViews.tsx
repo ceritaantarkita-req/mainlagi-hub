@@ -14,10 +14,10 @@ function DrawingActivityCard({ childId, activity, done, accent, soft }: { childI
     <Link href={`/child/${childId}/activity/${activity.id}`} className={styles.activityCard} style={{ "--accent": accent, "--soft": soft } as CSSProperties}>
       <span className={styles.activityIcon} aria-hidden>{activity.emoji}</span>
       <h3>{activity.title}</h3>
-      <p>{activity.description}</p>
+      
       <span className={styles.activityMeta}>
         <span className={styles.tag}>✏️ Menggambar</span>
-        <span className={styles.tag}>Practice kreatif</span>
+        <span className={styles.tag}>Ayo coba!</span>
         {spec?.requiredForStage ? <span className={styles.tag}>Inti</span> : null}
         {done ? <span className={`${styles.tag} ${styles.tagDone}`}>✓ Selesai</span> : null}
       </span>
@@ -41,20 +41,16 @@ export function DrawingStageScreen({ childId, stageId }: { childId: string; stag
       <div style={{ marginTop: 16 }}>
         <p className={styles.eyebrow}>{subject.emoji} {subject.title}</p>
         <h1 className={styles.pageTitle}>{stage.title}</h1>
-        <p className={styles.pageLead}>{stage.subtitle}</p>
+        
       </div>
-      <section className={styles.section}>
-        <div className={styles.infoBanner}>
-          <strong>Creative practice.</strong> Aktivitas menggambar di sini menyimpan completion saja. Tidak ada skor bagus-jelek dan tidak dipakai sebagai bukti mastery akurasi gambar.
-        </div>
-      </section>
+      <p className={styles.pageLead}>✏️ Ayo menggambar! Coba garis dan bentuk favoritmu.</p>
       {lessons.map((lesson) => {
         const items = lesson.activityIds.map((id) => activityMap.get(id)).filter((item): item is LearningActivity => Boolean(item));
         if (!items.length) return null;
         return (
           <section className={styles.section} key={lesson.id}>
             <div className={styles.sectionHead}>
-              <div><p className={styles.eyebrow}>Lesson</p><h2>{lesson.title}</h2><p className={styles.pageLead}>{lesson.objective}</p></div>
+              <div><p className={styles.eyebrow}>Ayo mencoba</p><h2>{lesson.title}</h2></div>
             </div>
             <div className={styles.cardGrid}>
               {items.map((activity) => (

@@ -24,7 +24,10 @@ const ROUTES = [
   { name: "child-home", path: "/child/demo-gian/home", expectedPath: "/child/demo-gian/home", kind: "child-learning", touch: true },
   { name: "subject-math", path: "/child/demo-gian/subject/math", expectedPath: "/child/demo-gian/subject/math", kind: "child-learning", touch: true },
   { name: "stage-math-angka", path: "/child/demo-gian/stage/math-angka", expectedPath: "/child/demo-gian/stage/math-angka", kind: "child-learning", touch: true },
+
   { name: "activity-math-count", path: "/child/demo-gian/activity/math-count-3", expectedPath: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
+  { name: "activity-english-blue", path: "/child/demo-gian/activity/english-find-blue", expectedPath: "/child/demo-gian/activity/english-find-blue", kind: "child-learning", touch: true },
+  { name: "stage-drawing", path: "/child/demo-gian/stage/drawing-lines-shapes-basics", expectedPath: "/child/demo-gian/stage/drawing-lines-shapes-basics", kind: "child-learning", touch: true },
   { name: "activity-matching", path: "/child/demo-gian/activity/bahasa-pasang-awal", expectedPath: "/child/demo-gian/activity/bahasa-pasang-awal", kind: "child-learning", touch: true },
   { name: "rewards", path: "/child/demo-gian/rewards", expectedPath: "/child/demo-gian/rewards", kind: "child-learning", touch: true },
   { name: "parent-report", path: "/parent/children/demo-gian/reports", expectedPath: "/parent/children/demo-gian/reports", kind: "parent" },
@@ -152,6 +155,8 @@ async function assertSubjectJourneyLayout(page, viewport) {
   assert.ok(await detail.getByText(/langkah utama/).count() > 0, `Stage Detail lost required-step progress at ${viewport.width}px`);
   assert.equal(await detail.locator("[data-stage-text-activity-list] details").count(), 1, `Stage Detail lacks activity disclosure at ${viewport.width}px`);
   assert.equal(await detail.locator("[data-stage-continue]").count(), 1, `Stage Detail continue missing at ${viewport.width}px`);
+  assert.equal(await detail.locator("[data-stage-continue]").count(), 1, `Exactly one primary stage link at ${viewport.width}px`);
+  await page.screenshot({ path: path.join(outputDir, `stage-detail-open-${viewport.width}x${viewport.height}.png`), fullPage: false });
   await page.keyboard.press("Escape");
   await detail.waitFor({ state: "hidden" });
 }
@@ -441,6 +446,15 @@ async function inspect(page, route, viewport) {
     if (route.name === "subject-math") await assertSubjectJourneyLayout(page, viewport);
     if (route.name === "stage-math-angka") await assertStageHierarchy(page, viewport);
     if (route.name === "activity-matching") await assertMatchingFocusVisual(page, viewport);
+    if (route.name === "activity-english-blue") {
+      assert.equal(await page.getByText("Tap your answer!", { exact: true }).count(), 1,
+        `English Choice child hint must be localized at ${viewport.width}px`);
+    }
+    if (route.name === "stage-drawing") {
+      const screen = await page.locator("main").first().innerText();
+      assert.doesNotMatch(screen, /Creative practice|mastery|completion saja|Lesson/i,
+        `Drawing must not expose internal adult learning terminology at ${viewport.width}px`);
+    }
     if (route.name === "activity-math-count") {
       const frame = page.locator('[data-activity-frame="garden"]');
       assert.equal(await frame.getAttribute("data-activity-presentation"), null,

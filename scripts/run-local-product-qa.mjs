@@ -394,7 +394,7 @@ async function waitForSubjectActivityState(page) {
     const openStage = journeyMap.locator("[data-journey-stage]:not([disabled])").first();
     await waitForVisible(openStage, "open Journey Map stage");
     await openStage.click();
-    activityLink = page.locator(`[data-stage-detail-open] [data-stage-text-activity-list] a[href^="/child/${childId}/activity/"]`).first();
+    activityLink = page.locator(`[data-stage-detail-open] [data-stage-continue][href^="/child/${childId}/activity/"]`).first();
   } else {
     const gallery = page.locator("[data-activity-gallery]");
     await waitForVisible(gallery, "activity gallery");

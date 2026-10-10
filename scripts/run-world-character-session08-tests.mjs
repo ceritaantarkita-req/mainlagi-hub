@@ -4,6 +4,7 @@ import { spawn } from "node:child_process";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { worldAge7Context } from "./world-age7-browser-fixture.mjs";
 
 const root = process.cwd();
 const host = "127.0.0.1";
@@ -45,7 +46,7 @@ async function waitForServer(timeoutMs = 60_000) {
   const started = Date.now();
   while (Date.now() - started < timeoutMs) {
     try {
-      const response = await fetch(`${baseUrl}/child/demo-gian/worlds`, { redirect: "follow" });
+      const response = await fetch(`${baseUrl}/child/qa-world-age7/worlds`, { redirect: "follow" });
       if (response.status < 500) return;
     } catch {}
     await new Promise((resolve) => setTimeout(resolve, 400));
@@ -216,7 +217,7 @@ async function completeMatchingChallenge(page) {
 }
 
 async function runViewport(browser, viewport) {
-  const context = await browser.newContext({ viewport, reducedMotion: "reduce", hasTouch: viewport.width <= 768 });
+  const context = await worldAge7Context(browser,{ viewport, reducedMotion: "reduce", hasTouch: viewport.width <= 768 });
   const page = await context.newPage();
   const pageErrors = [];
   const consoleErrors = [];
@@ -225,7 +226,7 @@ async function runViewport(browser, viewport) {
     if (message.type() === "error") consoleErrors.push(message.text());
   });
 
-  const catalogRoute = "/child/demo-gian/worlds";
+  const catalogRoute = "/child/qa-world-age7/worlds";
   await page.goto(baseUrl + catalogRoute, { waitUntil: "domcontentloaded", timeout: 30_000 });
   await page.locator('[data-core-thumbnail-grid="worlds"]').waitFor({ state: "visible", timeout: 8_000 });
   assert.equal(new URL(page.url()).pathname, catalogRoute);
@@ -236,7 +237,7 @@ async function runViewport(browser, viewport) {
   assert.equal(await page.locator('[data-world-status="locked"]').count(), 8, "exactly eight Worlds must be locked");
   assert.equal(
     await page.locator('[data-world-status="live"]').getAttribute("href"),
-    "/child/demo-gian/world/money-festival",
+    "/child/qa-world-age7/world/money-festival",
     "live World route identity must remain money-festival"
   );
   assert.equal(
@@ -254,7 +255,7 @@ async function runViewport(browser, viewport) {
   await assertNoHorizontalOverflow(page, `catalog ${viewport.width}px`);
   await page.screenshot({ path: path.join(outDir, `catalog-${viewport.width}.png`), fullPage: true });
 
-  const mapRoute = "/child/demo-gian/world/money-festival";
+  const mapRoute = "/child/qa-world-age7/world/money-festival";
   await page.goto(baseUrl + mapRoute, { waitUntil: "domcontentloaded", timeout: 30_000 });
   await page.locator('[data-world-map="money-festival"]').waitFor({ state: "visible", timeout: 8_000 });
   assert.equal(new URL(page.url()).pathname, mapRoute);
@@ -264,7 +265,7 @@ async function runViewport(browser, viewport) {
   await assertNoHorizontalOverflow(page, `map ${viewport.width}px`);
   await page.screenshot({ path: path.join(outDir, `map-${viewport.width}.png`), fullPage: true });
 
-  const stageRoute = "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use";
+  const stageRoute = "/child/qa-world-age7/world/money-festival/stage/money-stage-01-money-use";
   await page.goto(baseUrl + stageRoute, { waitUntil: "domcontentloaded", timeout: 30_000 });
   await page.locator('[data-world-stage-shell="garden-baseline-v1"]').waitFor({ state: "visible", timeout: 10_000 });
   assert.equal(new URL(page.url()).pathname, stageRoute);
