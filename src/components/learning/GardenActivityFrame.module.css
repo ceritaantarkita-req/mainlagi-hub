@@ -112,3 +112,29 @@
   .matchingFocus .play { margin-top: 9px; width: min(560px, 73%); }
   .matchingFocus .characterLayer { opacity: .52; }
 }
+
+
+/* Child UX mobile presentation cleanup, scoped to activity Garden (not World/Motion). */
+@media(max-width:760px) {
+  .garden:not(.workspace) { padding-top: 10px; }
+  .garden:not(.workspace) .play { margin-top: clamp(14px, 3vh, 24px); }
+  .garden:not(.workspace) .control { min-height: 46px; border-radius: 17px; }
+  .garden:not(.workspace) .title { margin-bottom: 15px; }
+  .garden:not(.workspace) .header { gap: 6px; }
+}
+@media(max-width:768px) and (orientation:portrait) {
+  .garden:not(.workspace) .characterLayer {
+    height: clamp(98px, 26vw, 134px);
+    margin-top: 18px;
+    overflow: visible;
+  }
+}
+@media(max-width:760px) {
+  .garden:not(.workspace) .characterLayer :global(img) {
+    max-height: calc(100% - 12px);
+    max-width: clamp(62px, 19vw, 95px);
+  }
+}
+@media(prefers-reduced-motion: reduce) {
+  .garden:not(.workspace) .control { transition: none; }
+}
