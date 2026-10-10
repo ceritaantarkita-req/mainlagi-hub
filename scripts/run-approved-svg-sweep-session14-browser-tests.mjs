@@ -4,6 +4,7 @@ import { mkdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
+import { worldAge7Context } from "./world-age7-browser-fixture.mjs";
 
 const root=process.cwd();
 const host="127.0.0.1";
@@ -61,7 +62,7 @@ async function assertHeroCast(page,selector,label,expectedIds=["gavi","paca"]){
 }
 
 async function runViewport(browser,viewport){
-  const context=await browser.newContext({viewport,reducedMotion:"reduce"});
+  const context=await worldAge7Context(browser,{viewport,reducedMotion:"reduce"});
   const page=await context.newPage();
   const pageErrors=[];
   const consoleErrors=[];
@@ -102,7 +103,7 @@ async function runViewport(browser,viewport){
   await page.goto(baseUrl+"/child/demo-gian/rewards",{waitUntil:"domcontentloaded",timeout:30000});
   await assertHeroCast(page,'[data-session14-vector-cast="rewards"]',`rewards ${viewport.width}`);
 
-  await page.goto(baseUrl+"/child/demo-gian/world/money-festival/stage/money-stage-01-money-use",{waitUntil:"domcontentloaded",timeout:30000});
+  await page.goto(baseUrl+"/child/qa-world-age7/world/money-festival/stage/money-stage-01-money-use",{waitUntil:"domcontentloaded",timeout:30000});
   const decor=page.locator("[data-world-ambience-stage]").first();
   await decor.waitFor({state:"visible",timeout:10000});
   const pseudo=await decor.evaluate(node=>({
