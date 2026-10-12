@@ -4468,16 +4468,8 @@ html[data-theme="dark"] .top-nav__menu a { color: #193b55; }
 }
 
 
-/* iPhone contrast + affiliate photo resilience, 12 Oct 2026.
-   The global navbar may inherit dark mode while the wordmark is dark navy. */
-html[data-theme="dark"] .top-nav__brand {
-  background: #fffdf4;
-  border-radius: 14px;
-  padding: 3px 7px;
-}
-html[data-theme="dark"] .top-nav__account {
-  color: #fffdf4;
-}
+/* iPhone affiliate photo resilience. Global navigation uses the same cream
+   header and navy icons in all preferences (defined above). */
 .product-tile__fallback {
   position: absolute;
   inset: 0;
