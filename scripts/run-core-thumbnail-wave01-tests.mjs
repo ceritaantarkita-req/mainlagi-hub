@@ -127,4 +127,20 @@ assert.match(worldSource, /data-world-status="live"/, "shipped World must remain
 assert.doesNotMatch(worldSource, /WorldPilotAgeNotice|ageGated/, "shipped World must not be age gated");
 assert.doesNotMatch(worldSource, /href=\{[^}]*world\.id/, "locked future World ids must not be converted into runtime links");
 
+const affiliateMediaSource = readFileSync(path.resolve("src/components/discover/AffiliateProductMedia.tsx"), "utf8");
+const affiliateGridSource = readFileSync(path.resolve("src/components/discover/ProductGrid.tsx"), "utf8");
+const discoverSource = readFileSync(path.resolve("src/components/discover/DiscoverShell.tsx"), "utf8");
+assert.match(affiliateMediaSource, /onError=\{\(\) => setFailedUrl\(url\)\}/, "remote thumbnail failures must trigger fallback");
+assert.match(affiliateMediaSource, /data-affiliate-photo-fallback/, "missing images require visible accessible fallback");
+assert.match(affiliateGridSource, /AffiliateProductMedia/, "standalone product grid must use shared fallback");
+assert.match(discoverSource, /AffiliateProductMedia/, "Discover grid and list must use shared fallback");
+
+const gardenCss = readFileSync(path.resolve("src/components/learning/GardenActivityFrame.module.css"), "utf8");
+const globalCss = readFileSync(path.resolve("src/app/globals.css"), "utf8");
+const authCss = readFileSync(path.resolve("src/components/auth/AuthFamilyShell.module.css"), "utf8");
+assert.match(gardenCss, /\.themedScene:not\(\.workspace\):not\(\.matchingFocus\) \.title/, "themed Garden headings need a contrast backing");
+assert.match(globalCss, /html\[data-theme="dark"\] \.top-nav__brand/, "dark header must keep navy wordmark readable");
+assert.match(globalCss, /\.product-tile__fallback/, "missing product media needs dedicated fallback styling");
+assert.match(authCss, /padding: 24px 20px 115px/, "mobile account copy must clear decorative characters");
+
 console.log(`Core Thumbnail Wave 01 static gate PASS: 31 optimized 1200x900 assets (${totalBytes} bytes), 9 subjects, 10 games, 9 Worlds (1 live/8 locked), and 125 activity previews untouched.`);
