@@ -655,6 +655,29 @@ async function main() {
       console.log(`Mobile route matrix passed at ${viewport.width}px.`);
     }
 
+    // iPhone report: a dark OS setting must not make Mainlagi's child/family
+    // surfaces switch between unrelated dark and light headers by default.
+    {
+      const context = await browser.newContext({ viewport: { width: 390, height: 844 }, colorScheme: "dark", hasTouch: true });
+      const page = await context.newPage();
+      await page.goto(baseUrl + "/login", { waitUntil: "domcontentloaded" });
+      await page.locator('[data-mainlagi-global-header]').waitFor({ state: "visible" });
+      await page.waitForFunction(() => document.documentElement.dataset.theme === "light");
+      const nav = page.locator('[data-mainlagi-global-header]');
+      const navColors = await nav.evaluate((node) => ({
+        bg: getComputedStyle(node).backgroundColor,
+        account: getComputedStyle(node.querySelector(".top-nav__account")).color
+      }));
+      assert.match(navColors.bg, /rgba?\\(255,\\s*252,\\s*240/, "Mainlagi menu must stay cream on dark iOS");
+      assert.match(navColors.account, /rgb\\(25,\\s*59,\\s*85\\)/, "Mainlagi account icon must remain navy");
+      await page.locator('[data-mainlagi-left-menu-trigger]').click();
+      await page.locator('[data-mainlagi-left-menu-drawer]').waitFor({ state: "visible" });
+      await page.getByRole("button", { name: "Tutup menu" }).click();
+      assert.equal(await page.locator('[data-mainlagi-left-menu-drawer]').count(), 0,
+        "mobile drawer must close cleanly");
+      await context.close();
+    }
+
     // Owner decision 12 Oct: shipped World is playable by every child age. Curriculum target remains a recommendation.
     {
       const context = await worldAge7Context(browser,{ viewport: { width: 390, height: 844 } });
