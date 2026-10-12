@@ -138,7 +138,7 @@ assert.match(discoverSource, /AffiliateProductMedia/, "Discover grid and list mu
 const gardenCss = readFileSync(path.resolve("src/components/learning/GardenActivityFrame.module.css"), "utf8");
 const globalCss = readFileSync(path.resolve("src/app/globals.css"), "utf8");
 const authCss = readFileSync(path.resolve("src/components/auth/AuthFamilyShell.module.css"), "utf8");
-assert.match(gardenCss, /\.themedScene:not\(\.workspace\):not\(\.matchingFocus\) \.title/, "themed Garden headings need a contrast backing");
+assert.match(gardenCss, /\.themedScene\[data-subject-theme="logic"\]:not\(\.workspace\):not\(\.matchingFocus\) \.title/, "themed Garden headings need a contrast backing");
 assert.match(globalCss, /html\[data-theme="dark"\] \.top-nav__brand/, "dark header must keep navy wordmark readable");
 assert.match(globalCss, /\.product-tile__fallback/, "missing product media needs dedicated fallback styling");
 assert.match(authCss, /padding: 24px 20px 115px/, "mobile account copy must clear decorative characters");
