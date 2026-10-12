@@ -4338,6 +4338,17 @@ html[data-theme="dark"] .about-footnote { background: #0e1526; }
 }
 
 
+/* Brand navigation is consistently cream with navy logo/icons, even when dark
+   has been manually selected for other public site surfaces. */
+html[data-theme="dark"] .top-nav,
+html[data-theme="dark"] .top-nav--scrolled {
+  background: rgba(255, 252, 240, .97);
+  border-bottom-color: #dbe3d3;
+  color: #193b55;
+}
+html[data-theme="dark"] .top-nav__account,
+html[data-theme="dark"] .top-nav__menu a { color: #193b55; }
+
 /* === HOME-CONV-01 — shared public header convergence === */
 .top-nav {
   min-height: 72px;
