@@ -668,8 +668,8 @@ async function main() {
         bg: getComputedStyle(node).backgroundColor,
         account: getComputedStyle(node.querySelector(".top-nav__account")).color
       }));
-      assert.match(navColors.bg, /rgba?\\(255,\\s*252,\\s*240/, "Mainlagi menu must stay cream on dark iOS");
-      assert.match(navColors.account, /rgb\\(25,\\s*59,\\s*85\\)/, "Mainlagi account icon must remain navy");
+      assert.match(navColors.bg, /rgba?\(255,\s*252,\s*240/, "Mainlagi menu must stay cream on dark iOS");
+      assert.match(navColors.account, /rgb\(25,\s*59,\s*85\)/, "Mainlagi account icon must remain navy");
       await page.locator('[data-mainlagi-left-menu-trigger]').click();
       await page.locator('[data-mainlagi-left-menu-drawer]').waitFor({ state: "visible" });
       await page.getByRole("button", { name: "Tutup menu" }).click();
