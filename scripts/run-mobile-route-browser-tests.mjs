@@ -655,33 +655,32 @@ async function main() {
       console.log(`Mobile route matrix passed at ${viewport.width}px.`);
     }
 
-    // Batch 01: the World category is browseable, but the 6–8 pilot is not age-morphed.
+    // Owner decision 12 Oct: shipped World is playable by every child age. Curriculum target remains a recommendation.
     {
       const context = await worldAge7Context(browser,{ viewport: { width: 390, height: 844 } });
       const page = await context.newPage();
-      const catalog = "/child/demo-gian/worlds";
-      await page.goto(baseUrl + catalog, { waitUntil: "domcontentloaded" });
-      await page.locator('[data-core-thumbnail-grid="worlds"]').waitFor({ state: "visible" });
-      assert.equal(await page.locator('[data-world-status="age-gated"]').count(), 1,
-        "Gian age 5 sees Petualangan Uang but cannot start 6–8 pilot");
-      assert.equal(await page.locator('[data-world-status="live"]').count(), 0,
-        "Gian age 5 has no World pilot playable card");
-      await page.goto(baseUrl + "/child/demo-gian/world/money-festival", { waitUntil: "domcontentloaded" });
-      await page.locator('[data-world-age-gate="pilot-6-8"]').waitFor({ state: "visible" });
-      assert.equal(await page.locator("[data-world-journey-map]").count(), 0,
-        "Gian must not bypass pilot via direct map URL");
-      await page.goto(baseUrl + "/child/demo-gian/world/money-festival/stage/money-stage-01-money-use",
-        { waitUntil: "domcontentloaded" });
-      await page.locator('[data-world-age-gate="pilot-6-8"]').waitFor({ state: "visible" });
-      assert.equal(await page.locator("[data-world-scene-frame]").count(), 0,
-        "Gian must not bypass 6–8 pilot via direct stage URL");
-      await page.goto(baseUrl + "/child/qa-world-age9/worlds", { waitUntil: "domcontentloaded" });
-      await page.locator('[data-world-status="age-gated"]').waitFor({ state: "visible" });
-      await page.goto(baseUrl + "/child/qa-world-age9/world/money-festival/stage/money-stage-01-money-use",
-        { waitUntil: "domcontentloaded" });
-      await page.locator('[data-world-age-gate="pilot-6-8"]').waitFor({ state: "visible" });
+      for (const childId of ["demo-gian", "qa-world-age9"]) {
+        const catalog = "/child/" + childId + "/worlds";
+        await page.goto(baseUrl + catalog, { waitUntil: "domcontentloaded" });
+        await page.locator('[data-core-thumbnail-grid="worlds"]').waitFor({ state: "visible" });
+        assert.equal(await page.locator('[data-world-status="age-gated"]').count(), 0,
+          childId + " must never have a World age gate");
+        assert.equal(await page.locator('[data-world-status="live"]').count(), 1,
+          childId + " must be able to play the shipped World");
+        assert.equal(await page.locator('[data-world-status="locked"]').count(), 8,
+          "future unshipped Worlds must remain locked");
+        await page.goto(baseUrl + "/child/" + childId + "/world/money-festival", { waitUntil: "domcontentloaded" });
+        await page.locator("[data-world-journey-map]").waitFor({ state: "visible" });
+        assert.equal(await page.locator("[data-world-age-gate]").count(), 0,
+          "direct World map URL must not be age gated");
+        await page.goto(baseUrl + "/child/" + childId + "/world/money-festival/stage/money-stage-01-money-use",
+          { waitUntil: "domcontentloaded" });
+        await page.locator("[data-world-scene-frame]").waitFor({ state: "visible" });
+        assert.equal(await page.locator("[data-world-age-gate]").count(), 0,
+          "direct World stage URL must not be age gated");
+      }
       await context.close();
-      console.log("World catalog/open-category ages 5/7/9 and map/stage pilot guard boundaries PASS.");
+      console.log("World catalog/map/stage all-ages access (5/9) + eight future Worlds locked PASS.");
     }
 
     {
