@@ -5,7 +5,6 @@ import Link from "next/link";
 import { getActivity } from "@/lib/learning/system";
 import { rankAdaptiveLearningV2 } from "@/lib/learning/adaptive";
 import { MONEY_WORLD_STAGES } from "@/lib/learning/world/moneyWorld";
-import { MONEY_WORLD_PILOT_AGE_BAND, isMoneyWorldPilotAgeEligible } from "@/lib/learning/world/moneyWorldPresentation";
 import { ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
 import { useLearningAnalytics } from "./useLearningAnalytics";
 import { SubjectDirectory } from "./Playroom";
@@ -29,7 +28,6 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
     allowMotion: false
   });
   const next = ranked[0] ? getActivity(ranked[0].id) : undefined;
-  const worldEligible = isMoneyWorldPilotAgeEligible(profile.age);
   const completedWorldStages = worldState.progress.completedStageIds.length;
   const worldComplete = worldState.ready && completedWorldStages === MONEY_WORLD_STAGES.length;
   const worldStarted = completedWorldStages > 0 || Boolean(worldState.progress.currentStageId);
@@ -102,13 +100,13 @@ export function Batch14WorldHome({ childId }: { childId: string }) {
             className={styles.experienceCard}
             href={`/child/${childId}/worlds`}
             data-mainlagi-domain-card="world"
-            data-mainlagi-home-world-state={worldEligible ? (worldComplete ? "complete" : worldStarted ? "started" : "new") : "catalog-age-gated"}
-            aria-label={worldEligible ? "Jelajahi Mainlagi World" : `Lihat Mainlagi World. Petualangan Uang untuk usia ${MONEY_WORLD_PILOT_AGE_BAND.label} tahun`}
+            data-mainlagi-home-world-state={worldComplete ? "complete" : worldStarted ? "started" : "new"}
+            aria-label="Jelajahi Mainlagi World"
           >
             <span className={styles.experienceIcon} aria-hidden>🗺️</span>
             <span>
               <strong>World</strong>
-              {worldEligible ? <span>{worldStarted ? worldAction : "Jelajahi!"}</span> : <span>Jelajahi dunia</span>}
+              <span>{worldStarted ? worldAction : "Jelajahi dunia"}</span>
             </span>
             <b aria-hidden>→</b>
           </Link>

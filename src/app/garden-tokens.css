@@ -18,5 +18,5 @@ button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,su
 .account-link__icon { background:#e1efdc; border-radius:16px; color:#287158; }
 .button--primary { background:#287158; color:white; border-radius:16px; box-shadow:0 4px 0 #195541; }
 .button--ghost { border:2px solid #d4decf; border-radius:16px; color:#193b55; }
-html[data-theme=dark] .top-nav,html[data-theme=dark] .account-link,html[data-theme=dark] .account-gate,html[data-theme=dark] .account-user,html[data-theme=dark] .account-detail,html[data-theme=dark] .auth-card,html[data-theme=dark] .catalog-card { background:#172f3e; color:#f5f5df; border-color:#39515b; box-shadow:none; }
+html[data-theme=dark] .account-link,html[data-theme=dark] .account-gate,html[data-theme=dark] .account-user,html[data-theme=dark] .account-detail,html[data-theme=dark] .auth-card,html[data-theme=dark] .catalog-card { background:#172f3e; color:#f5f5df; border-color:#39515b; box-shadow:none; }
 html[data-theme=dark] .top-nav__menu a,html[data-theme=dark] .account-page .fun-section__head h1 { color:#f5f5df; }

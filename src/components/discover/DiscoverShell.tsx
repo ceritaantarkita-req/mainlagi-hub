@@ -10,6 +10,7 @@ import { GameArtwork } from "@/components/GameArtwork";
 import { GAME_LIST, type GameDefinition } from "@/lib/data/games";
 import { GAME_THEMES } from "@/lib/data/gameThemes";
 import { getData } from "@/lib/data";
+import { AffiliateProductMedia } from "./AffiliateProductMedia";
 import type { AffiliateItem, Article } from "@/lib/data/domain";
 
 type Tab = "semua" | "game" | "artikel" | "produk";
@@ -118,7 +119,7 @@ function ProductTile({ item }: { item: AffiliateItem }) {
   return (
     <a href={`/go/${item.slug}`} className="product-tile">
       <span className="product-tile__media">
-        {item.imageUrl ? <img src={item.imageUrl} alt="" loading="lazy" /> : null}
+        <AffiliateProductMedia key={item.slug + ":" + (item.imageUrl ?? "")} imageUrl={item.imageUrl} title={item.title} />
       </span>
       <span className="product-tile__overlay" aria-hidden>
         <strong>{item.title}</strong>
@@ -310,7 +311,7 @@ export function DiscoverShell() {
                       key={item.slug}
                       href={`/go/${item.slug}`}
                       thumb={
-                        item.imageUrl ? <img src={item.imageUrl} alt="" loading="lazy" /> : <span />
+                        <AffiliateProductMedia key={item.slug + ":" + (item.imageUrl ?? "")} imageUrl={item.imageUrl} title={item.title} />
                       }
                       title={item.title}
                       meta={item.disclosure ?? "Tautan afiliasi"}

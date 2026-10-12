@@ -174,10 +174,10 @@
 @media (max-width: 520px) {
   .page { min-height: calc(100dvh - 64px); padding: 16px 12px 44px; }
   .context, .panel { border-radius: 24px; }
-  .context { min-height: 238px; padding: 24px 20px 18px; }
-  .context h2 { font-size: 30px; max-width: 78%; }
-  .context p { font-size: 15px; max-width: 78%; }
+  .context { min-height: 280px; padding: 24px 20px 115px; }
+  .context h2 { font-size: 30px; max-width: 100%; }
+  .context p { font-size: 15px; max-width: 100%; }
   .facts { display: none; }
-  .art { right: 2px; width: 35%; height: 142px; }
+  .art { right: 10px; bottom: 0; width: 30%; height: 103px; }
   .panel { padding: 28px 20px; }
 }

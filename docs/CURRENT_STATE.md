@@ -1,8 +1,17 @@
 # Mainlagi Hub — Current State
 
-Last reviewed: **10 October 2026**
+Last reviewed: **12 October 2026**
 
 This is the canonical human/AI handoff. `main` is the merged source of truth; open closure work must not be mistaken for final closure truth.
+
+## 12 October 2026 — RELEASE VERIFIED; iPhone QA + owner policy change pending PR
+
+The last verified merged production release is `main@42ab6c5322da924926e2a0714b671a60b5d304b0` (#488). Cloudflare Workers Build `c6e4b7c9` **SUCCESS** and push run `38109822264` finished all **8/8 jobs SUCCESS**, including production smoke confirming exact release SHA, `branch:main`, and canonical Supabase backend. The prior Installing error is no longer the deployment blocker.
+
+Real user iPhone browser screenshots (12 Oct) demonstrate UI issues requiring focused remediation: dark-on-dark activity text, dark-mode nav logo contrast, crowded account hero, and missing/broken affiliate photo tiles. The owner additionally **reversed the World playability age gate**: every child age can play currently shipped World content; age 6–8 is a recommended presentation/curriculum level, **not an access restriction**. Eight unshipped World cards stay locked and World mastery/progress boundaries must not change.
+
+Focused implementation branch `fix/iphone-contrast-affiliate-world-all-ages-20261012` is **NOT MERGED / CI PENDING at this checkpoint**. Canonical details: [`IPHONE_VISUAL_AFFILIATE_WORLD_ALL_AGES_2026-10-12.md`](IPHONE_VISUAL_AFFILIATE_WORLD_ALL_AGES_2026-10-12.md). Owner-provided product imagery rights/asset sources remain a separate dependency for real Shopee photos; UI fallback is not a substitute for product images. Issue #486 stays open for physical-device acceptance of follow-up fixes.
+
 
 ## 10 October 2026 — CHILD UX FINAL: BATCH 06 PR CI 7/7 GREEN (PRE-MERGE CHECKPOINT)
 

@@ -145,8 +145,8 @@ async function runViewport(browser, viewport) {
   );
   assert.equal(
     await page.locator('[data-mainlagi-domain-card="world"]').getAttribute("data-mainlagi-home-world-state"),
-    "catalog-age-gated",
-    "age-5 demo can browse World catalog but must not enter the 6–8 pilot"
+    "new",
+    "age-5 demo can browse and play the shipped World without an age gate"
   );
   assert.equal(
     await page.locator('[data-mainlagi-domain-card="bermain"]').getAttribute("href"),

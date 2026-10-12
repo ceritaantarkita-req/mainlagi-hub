@@ -128,10 +128,10 @@ async function runViewport(browser, viewport) {
   await assertFourThree(page.locator('[data-core-thumbnail-surface="world-header"] img').first(), `World header ${viewport.width}`, "world-header-mainlagi");
   const worlds = page.locator('[data-core-thumbnail-card="world"]');
   assert.equal(await worlds.count(), 9, "World catalog must render exactly nine cards");
-  assert.equal(await page.locator('[data-world-status="live"]').count(), 0, "Gian age 5 must not play the 6–8 pilot");
-  assert.equal(await page.locator('[data-world-status="age-gated"]').count(), 1, "Gian can see exactly one age-gated pilot");
+  assert.equal(await page.locator('[data-world-status="live"]').count(), 1, "Gian age 5 must be able to play the shipped World");
+  assert.equal(await page.locator('[data-world-status="age-gated"]').count(), 0, "no World is age-gated");
   assert.equal(await page.locator('[data-world-status="locked"]').count(), 8, "exactly eight future Worlds remain locked");
-  assert.equal(await page.locator('[data-world-status="age-gated"] a').count(), 0, "age-gated World must have no playable link");
+  assert.equal(await page.locator('[data-world-status="live"]').first().getAttribute("href"), "/child/demo-gian/world/money-festival", "live World must link to playable map");
   assert.equal(await page.locator('[data-world-status="locked"] a').count(), 0, "locked Worlds must be non-navigable");
   const worldColumns = await worlds.first().evaluate((element) => getComputedStyle(element.parentElement).gridTemplateColumns.split(" ").filter(Boolean).length);
   assert.equal(worldColumns, viewport.width <= 760 ? 2 : 3, `World columns at ${viewport.width}`);

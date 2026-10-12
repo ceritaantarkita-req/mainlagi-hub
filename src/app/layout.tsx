@@ -15,7 +15,7 @@ const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
 const themeScript = `
   try {
     const saved = localStorage.getItem("mainlagi-theme");
-    const dark = saved === "dark" || (saved !== "light" && matchMedia("(prefers-color-scheme: dark)").matches);
+    const dark = saved === "dark"; // Bright Mainlagi default; dark only when explicitly selected.
     document.documentElement.dataset.theme = dark ? "dark" : "light";
     document.documentElement.style.colorScheme = dark ? "dark" : "light";
   } catch {}

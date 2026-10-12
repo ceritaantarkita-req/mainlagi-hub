@@ -5,7 +5,6 @@ import { Icon } from "@/components/Icon";
 import { ThemeContext } from "@/components/ThemeProvider";
 
 const THEMES = [
-  { value: "system" as const, label: "Sistem", icon: "settings" as const },
   { value: "light" as const, label: "Terang", icon: "sun" as const },
   { value: "dark" as const, label: "Gelap", icon: "moon" as const }
 ];
@@ -18,6 +17,7 @@ export function Preferences() {
     <div className="preferences">
       <div className="preferences__group">
         <h3>Tema</h3>
+        <p className="preferences__note">Terang adalah tema standar Mainlagi. Tema gelap hanya aktif jika dipilih.</p>
         <div className="preferences__options">
           {THEMES.map((option) => (
             <button
