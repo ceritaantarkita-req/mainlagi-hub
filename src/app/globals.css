@@ -4487,3 +4487,9 @@ html[data-theme="dark"] .top-nav__account {
   line-height: 1;
   filter: none;
 }
+
+/* Compact product fallback inside Discover's 44px list thumbnail. */
+.row__thumb { position: relative; }
+.row__thumb .product-tile__fallback { gap: 0; padding: 0; }
+.row__thumb .product-tile__fallback-symbol { font-size: 23px; }
+.row__thumb .product-tile__fallback > span:last-child { display: none; }
