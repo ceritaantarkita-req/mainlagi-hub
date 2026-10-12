@@ -2,7 +2,7 @@
 
 import { createContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
-type Theme = "system" | "light" | "dark";
+type Theme = "light" | "dark";
 
 const STORAGE_KEY = "mainlagi-theme";
 
@@ -19,27 +19,13 @@ function store(): Storage | null {
 }
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
+  // Mainlagi uses a bright child/family palette. Only explicit dark opt-in enables dark mode.
+  // Legacy "system" and missing preference resolve to light, independent of the OS setting.
   const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window === "undefined") return "system";
-    const saved = window.localStorage.getItem(STORAGE_KEY) as Theme | null;
-    return saved === "light" || saved === "dark" || saved === "system"
-      ? saved
-      : "system";
+    if (typeof window === "undefined") return "light";
+    return window.localStorage.getItem(STORAGE_KEY) === "dark" ? "dark" : "light";
   });
-  const [systemDark, setSystemDark] = useState(
-    () => typeof window !== "undefined" && window.matchMedia("(prefers-color-scheme: dark)").matches
-  );
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: dark)");
-    const update = () => setSystemDark(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
-
-  const resolved: "light" | "dark" =
-    theme === "system" ? (systemDark ? "dark" : "light") : theme;
+  const resolved: "light" | "dark" = theme;
 
   useEffect(() => {
     const root = document.documentElement;
