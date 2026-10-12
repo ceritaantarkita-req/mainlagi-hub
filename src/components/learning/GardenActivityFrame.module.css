@@ -1,6 +1,18 @@
 .garden { position:relative; isolation:isolate; min-height:100dvh; background:#d5eef6 url('/artwork/garden-background.webp') center bottom / cover no-repeat; color:#193b55; padding:24px max(24px,env(safe-area-inset-right)) 100px max(24px,env(safe-area-inset-left)); font-family:'Nunito Variable','Noto Sans Variable',sans-serif; }
 .themedScene { background-color:var(--ml-scene-color,#d5eef6); background-image:var(--ml-scene-wide); background-position:center bottom; background-size:cover; background-repeat:no-repeat; }
 .themedScene[data-subject-theme="logic"] .title { background:rgba(255,251,237,.9); border-radius:14px; width:fit-content; max-width:100%; }
+/* Tap-choice titles live in a child component, not in Garden's .title slot.
+   Keep their dark ink readable against the navy/space scene on iPhone. */
+.themedScene[data-subject-theme="logic"] .play :global(h1) {
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: 8px 16px;
+  border-radius: 18px;
+  color: #193b55;
+  background: rgba(255, 252, 240, .96);
+  box-shadow: 0 3px 0 rgba(25, 59, 85, .12);
+}
 /* Real iPhone QA 12 Oct: dark navy titles blended into illustrated night/space scenes.
    The readable paper backing applies to regular Garden tasks, never card answers. */
 .themedScene[data-subject-theme="logic"]:not(.workspace):not(.matchingFocus) .title {
