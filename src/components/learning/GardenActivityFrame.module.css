@@ -3,7 +3,7 @@
 .themedScene[data-subject-theme="logic"] .title { background:rgba(255,251,237,.9); border-radius:14px; width:fit-content; max-width:100%; }
 /* Real iPhone QA 12 Oct: dark navy titles blended into illustrated night/space scenes.
    The readable paper backing applies to regular Garden tasks, never card answers. */
-.themedScene:not(.workspace):not(.matchingFocus) .title {
+.themedScene[data-subject-theme="logic"]:not(.workspace):not(.matchingFocus) .title {
   display: block;
   width: fit-content;
   max-width: 100%;
@@ -16,7 +16,7 @@
   text-shadow: none;
 }
 @media(max-width:760px) {
-  .themedScene:not(.workspace):not(.matchingFocus) .title {
+  .themedScene[data-subject-theme="logic"]:not(.workspace):not(.matchingFocus) .title {
     font-size: clamp(27px, 8vw, 38px);
     line-height: 1.16;
     padding: 8px 13px;
