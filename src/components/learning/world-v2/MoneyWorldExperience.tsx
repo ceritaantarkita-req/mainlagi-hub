@@ -205,7 +205,7 @@ export function WorldCatalogScreen({ childId }: { childId: string }) {
                 ) : null}
               </span>
               <strong className={styles.worldThumbnailName}>{world.title}</strong>
-              {world.id === MONEY_WORLD_ID ? <span className={styles.worldAgeLabel}>Rekomendasi usia {MONEY_WORLD_PILOT_AGE_BAND.label} tahun · Semua umur boleh main</span> : null}
+              {world.id === MONEY_WORLD_ID ? <span className={styles.worldAgeLabel}>Main untuk semua umur</span> : null}
             </>
           );
 
