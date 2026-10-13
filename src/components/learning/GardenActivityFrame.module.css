@@ -173,3 +173,121 @@
 @media(prefers-reduced-motion: reduce) {
   .garden:not(.workspace) .control { transition: none; }
 }
+
+
+/* Child UX visual-legibility 13 Oct 2026.
+   Standard Garden titles belong on readable paper, irrespective of scene art.
+   Workspace/matching use their own card systems; audio has a distinct panel. */
+.themedScene:not(.workspace):not(.matchingFocus):not(.audioFocus) .play > :global(h1) {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+  padding: 9px 17px;
+  border: 2px solid rgba(255,253,245,.95);
+  border-radius: 20px;
+  background: rgba(255,252,240,.96);
+  color: #193b55;
+  text-shadow: none;
+  box-shadow: 0 4px 0 rgba(25,59,85,.14);
+  overflow-wrap: anywhere;
+}
+.themedScene:not(.workspace):not(.matchingFocus):not(.audioFocus) .hint {
+  width: fit-content;
+  max-width: min(640px,100%);
+  padding: 9px 15px;
+  background: rgba(255,252,240,.96);
+  color: #193b55;
+  border-radius: 16px;
+  box-shadow: 0 3px 0 rgba(25,59,85,.12);
+  overflow-wrap: anywhere;
+}
+/* Audio teaching screen needs a single content surface: no 110px heading,
+   no generic 190px margin, no translucent lettering on a detailed illustration.
+   This panel never prints the spoken answer/target as text. */
+.audioFocus .play {
+  width: min(690px,100%);
+  margin: clamp(22px, 6vh, 68px) auto 0;
+  padding: clamp(16px, 2.8vw, 28px);
+  background: rgba(255,252,240,.95);
+  border: 2px solid rgba(255,255,247,.98);
+  border-radius: 30px;
+  box-shadow: 0 8px 0 rgba(45,101,90,.25), 0 18px 45px rgba(15,57,75,.17);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+.audioFocus .title {
+  width: 100%;
+  max-width: 620px;
+  margin: 0 auto;
+  padding: 0;
+  font-size: clamp(28px, 3.3vw, 44px);
+  line-height: 1.18;
+  letter-spacing: -.035em;
+  color: #193b55;
+  text-shadow: none;
+  overflow-wrap: anywhere;
+}
+.audioFocus .play :global([data-choices]) {
+  width: min(100%,570px);
+  margin: clamp(17px,3vh,28px) auto;
+  gap: clamp(9px,2vw,17px);
+  min-width: 0;
+}
+.audioFocus .play :global([data-choices] button) {
+  min-height: clamp(95px,10vw,146px);
+  min-width: 0;
+  border-radius: 25px;
+  padding: 10px;
+  font-size: clamp(35px,4.5vw,65px);
+  line-height: 1.1;
+}
+.audioFocus .hint {
+  margin: 5px auto 0;
+  max-width: 560px;
+  font-size: clamp(15px,1.8vw,19px);
+  line-height: 1.4;
+  color: #31566a;
+  text-wrap: balance;
+}
+@media (max-width:760px) {
+  .themedScene:not(.workspace):not(.matchingFocus):not(.audioFocus) .play > :global(h1) {
+    padding: 7px 12px;
+    border-radius: 17px;
+    font-size: clamp(25px,7.1vw,38px);
+    line-height: 1.17;
+  }
+  .audioFocus .play {
+    width: min(100%,500px);
+    margin-top: clamp(16px,4.5vh,44px);
+    padding: 17px 13px 18px;
+    border-radius: 24px;
+  }
+  .audioFocus .title {
+    font-size: clamp(24px,6.5vw,32px);
+    line-height: 1.17;
+    letter-spacing: -.02em;
+  }
+  .audioFocus .play :global([data-choices]) {
+    gap: 8px;
+    margin: 20px auto 18px;
+  }
+  .audioFocus .play :global([data-choices] button) {
+    min-height: clamp(91px,26vw,116px);
+    padding: 10px 4px;
+    border-radius: 22px;
+    font-size: clamp(34px,10vw,46px);
+  }
+  .audioFocus .hint { font-size: 15px; margin-top: 2px; }
+}
+/* Landscape phones have little vertical space. Keep choices compact and
+   readable without clipping controls or requiring an artificial 700px stage. */
+@media (orientation:landscape) and (max-height:620px) {
+  .audioFocus .play { margin-top: 10px; padding: 12px 18px; width: min(590px,80%); }
+  .audioFocus .title { font-size: clamp(24px,4vw,31px); }
+  .audioFocus .play :global([data-choices]) { margin: 12px auto; }
+  .audioFocus .play :global([data-choices] button) { min-height: 75px; font-size: 36px; }
+  .audioFocus .hint { font-size: 14px; }
+}
