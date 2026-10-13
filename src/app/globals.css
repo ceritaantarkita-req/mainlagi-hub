@@ -4496,3 +4496,48 @@ html[data-theme="dark"] .top-nav__menu a { color: #193b55; }
 .row__thumb .product-tile__fallback { gap: 0; padding: 0; }
 .row__thumb .product-tile__fallback-symbol { font-size: 23px; }
 .row__thumb .product-tile__fallback > span:last-child { display: none; }
+
+
+/* Affiliate media awaiting official imagery: avoid giant blank dark photo cards.
+   Safari supports :has(); this is presentation only and leaves real image tiles intact. */
+.product-tile:has([data-affiliate-photo-fallback]) {
+  aspect-ratio: auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: #edf6e9;
+  border: 2px solid #dbe6d8;
+  box-shadow: 0 5px 0 #d8e1d5;
+}
+.product-tile:has([data-affiliate-photo-fallback]) .product-tile__media {
+  position: relative;
+  inset: auto;
+  min-height: 165px;
+  flex: 1 0 165px;
+}
+.product-tile:has([data-affiliate-photo-fallback]) .product-tile__fallback {
+  position: relative;
+  inset: auto;
+  min-height: 165px;
+  padding: 22px 16px;
+  background: linear-gradient(145deg, #f5faed, #deeee5);
+  color: #285d52;
+}
+.product-tile:has([data-affiliate-photo-fallback]) .product-tile__fallback-symbol {
+  font-size: 38px;
+}
+.product-tile:has([data-affiliate-photo-fallback]) .product-tile__overlay {
+  position: relative;
+  inset: auto;
+  display: grid;
+  opacity: 1;
+  transform: none;
+  flex: 0 0 auto;
+  padding: 14px 17px 16px;
+  background: #214d45;
+  color: #fffdf4;
+  transition: none;
+}
+.product-tile:has([data-affiliate-photo-fallback]) .product-tile__overlay strong {
+  -webkit-line-clamp: 3;
+}
