@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { AFFILIATE_ITEMS } from "@/lib/data/affiliate";
+import { AFFILIATE_ITEMS, getAffiliateItem } from "@/lib/data/affiliate";
 
 interface DatabaseAffiliateItem {
   slug: string;
@@ -32,7 +32,7 @@ export async function GET() {
         title: row.title,
         platform: row.platform,
         category: row.category,
-        image: row.image_url,
+        image: row.image_url?.trim() || getAffiliateItem(row.slug)?.image || null,
         href: row.destination_url,
         note: "Tautan afiliasi"
       }))

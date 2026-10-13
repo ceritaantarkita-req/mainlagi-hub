@@ -1,4 +1,5 @@
 import type { AffiliateItem } from "../domain";
+import { getAffiliateItem } from "../affiliate";
 import type { ProductRepository } from "./contracts";
 
 interface DbAffiliateRow {
@@ -26,7 +27,8 @@ function toAffiliateItem(row: DbAffiliateRow): AffiliateItem {
     id: row.id,
     slug: row.slug,
     title: row.title,
-    imageUrl: row.image_url,
+    // Owner-managed image has priority; recover its approved local counterpart only when missing.
+    imageUrl: row.image_url?.trim() || getAffiliateItem(row.slug)?.image || null,
     destinationUrl: row.destination_url,
     active: row.active,
     sortOrder: row.sort_order,

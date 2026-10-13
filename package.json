@@ -159,7 +159,7 @@
     "test:ui:character-belajar": "node scripts/run-character-belajar-browser-tests.mjs",
     "test:ui:character-responsive": "node scripts/run-character-responsive-session07-tests.mjs",
     "test:ui:world-character": "node scripts/run-world-character-session08-tests.mjs",
-    "validate:assets:affiliate": "node scripts/validate-asset-provenance.mjs",
+    "validate:assets:affiliate": "node scripts/validate-asset-provenance.mjs && node scripts/run-affiliate-photo-link-tests.mjs",
     "test:assets:svg-security": "node scripts/run-svg-asset-security-tests.mjs",
     "validate:assets:characters": "node scripts/validate-character-assets.mjs",
     "test:assets:characters": "node scripts/run-character-asset-validator-tests.mjs",

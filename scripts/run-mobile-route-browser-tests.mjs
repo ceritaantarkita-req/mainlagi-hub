@@ -1929,6 +1929,31 @@ async function main() {
       console.log(`Batch 16 accessibility/lazy-load gate passed for ${route.path}.`);
     }
     await accessibilityContext.close();
+
+    // 13 Oct 2026 owner acceptance: approved Shopee photo is visible and photo tile
+    // redirects via the existing /go slug, never by treating the shortlink as an IMG.
+    const affiliateContext = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
+    try {
+      const affiliatePage = await affiliateContext.newPage();
+      const slug = "kumon-are-you-ready-for-kindergarten-pre-001";
+      await affiliatePage.goto(baseUrl + "/discover/products", { waitUntil: "domcontentloaded", timeout: 30000 });
+      const productTile = affiliatePage.locator(`a.product-tile[href="/go/${slug}"]`);
+      assert.equal(await productTile.count(), 1, "affiliate product photo must be a single clickable tile");
+      const image = productTile.locator("img");
+      assert.equal(await image.getAttribute("src"), `/affiliate/${slug}.jpg`, "image should use approved local photo");
+      await image.scrollIntoViewIfNeeded();
+      await affiliatePage.waitForFunction(
+        (slug) => { const img = document.querySelector(`a.product-tile[href="/go/${slug}"] img`); return img instanceof HTMLImageElement && img.complete && img.naturalWidth > 0; },
+        slug,
+        { timeout: 10000 }
+      );
+      const redirect = await affiliateContext.request.get(baseUrl + `/go/${slug}`, { maxRedirects: 0 });
+      assert.equal(redirect.status(), 302, "product click must be a validated redirect, not checkout");
+      assert.match(redirect.headers().location ?? "", /^https:\/\/s\.shopee\.co\.id\//, "must land on original Shopee affiliate shortlink");
+      console.log("Affiliate mobile photo + /go Shopee redirect QA PASS.");
+    } finally {
+      await affiliateContext.close();
+    }
   } finally {
     await browser.close();
   }
