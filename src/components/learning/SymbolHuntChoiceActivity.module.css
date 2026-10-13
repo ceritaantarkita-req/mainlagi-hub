@@ -26,7 +26,9 @@
 .promptCard h1 { margin: 0; color: #24445e; font-size: clamp(22px, 5vw, 32px); line-height: 1.15; }
 .promptCard p { margin: 4px 0 0; color: #667f8b; font-size: 14px; font-weight: 800; }
 
-.symbolField { position: absolute; inset: 112px 0 0; }
+/* Positioned inside the illustrated board: never inherit vertical grid
+   spacing from the outer Garden layout. */
+.symbolField { position: absolute; inset: 112px 0 0; margin: 0; }
 .symbolChoice {
   position: absolute;
   z-index: 4;
