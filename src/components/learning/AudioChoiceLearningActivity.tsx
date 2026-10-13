@@ -125,7 +125,7 @@ export function AudioChoiceLearningActivity({ childId, activityId }: { childId: 
   const retry = () => setFeedback(null);
 
   return (
-    <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={visiblePrompt} onHear={hear} hint="Tekan tombol suara, dengarkan, lalu sentuh pilihanmu." spacious={visiblePrompt.length<45}>
+    <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} title={visiblePrompt} onHear={hear} hint="Tekan tombol suara, dengarkan, lalu sentuh pilihanmu." audioFocus>
 
         {fallback ? (
           <div className={styles.infoBanner} role="status" style={{ marginTop: 14 }}>
