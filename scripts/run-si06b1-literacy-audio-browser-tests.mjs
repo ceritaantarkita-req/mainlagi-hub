@@ -191,6 +191,62 @@ async function main(){
     assert.deepEqual(pageErrors,[],`SI-06B1 page errors: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors,[],`SI-06B1 console errors: ${consoleErrors.join(" | ")}`);
 
+    // Real iPhone Chrome emulation report 13 Oct 2026: generic Garden
+    // spacious mode used 110px desktop titles, busy-image text, 190px choice
+    // offsets and massive empty space. Check real DOM geometry across forms.
+    for (const viewport of [
+      { width: 320, height: 720 }, { width: 390, height: 844 },
+      { width: 430, height: 860 }, { width: 768, height: 1024 },
+      { width: 844, height: 390 }, { width: 1440, height: 900 }
+    ]) {
+      const sceneContext=await browser.newContext({viewport,reducedMotion:"reduce",hasTouch:viewport.width<=430});
+      try {
+        await installQaState(sceneContext);
+        const scenePage=await sceneContext.newPage();
+        const response=await scenePage.goto(baseUrl+route,{waitUntil:"domcontentloaded",timeout:30000});
+        assert(response&&response.status()<400,"AudioChoice QA route loads");
+        const geometry=await scenePage.evaluate(()=>{
+          const frame=document.querySelector('[data-activity-frame="garden"]');
+          const stage=document.querySelector('[data-activity-presentation="audio-focus-v1"] [data-character-safe-content]');
+          const title=stage?.querySelector("h1");
+          const choices=stage?.querySelector("[data-choices]");
+          const hint=stage?.lastElementChild;
+          const header=frame?.querySelector("header");
+          if(!frame||!stage||!title||!choices||!hint||!header)return null;
+          const r=element=>element.getBoundingClientRect();
+          const stageRect=r(stage),titleRect=r(title),choicesRect=r(choices);
+          return {
+            stageColor:getComputedStyle(stage).backgroundColor,
+            titleSize:parseFloat(getComputedStyle(title).fontSize),
+            titleText:title.textContent?.trim(),
+            headerBottom:r(header).bottom,
+            stageTop:stageRect.top,
+            titleTop:titleRect.top,
+            titleBottom:titleRect.bottom,
+            choicesTop:choicesRect.top,
+            choicesBottom:choicesRect.bottom,
+            hintTop:r(hint).top,
+            stageBottom:stageRect.bottom,
+            maxButtonBottom:Math.max(...[...choices.querySelectorAll("button")].map(b=>r(b).bottom)),
+            buttonCount:choices.querySelectorAll("button").length,
+            overflowX:document.documentElement.scrollWidth-document.documentElement.clientWidth,
+            scrollHeight:document.documentElement.scrollHeight
+          };
+        });
+        assert.ok(geometry,"AudioChoice stage geometry exists: "+JSON.stringify(viewport));
+        assert.equal(geometry.titleText,"Listen, then choose the best answer.","visible instructions must remain answer-free");
+        assert.match(geometry.stageColor,/rgba?\\(255,\\s*252,\\s*240/, "audio panel needs opaque cream background");
+        assert.ok(geometry.titleSize <= 46,"audio instruction text must not be oversized");
+        assert.equal(geometry.buttonCount,3,"audio must preserve the three answer buttons");
+        assert.ok(geometry.stageTop > geometry.headerBottom-3,"content must not collide with back/listen navigation");
+        assert.ok(geometry.choicesTop >= geometry.titleBottom-1,"answers start after legible title");
+        assert.ok(geometry.maxButtonBottom <= geometry.stageBottom+2,"all choices stay inside paper panel");
+        assert.ok(geometry.hintTop >= geometry.choicesBottom-2,"hint must come after answers");
+        assert.ok(geometry.overflowX <= 2,"no horizontal overflow at "+viewport.width+"px");
+        await scenePage.screenshot({path:path.join(outDir,`audio-legibility-${viewport.width}x${viewport.height}.png`),fullPage:false});
+      }finally{await sceneContext.close();}
+    }
+
     console.log("SI-06B1 AudioChoice browser QA PASS: canonical Completion+Share, assessed choice evidence, orientation persistence and Again duplicate-attempt safety are preserved.");
   }finally{
     await context.close();
