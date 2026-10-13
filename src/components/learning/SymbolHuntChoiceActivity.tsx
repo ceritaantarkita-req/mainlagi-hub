@@ -54,7 +54,8 @@ export function SymbolHuntChoiceActivity({ childId, activityId }: { childId: str
       title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang={activity.subjectId === "english" ? "en-US" : "id-ID"}
-      spacious
+      // Symbol hunt owns its own positioned play field. Do not apply generic
+      // spacious layout: it adds a 190px top margin to [data-choices] on desktop.
     >
       <section className={`${styles.huntScene} ${variantClass}`} aria-labelledby="symbol-hunt-prompt">
         <span className={`${styles.cloud} ${styles.cloudOne}`} aria-hidden />
