@@ -235,7 +235,7 @@ async function main(){
         });
         assert.ok(geometry,"AudioChoice stage geometry exists: "+JSON.stringify(viewport));
         assert.equal(geometry.titleText,"Listen, then choose the best answer.","visible instructions must remain answer-free");
-        assert.match(geometry.stageColor,/rgba?\\(255,\\s*252,\\s*240/, "audio panel needs opaque cream background");
+        assert.match(geometry.stageColor,/rgba?\(255,\s*252,\s*240/, "audio panel needs opaque cream background");
         assert.ok(geometry.titleSize <= 46,"audio instruction text must not be oversized");
         assert.equal(geometry.buttonCount,3,"audio must preserve the three answer buttons");
         assert.ok(geometry.stageTop > geometry.headerBottom-3,"content must not collide with back/listen navigation");
