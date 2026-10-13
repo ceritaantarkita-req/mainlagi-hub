@@ -2,7 +2,17 @@
   position: relative;
   min-width: 0;
   background: #fffaf0;
+  display: flex;
+  flex-direction: column;
   -webkit-overflow-scrolling: touch;
+}
+
+/* The immersive wrapper is a flex child of PlayroomShell. Its child scene
+   must stretch to its bottom, so Safari cannot expose this wrapper's cream
+   background below a garden illustration on a tall viewport. */
+.immersive > [data-activity-frame="garden"],
+.immersive > main {
+  flex-grow: 1;
 }
 
 .immersive [role="img"][aria-label="Gavi oops"] {
