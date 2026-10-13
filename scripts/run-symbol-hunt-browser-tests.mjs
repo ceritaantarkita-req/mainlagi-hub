@@ -17,7 +17,8 @@ const viewports = [
   { width: 320, height: 720 },
   { width: 390, height: 844 },
   { width: 430, height: 860 },
-  { width: 768, height: 1024 }
+  { width: 768, height: 1024 },
+  { width: 1440, height: 900 }
 ];
 
 let server = null;
@@ -115,6 +116,43 @@ async function inspect(viewport) {
       assert.ok(button.tabIndex >= 0, `${button.label} must remain keyboard focusable at ${viewport.width}px`);
     }
 
+    // Regress desktop spacing: a generic Garden .spacious [data-choices] margin
+    // previously shifted all three absolutely positioned letter buttons down
+    // ~190px and clipped the bottom choice in the illustrated board.
+    const verifyLetterPositions = async (activityRoute) => {
+      const measurements = await page.evaluate(() => {
+        const field = document.querySelector("[data-symbol-hunt]");
+        const scene = field?.closest("section");
+        const prompt = scene?.querySelector("h1")?.closest("div");
+        if (!field || !scene) return null;
+        const sceneRect = scene.getBoundingClientRect();
+        const buttons = [...field.querySelectorAll("button")].map((button) => {
+          const r = button.getBoundingClientRect();
+          return { top: r.top, bottom: r.bottom, centerY: (r.top + r.bottom) / 2 };
+        });
+        return {
+          marginTop: getComputedStyle(field).marginTop,
+          sceneTop: sceneRect.top,
+          sceneBottom: sceneRect.bottom,
+          promptBottom: prompt?.getBoundingClientRect().bottom ?? null,
+          buttons
+        };
+      });
+      assert.ok(measurements, activityRoute + " symbol hunt geometry exists");
+      assert.equal(measurements.marginTop, "0px", activityRoute + " positioned choices must not inherit Garden spacing");
+      assert.equal(measurements.buttons.length, 3, activityRoute + " must show three letters");
+      for (const button of measurements.buttons) {
+        assert.ok(button.top >= measurements.sceneTop - 2,
+          activityRoute + " choice must remain inside board top: " + JSON.stringify(measurements));
+        assert.ok(button.bottom <= measurements.sceneBottom - 4,
+          activityRoute + " choice must not be clipped at board bottom: " + JSON.stringify(measurements));
+      }
+      const boardHeight = measurements.sceneBottom - measurements.sceneTop;
+      assert.ok(measurements.buttons.some((b) => b.centerY < measurements.sceneTop + boardHeight * .60),
+        activityRoute + " needs letters in the upper/middle playing field");
+    };
+    await verifyLetterPositions(route);
+
     mkdirSync(screenshotDir, { recursive: true });
     await page.screenshot({
       path: path.join(screenshotDir, `${viewport.width}-${screenshotStem}-idle.png`),
@@ -155,6 +193,16 @@ async function inspect(viewport) {
     });
 
     assert.equal(new URL(page.url()).pathname, route, `symbol hunt unexpectedly navigated away at ${viewport.width}px`);
+    // Same positioning contract for the reported Bahasa vowel-O route.
+    await page.goto(baseUrl + "/child/demo-gian/activity/bahasa-vokal-o", { waitUntil: "domcontentloaded" });
+    await page.locator("[data-symbol-hunt]").waitFor({ state: "visible", timeout: 5_000 });
+    await verifyLetterPositions("bahasa-vokal-o");
+    await page.screenshot({
+      path: path.join(screenshotDir, `${viewport.width}-symbol-hunt-bahasa-vokal-o-idle.png`),
+      fullPage: false
+    });
+
+
     assert.deepEqual(pageErrors, [], `symbol hunt raised page errors at ${viewport.width}px: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors, [], `symbol hunt logged console errors at ${viewport.width}px: ${consoleErrors.join(" | ")}`);
     await context.close();
