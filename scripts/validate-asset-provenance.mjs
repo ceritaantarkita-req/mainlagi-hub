@@ -55,7 +55,7 @@ for (const [slug, record] of Object.entries(registry.items)) {
       continue;
     }
     const relative = record.localPath.slice(1);
-    const absolute = path.join(root, relative);
+    const absolute = path.join(root, "public", relative);
     if (!existsSync(absolute)) fail(`${slug}: approved localPath does not exist (${record.localPath})`);
     const normalized = path.posix.normalize(record.localPath);
     if (normalized !== record.localPath || normalized.includes("..")) fail(`${slug}: unsafe localPath`);
