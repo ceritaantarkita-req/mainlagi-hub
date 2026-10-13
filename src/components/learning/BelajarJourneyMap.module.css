@@ -762,3 +762,167 @@
   .activityDisclosure summary { min-height: 44px; padding: 9px 2px; }
   .continueButton { min-height: 52px; }
 }
+
+
+/* Journey Trail — 13 Oct 2026: scenic, touch-first map, all nine subjects.
+   This changes presentation only; stage order, state and navigation stay canonical. */
+.page {
+  --trail-accent: #338a71;
+  --trail-ink: #193b55;
+  --trail-scene: url("/artwork/garden-background.webp");
+}
+.page[data-journey-subject="bahasa"] { --trail-accent: #299d87; --trail-scene: url("/artwork/backgrounds/bahasa/letter-garden-mobile.webp"); }
+.page[data-journey-subject="english"] { --trail-accent: #517db4; --trail-scene: url("/artwork/backgrounds/english/seaside-learning-cove-mobile.webp"); }
+.page[data-journey-subject="math"] { --trail-accent: #d08e31; --trail-scene: url("/artwork/backgrounds/math/number-park-mobile.webp"); }
+.page[data-journey-subject="iqro"] { --trail-accent: #419475; --trail-scene: url("/artwork/backgrounds/iqro/mosque-courtyard-01-mobile.webp"); }
+.page[data-journey-subject="letters"] { --trail-accent: #8e78b5; --trail-scene: url("/artwork/backgrounds/letters/notebook-park-05-mobile.webp"); }
+.page[data-journey-subject="logic"] { --trail-accent: #b97867; --trail-scene: url("/artwork/backgrounds/logic/space-playroom-05-mobile.webp"); }
+.page[data-journey-subject="science"] { --trail-accent: #378a68; --trail-scene: url("/artwork/backgrounds/science/nature-trail-mobile.webp"); }
+.page[data-journey-subject="color"] { --trail-accent: #c87c98; --trail-scene: url("/artwork/backgrounds/creative/art-gallery-01-mobile.webp"); }
+.page[data-journey-subject="drawing"] { --trail-accent: #8e79bc; --trail-scene: url("/artwork/backgrounds/drawing/meadow-art-01-mobile.webp"); }
+.mapShell {
+  position: relative;
+  isolation: isolate;
+  padding: clamp(18px, 3vw, 32px) clamp(12px, 5vw, 50px) clamp(30px, 5vw, 58px);
+  background-color: #eaf5e7;
+  background-image: linear-gradient(180deg, rgba(255,253,243,.66), rgba(241,250,237,.77)), var(--trail-scene);
+  background-size: auto, cover;
+  background-position: center, center;
+  border: 3px solid rgba(216,235,205,.95);
+  border-radius: 36px;
+}
+.trailHeading {
+  position: relative;
+  z-index: 2;
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto 22px;
+  padding: 8px 18px;
+  border: 2px solid #e5e6c8;
+  border-radius: 999px;
+  background: #fffcf0;
+  color: #245b4d;
+  box-shadow: 0 4px 0 rgba(97,141,103,.13);
+  font-size: clamp(14px, 2.2vw, 19px);
+  font-weight: 950;
+  letter-spacing: .015em;
+  text-align: center;
+}
+.trailHeading span { color: #e3a322; }
+.mapTrack { z-index: 1; width: min(730px,100%); gap: 24px; }
+.mapTrack::before { content: none; }
+.trailArtwork {
+  position: absolute;
+  inset: -16px 0;
+  width: 100%;
+  height: calc(100% + 32px);
+  overflow: visible;
+  pointer-events: none;
+  z-index: 0;
+}
+.trailArtwork path { fill: none; vector-effect: non-scaling-stroke; stroke-linecap: round; stroke-linejoin: round; }
+.trailBase { stroke: rgba(255,252,232,.95); stroke-width: 24; }
+.trailDashes { stroke: rgba(85,152,100,.56); stroke-width: 5; stroke-dasharray: 2 20; }
+.stageRow {
+  min-height: 99px;
+  z-index: 1;
+  align-items: center;
+}
+.stageRow[data-side="start"] { padding-right: 27%; }
+.stageRow[data-side="end"] { padding-left: 27%; }
+.stageRow .connector { display: none; }
+.stageNode {
+  position: relative;
+  width: min(350px,100%);
+  min-height: 96px;
+  padding: 11px 13px;
+  grid-template-columns: 34px 44px minmax(0,1fr) 24px;
+  gap: 8px;
+  border: 3px solid #e5e2c9;
+  border-radius: 26px;
+  color: var(--trail-ink);
+  background: #fffdf2;
+  box-shadow: 0 6px 0 #d2d4b8, 0 12px 25px rgba(36,74,58,.14);
+}
+.stageNode[data-state="locked"] {
+  border-color: #d9e4dd;
+  background: rgba(249,252,251,.95);
+  color: #425f68;
+  box-shadow: 0 5px 0 rgba(202,218,214,.92);
+}
+.stageNode[data-state="current"] {
+  border-color: var(--trail-accent);
+  background: #fffef5;
+  box-shadow: 0 7px 0 rgba(99,164,103,.46), 0 14px 30px rgba(22,104,79,.21);
+}
+.stageNode[data-state="completed"] {
+  border-color: #e4b756;
+  background: #fff9e4;
+  box-shadow: 0 6px 0 #e7d295, 0 12px 25px rgba(144,108,33,.12);
+}
+.stageNumber {
+  width: 34px;
+  height: 34px;
+  border: 2px solid rgba(255,255,255,.85);
+  background: var(--trail-accent);
+  box-shadow: 0 2px 0 rgba(23,65,52,.20);
+}
+.stageNode[data-state="locked"] .stageNumber { background: #7994a1; }
+.stageEmoji {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 16px;
+  background: #eef6e4;
+  border: 1px solid rgba(80,148,111,.16);
+  font-size: 1.7rem;
+}
+.stageNode[data-state="locked"] .stageEmoji { background: #e9f1ef; }
+.stageCopy strong { font-size: clamp(15px, 1.4vw, 18px); line-height: 1.18; }
+.stageCopy small { font-size: .75rem; color: #45675d; line-height: 1.25; }
+.stageStateIcon { color: var(--trail-accent); }
+.stageNode[data-state="locked"] .stageStateIcon { color: #647b89; }
+@media (min-width: 761px) {
+  .page[data-journey-subject="bahasa"] { --trail-scene: url("/artwork/backgrounds/bahasa/letter-garden-wide.webp"); }
+  .page[data-journey-subject="english"] { --trail-scene: url("/artwork/backgrounds/english/seaside-learning-cove-wide.webp"); }
+  .page[data-journey-subject="math"] { --trail-scene: url("/artwork/backgrounds/math/number-park-wide.webp"); }
+  .page[data-journey-subject="iqro"] { --trail-scene: url("/artwork/backgrounds/iqro/mosque-courtyard-01-wide.webp"); }
+  .page[data-journey-subject="letters"] { --trail-scene: url("/artwork/backgrounds/letters/notebook-park-05-wide.webp"); }
+  .page[data-journey-subject="logic"] { --trail-scene: url("/artwork/backgrounds/logic/space-playroom-05-wide.webp"); }
+  .page[data-journey-subject="science"] { --trail-scene: url("/artwork/backgrounds/science/nature-trail-wide.webp"); }
+  .page[data-journey-subject="color"] { --trail-scene: url("/artwork/backgrounds/creative/art-gallery-01-wide.webp"); }
+  .page[data-journey-subject="drawing"] { --trail-scene: url("/artwork/backgrounds/drawing/meadow-art-01-wide.webp"); }
+}
+@media (max-width: 760px) {
+  .mapShell { padding: 20px 9px 32px; border-radius: 28px; }
+  .trailHeading { margin-bottom: 20px; padding: 7px 14px; font-size: 15px; }
+  .mapTrack { gap: 21px; }
+  .stageRow, .stageRow[data-side="start"], .stageRow[data-side="end"] { min-height: 88px; padding: 0; }
+  .stageRow[data-side="start"] { justify-content: flex-start; padding-right: 13%; }
+  .stageRow[data-side="end"] { justify-content: flex-end; padding-left: 13%; }
+  .stageNode {
+    width: 100%;
+    min-height: 88px;
+    grid-template-columns: 30px 37px minmax(0,1fr) 20px;
+    padding: 9px 9px;
+    gap: 6px;
+    border-radius: 23px;
+    border-width: 2px;
+  }
+  .stageNumber { width: 30px; height: 30px; font-size: .82rem; }
+  .stageEmoji { width: 37px; height: 37px; border-radius: 13px; font-size: 1.45rem; }
+  .stageCopy strong { font-size: clamp(13px, 3.7vw, 16px); line-height: 1.18; }
+  .stageCopy small { font-size: .72rem; }
+  .stageStateIcon { font-size: 17px; }
+  .trailBase { stroke-width: 18; }
+  .trailDashes { stroke-width: 4; }
+}
+@media (max-width: 360px) {
+  .stageRow[data-side="start"] { padding-right: 7%; }
+  .stageRow[data-side="end"] { padding-left: 7%; }
+  .stageNode { grid-template-columns: 27px 31px minmax(0,1fr) 18px; gap: 5px; }
+  .stageNumber { width: 27px; height: 27px; }
+  .stageEmoji { width: 31px; height: 31px; font-size: 1.2rem; }
+  .stageCopy strong { font-size: 12px; }
+}
