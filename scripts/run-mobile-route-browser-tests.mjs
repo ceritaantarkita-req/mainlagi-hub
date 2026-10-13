@@ -2005,7 +2005,7 @@ async function main() {
         const value = await page.evaluate((kind) => {
           const root = document.querySelector('[data-mainlagi-mobile-root="' + kind + '"]');
           const boundary = root?.querySelector('[data-mainlagi-route-boundary]');
-          const content = boundary?.firstElementChild;
+          const content = [...(boundary?.children ?? [])].filter((el) => el.tagName !== "HEADER").at(-1);
           if (!root || !boundary || !content) return null;
           return {
             rootGap: root.getBoundingClientRect().bottom - boundary.getBoundingClientRect().bottom,
