@@ -85,7 +85,12 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
       ) : null}
 
       <section className={styles.mapShell} aria-label={"Peta perjalanan " + model.subjectTitle}>
+        <div className={styles.trailHeading} aria-hidden="true"><span>✦</span> Peta petualangan <span>✦</span></div>
         <div className={styles.mapTrack} data-journey-map-track>
+          <svg className={styles.trailArtwork} viewBox="0 0 400 1000" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+            <path className={styles.trailBase} d="M200 -25 C35 60 55 155 192 215 S345 365 211 450 S42 605 199 700 S347 860 195 1025" />
+            <path className={styles.trailDashes} d="M200 -25 C35 60 55 155 192 215 S345 365 211 450 S42 605 199 700 S347 860 195 1025" />
+          </svg>
           {model.stages.map((stage, index) => {
             const locked = stage.locked && !qaUnlockAll;
             return (

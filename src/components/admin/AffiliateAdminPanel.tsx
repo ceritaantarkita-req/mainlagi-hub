@@ -49,6 +49,9 @@ export function AffiliateAdminPanel() {
   const [form, setForm] = useState<AffiliateRecord>(EMPTY);
   const [message, setMessage] = useState("Memuat data affiliate...");
   const [showAll, setShowAll] = useState(false);
+  const [editingImageId, setEditingImageId] = useState<string | null>(null);
+  const [editingImageUrl, setEditingImageUrl] = useState("");
+  const [imageSavePending, setImageSavePending] = useState(false);
 
   const load = useCallback(async () => {
     try {
@@ -71,6 +74,41 @@ export function AffiliateAdminPanel() {
       setMessage("Item affiliate tersimpan.");
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "Gagal menyimpan.");
+    }
+  };
+
+  const editImage = (item: AffiliateRecord) => {
+    if (!item.id) return;
+    setEditingImageId(item.id);
+    setEditingImageUrl(item.image_url ?? "");
+    setMessage("Tempel URL gambar langsung dari materi Shopee Affiliate yang boleh dipakai. Link produk Shopee bukan gambar.");
+  };
+
+  const saveImage = async () => {
+    if (!editingImageId || imageSavePending) return;
+    const url = editingImageUrl.trim();
+    if (url) {
+      let parsed: URL;
+      try { parsed = new URL(url); } catch {
+        setMessage("URL foto tidak valid. Gunakan URL HTTPS gambar langsung.");
+        return;
+      }
+      if (parsed.protocol !== "https:" || parsed.hostname === "shopee.co.id" || parsed.hostname.endsWith(".shopee.co.id")) {
+        setMessage("URL foto harus HTTPS langsung ke gambar (contoh CDN Shopee), bukan link halaman/affiliate Shopee.");
+        return;
+      }
+    }
+    setImageSavePending(true);
+    try {
+      await updateAffiliateItem(editingImageId, { image_url: url });
+      setEditingImageId(null);
+      setEditingImageUrl("");
+      await load();
+      setMessage(url ? "URL foto tersimpan. Katalog akan memakai URL itu; cek hasilnya di Discover." : "URL foto dihapus; placeholder akan ditampilkan.");
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Gagal menyimpan URL foto.");
+    } finally {
+      setImageSavePending(false);
     }
   };
 
@@ -209,15 +247,28 @@ export function AffiliateAdminPanel() {
                     </td>
                     <td>
                       {isLive ? (
-                        <button
-                          className="admin-table__action"
-                          onClick={() =>
-                            item.id &&
-                            void updateAffiliateItem(item.id, { active: !item.active }).then(() => load())
-                          }
-                        >
-                          {item.active ? "Nonaktifkan" : "Aktifkan"}
-                        </button>
+                        <div style={{ display: "flex", flexWrap: "wrap", gap: 6 }}>
+                          <button
+                            className="admin-table__action"
+                            type="button"
+                            onClick={() => {
+                              const record = items.find((row) => row.id === item.id);
+                              if (record) editImage(record);
+                            }}
+                          >
+                            Edit foto
+                          </button>
+                          <button
+                            className="admin-table__action"
+                            type="button"
+                            onClick={() =>
+                              item.id &&
+                              void updateAffiliateItem(item.id, { active: !item.active }).then(() => load())
+                            }
+                          >
+                            {item.active ? "Nonaktifkan" : "Aktifkan"}
+                          </button>
+                        </div>
                       ) : (
                         <span className="admin-note">-</span>
                       )}
@@ -227,6 +278,39 @@ export function AffiliateAdminPanel() {
               </tbody>
             </table>
           </div>
+          {editingImageId ? (
+            <div className="admin-panel" data-affiliate-image-editor>
+              <h3>Foto produk</h3>
+              <p className="admin-note">
+                Pakai URL HTTPS gambar dari materi promosi/afiliasi yang diizinkan.
+                Link pendek s.shopee.co.id adalah tujuan produk, bukan URL foto.
+                Jangan masukkan foto produk lain atau link halaman.
+              </p>
+              <label className="admin-form">
+                <span>URL gambar langsung</span>
+                <input
+                  type="url"
+                  placeholder="https://...gambar-produk.webp"
+                  value={editingImageUrl}
+                  onChange={(event) => setEditingImageUrl(event.target.value)}
+                  aria-label="URL gambar produk"
+                />
+              </label>
+              <div style={{ display: "flex", flexWrap: "wrap", gap: 8, marginTop: 12 }}>
+                <button className="button button--primary" type="button" disabled={imageSavePending} onClick={() => void saveImage()}>
+                  {imageSavePending ? "Menyimpan…" : "Simpan foto"}
+                </button>
+                <button className="button button--ghost" type="button" onClick={() => setEditingImageId(null)}>
+                  Batal
+                </button>
+                {editingImageUrl.trim().startsWith("https://") ? (
+                  <a className="button button--ghost" href={editingImageUrl.trim()} target="_blank" rel="noopener noreferrer">
+                    Periksa URL gambar ↗
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          ) : null}
           {hiddenCount > 0 && (
             <button className="admin-show-more" onClick={() => setShowAll(true)}>
               Tampilkan {hiddenCount} produk lagi

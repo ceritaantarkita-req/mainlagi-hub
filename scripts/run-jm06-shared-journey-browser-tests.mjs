@@ -104,6 +104,9 @@ async function inspectSubject(page,subject,title,stageIds){
   assert.equal(await page.getByRole("heading",{name:title,exact:true}).count(),1,subject+" canonical title");
   const nodes=page.locator("[data-journey-stage]");
   assert.deepEqual(await nodes.evaluateAll(items=>items.map(x=>x.getAttribute("data-journey-stage"))),stageIds,subject+" exact stage order");
+  assert.equal(await page.locator('[data-journey-map-track] svg[aria-hidden="true"]').count(),1,subject+" scenic trail must render once");
+  const mapBackground=await page.locator('[data-journey-map-track]').evaluate(node=>getComputedStyle(node.parentElement).backgroundImage);
+  assert.match(mapBackground,/\/artwork\/backgrounds\//,subject+" journey uses existing subject illustration, not a blank diagram");
   const browse=page.locator("[data-journey-browse-all]");
   assert.equal(await browse.locator("li").count(),100,subject+" exact 100 activities");
   assert.equal(await page.locator('[data-mainlagi-jm02-header="v1"]').count(),1,subject+" JM-02 header owner");
