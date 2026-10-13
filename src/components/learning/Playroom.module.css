@@ -1,4 +1,7 @@
-.shell { --ink:#193b55; --paper:#fffcf0; --coral:#e46c49; color:var(--ink); background:var(--paper); min-height:100dvh; font-family:'Nunito Variable','Noto Sans Variable',sans-serif; }
+.shell { --ink:#193b55; --paper:#fffcf0; --coral:#e46c49; color:var(--ink); background:var(--paper); min-height:var(--ml-viewport-height, 100dvh); font-family:'Nunito Variable','Noto Sans Variable',sans-serif; display:flex; flex-direction:column; }
+/* Fill any spare mobile viewport space with the route's own page surface,
+   rather than revealing the outer cream Playroom shell below illustrated art. */
+.shell > :not(.header) { flex-grow: 1; }
 .shell *, .page * { box-sizing:border-box; }
 .header { width:min(1200px,100%); margin:auto; min-height:92px; padding:18px 32px; display:flex; align-items:center; justify-content:space-between; gap:24px; }
 .brand { color:var(--ink); font-size:30px; letter-spacing:-1.3px; font-weight:900; text-decoration:none; }
