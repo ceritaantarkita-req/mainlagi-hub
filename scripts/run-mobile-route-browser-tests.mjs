@@ -1985,6 +1985,40 @@ async function main() {
       }
       await context.close();
     }
+    // The MobileFoundation boundary is shared with Parent, game catalog and
+    // motion/gameplay. A page must never leave the foundation's bottom exposed.
+    for (const viewport of [{ width: 390, height: 844 }, { width: 390, height: 1180 }]) {
+      const context = await worldAge7Context(browser, { viewport, hasTouch: true });
+      const page = await context.newPage();
+      for (const [routePath, rootKind] of [
+        ["/parent", "parent"],
+        ["/games", "games"],
+        ["/play/math-choice", "play"]
+      ]) {
+        await page.goto(baseUrl + routePath, { waitUntil: "domcontentloaded" });
+        await page.locator('[data-mainlagi-mobile-root="' + rootKind + '"]').waitFor({ state: "visible" });
+        await page.waitForFunction(
+          (kind) => document.querySelector('[data-mainlagi-mobile-root="' + kind + '"]')?.getAttribute("data-mainlagi-orientation") !== "pending",
+          rootKind
+        );
+        await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+        const value = await page.evaluate((kind) => {
+          const root = document.querySelector('[data-mainlagi-mobile-root="' + kind + '"]');
+          const boundary = root?.querySelector('[data-mainlagi-route-boundary]');
+          const content = boundary?.firstElementChild;
+          if (!root || !boundary || !content) return null;
+          return {
+            rootGap: root.getBoundingClientRect().bottom - boundary.getBoundingClientRect().bottom,
+            contentGap: boundary.getBoundingClientRect().bottom - content.getBoundingClientRect().bottom,
+            overflowX: document.documentElement.scrollWidth - innerWidth
+          };
+        }, rootKind);
+        assert.ok(value && Math.abs(value.rootGap) <= 2 && Math.abs(value.contentGap) <= 2,
+          routePath + " MobileFoundation shell must have no empty tail: " + JSON.stringify(value));
+        assert.ok(value.overflowX <= 2, routePath + " horizontal overflow");
+      }
+      await context.close();
+    }
     // Public routes used to reserve an obsolete 82px dock and *another* 100dvh
     // below the sticky navbar. Verify they have no bottom gap at phone height.
     for (const viewport of [{ width: 390, height: 844 }, { width: 390, height: 1180 }]) {
