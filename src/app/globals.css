@@ -2218,7 +2218,11 @@ img { max-width: 100%; }
 }
 
 /* â”€â”€ App shell & navigation â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
-.app-shell__main { min-height: 100dvh; }
+/* The header is already in normal flow. A second 100dvh-sized main and the
+   removed bottom navigation's reserved gutter produced an empty strip at the
+   end of public mobile pages. The actual content now owns the remaining area. */
+.app-shell { display: flex; flex-direction: column; min-height: 100dvh; }
+.app-shell__main { min-height: 0; flex: 1 0 auto; }
 
 /* Top navbar: solid at top, glass on scroll. Only on desktop. */
 .top-nav {
@@ -2348,7 +2352,7 @@ html[data-immersive="true"] body { background: var(--page); }
   .top-nav { padding-block: 8px; padding-inline: 14px; }
   .top-nav__brand strong { font-size: 13px; }
   .top-nav__brand small { display: none; }
-  .app-shell__main { padding-bottom: calc(82px + var(--safe-bottom)); }
+  .app-shell__main { padding-bottom: 0; /* Mainlagi uses the top-menu drawer; no public fixed bottom nav. */ }
 }
 
 /* Stub page (Phase 0 route placeholders). */
