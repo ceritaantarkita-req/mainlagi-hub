@@ -1930,6 +1930,89 @@ async function main() {
     }
     await accessibilityContext.close();
 
+    // Device-owner regression 13 Oct: no cream gutter below any illustrated
+    // child route or public page when iPhone Safari's viewport grows.
+    // Compare actual bottom coordinates after scrolling, not background color:
+    // background gradients/images are intentionally different per subject.
+    for (const viewport of [
+      { width: 390, height: 844 },
+      { width: 390, height: 1180 }
+    ]) {
+      const context = await worldAge7Context(browser, { viewport, hasTouch: true });
+      const page = await context.newPage();
+      for (const routePath of [
+        "/child/demo-gian/home",
+        "/child/demo-gian/subject/bahasa",
+        "/child/demo-gian/activity/bahasa-cari-a",
+        "/child/qa-world-age7/world/money-festival",
+        "/child/demo-gian/games"
+      ]) {
+        await page.goto(baseUrl + routePath, { waitUntil: "domcontentloaded" });
+        await page.locator('[data-mainlagi-mobile-root="child"]').waitFor({ state: "visible" });
+        await page.waitForFunction(() => document.querySelector('[data-mainlagi-mobile-root="child"]')?.getAttribute("data-mainlagi-orientation") !== "pending");
+        if (routePath.includes("/activity/")) {
+          await page.locator('[data-activity-frame="garden"]').waitFor({ state: "visible" });
+        } else if (routePath.includes("/subject/")) {
+          await page.locator('[data-belajar-journey-map]').waitFor({ state: "visible" });
+        }
+        await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+        const layout = await page.evaluate(() => {
+          const root = document.querySelector('[data-mainlagi-mobile-root="child"]');
+          const shell = root?.querySelector('[data-mainlagi-global-header]')?.parentElement ??
+            root?.querySelector('[data-activity-frame="garden"]')?.parentElement?.parentElement;
+          if (!(shell instanceof HTMLElement)) return null;
+          const children = [...shell.children].filter((el) => el !== shell.querySelector(':scope > header'));
+          const content = children.at(-1);
+          const frame = shell.querySelector('[data-activity-frame="garden"]');
+          const parentFrame = frame?.parentElement;
+          const edge = (el) => Number(el.getBoundingClientRect().bottom.toFixed(2));
+          return {
+            shellBottom: edge(shell),
+            contentBottom: content ? edge(content) : null,
+            frameBottom: frame ? edge(frame) : null,
+            frameWrapperBottom: parentFrame ? edge(parentFrame) : null,
+            overflowX: document.documentElement.scrollWidth - window.innerWidth
+          };
+        });
+        assert.ok(layout && layout.contentBottom !== null, routePath + " child shell/content must exist");
+        assert.ok(Math.abs(layout.shellBottom - layout.contentBottom) <= 2,
+          routePath + " must not reveal cream shell below content at " + viewport.height + "px: " + JSON.stringify(layout));
+        if (layout.frameBottom !== null) {
+          assert.ok(Math.abs(layout.frameWrapperBottom - layout.frameBottom) <= 2,
+            routePath + " garden artwork must reach the immersive wrapper bottom: " + JSON.stringify(layout));
+        }
+        assert.ok(layout.overflowX <= 2, routePath + " must not overflow horizontally");
+      }
+      await context.close();
+    }
+    // Public routes used to reserve an obsolete 82px dock and *another* 100dvh
+    // below the sticky navbar. Verify they have no bottom gap at phone height.
+    for (const viewport of [{ width: 390, height: 844 }, { width: 390, height: 1180 }]) {
+      const context = await browser.newContext({ viewport, hasTouch: true });
+      const page = await context.newPage();
+      for (const routePath of ["/", "/discover/products"]) {
+        await page.goto(baseUrl + routePath, { waitUntil: "domcontentloaded" });
+        await page.locator(".app-shell__main").waitFor({ state: "visible" });
+        await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
+        const value = await page.evaluate(() => {
+          const shell = document.querySelector(".app-shell");
+          const surface = document.querySelector(".app-shell__main");
+          if (!shell || !surface) return null;
+          return {
+            gap: shell.getBoundingClientRect().bottom - surface.getBoundingClientRect().bottom,
+            paddingBottom: getComputedStyle(surface).paddingBottom,
+            overflowX: document.documentElement.scrollWidth - innerWidth
+          };
+        });
+        assert.ok(value && Math.abs(value.gap) <= 2,
+          "public shell must end with content at " + routePath + ": " + JSON.stringify(value));
+        assert.equal(value.paddingBottom, "0px", "retired bottom-nav gutter must stay removed");
+        assert.ok(value.overflowX <= 2, "public route must not overflow horizontally: " + routePath);
+      }
+      await context.close();
+    }
+    console.log("Mainlagi phone scroll-end continuity PASS (child Home/Journey/Garden/World/Bermain + public Home/Discover).");
+
     // 13 Oct 2026 owner acceptance: approved Shopee photo is visible and photo tile
     // redirects via the existing /go slug, never by treating the shortlink as an IMG.
     const affiliateContext = await browser.newContext({ viewport: { width: 390, height: 844 }, hasTouch: true });
