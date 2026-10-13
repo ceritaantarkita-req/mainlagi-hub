@@ -54,7 +54,6 @@ export function SymbolHuntChoiceActivity({ childId, activityId }: { childId: str
       title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang={activity.subjectId === "english" ? "en-US" : "id-ID"}
-      spacious
     >
       <section className={`${styles.huntScene} ${variantClass}`} aria-labelledby="symbol-hunt-prompt">
         <span className={`${styles.cloud} ${styles.cloudOne}`} aria-hidden />
