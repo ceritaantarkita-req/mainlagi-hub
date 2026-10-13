@@ -26,6 +26,8 @@
   min-width: 0;
   max-width: 100%;
   min-height: var(--ml-viewport-height);
+  display: flex;
+  flex-direction: column;
   text-size-adjust: 100%;
 }
 
@@ -71,11 +73,17 @@
   min-width: 0;
   max-width: 100%;
   min-height: 0;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
 }
 
+/* The foundation's viewport-height boundary must be filled by the route itself.
+   Otherwise parent, child, or games pages expose a bare default background. */
 .routeBoundary > * {
   min-width: 0;
   max-width: 100%;
+  flex-grow: 1;
 }
 
 .routeBoundary :where(main, section, article, header, footer, nav, aside, div, form, fieldset, dl, ul, ol) {
