@@ -16,7 +16,7 @@ export function ProductGrid({ items }: { items: AffiliateItem[] }) {
       {items.map((item) => (
         <a key={item.slug} href={`/go/${item.slug}`} className="product-tile" aria-label={`${item.title} — lihat di Shopee (tautan afiliasi)`}>
           <span className="product-tile__media">
-            <AffiliateProductMedia key={item.slug + ":" + (item.imageUrl ?? "")} imageUrl={item.imageUrl} title={item.title} />
+            <AffiliateProductMedia key={item.slug + ":" + (item.imageUrl ?? "")} imageUrl={item.imageUrl} title={item.title} slug={item.slug} />
           </span>
           <span className="product-tile__overlay" style={{ opacity:1, transform:"none" }}>
             <strong>{item.title}</strong>
