@@ -93,7 +93,7 @@ export function AffiliateAdminPanel() {
         setMessage("URL foto tidak valid. Gunakan URL HTTPS gambar langsung.");
         return;
       }
-      if (parsed.protocol !== "https:" || /(^|\\.)shopee\\.co\\.id$/i.test(parsed.hostname)) {
+      if (parsed.protocol !== "https:" || parsed.hostname === "shopee.co.id" || parsed.hostname.endsWith(".shopee.co.id")) {
         setMessage("URL foto harus HTTPS langsung ke gambar (contoh CDN Shopee), bukan link halaman/affiliate Shopee.");
         return;
       }
