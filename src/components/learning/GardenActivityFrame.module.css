@@ -183,23 +183,25 @@
   width: fit-content;
   max-width: 100%;
   margin-inline: auto;
-  padding: 9px 17px;
-  border: 2px solid rgba(255,253,245,.95);
-  border-radius: 20px;
+  padding: 0;
+  border: 0;
+  border-radius: 16px;
   background: rgba(255,252,240,.96);
   color: #193b55;
   text-shadow: none;
-  box-shadow: 0 4px 0 rgba(25,59,85,.14);
+  /* Paint outside the line box instead of adding padding/height. Many
+     fixed-height lesson boards require all feedback visible in one fold. */
+  box-shadow: 0 0 0 7px rgba(255,252,240,.96);
   overflow-wrap: anywhere;
 }
 .themedScene:not(.workspace):not(.matchingFocus):not(.audioFocus) .hint {
   width: fit-content;
   max-width: min(640px,100%);
-  padding: 9px 15px;
+  padding: 0;
   background: rgba(255,252,240,.96);
   color: #193b55;
-  border-radius: 16px;
-  box-shadow: 0 3px 0 rgba(25,59,85,.12);
+  border-radius: 12px;
+  box-shadow: 0 0 0 7px rgba(255,252,240,.96);
   overflow-wrap: anywhere;
 }
 /* Audio teaching screen needs a single content surface: no 110px heading,
@@ -254,8 +256,7 @@
 }
 @media (max-width:760px) {
   .themedScene:not(.workspace):not(.matchingFocus):not(.audioFocus) .play > :global(h1) {
-    padding: 7px 12px;
-    border-radius: 17px;
+    border-radius: 16px;
     font-size: clamp(25px,7.1vw,38px);
     line-height: 1.17;
   }
