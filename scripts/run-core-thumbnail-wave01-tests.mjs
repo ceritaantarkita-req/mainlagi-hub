@@ -130,7 +130,8 @@ assert.doesNotMatch(worldSource, /href=\{[^}]*world\.id/, "locked future World i
 const affiliateMediaSource = readFileSync(path.resolve("src/components/discover/AffiliateProductMedia.tsx"), "utf8");
 const affiliateGridSource = readFileSync(path.resolve("src/components/discover/ProductGrid.tsx"), "utf8");
 const discoverSource = readFileSync(path.resolve("src/components/discover/DiscoverShell.tsx"), "utf8");
-assert.match(affiliateMediaSource, /onError=\{\(\) => setFailedUrl\(url\)\}/, "remote thumbnail failures must trigger fallback");
+assert.match(affiliateMediaSource, /onError=\{\(\) => setFailedUrls\(/, "remote thumbnail failures must retry the next safe image candidate");
+assert.match(affiliateMediaSource, /getAffiliateItem\(slug\)\?\.image/, "failed CDN images must use the same item’s approved local photo");
 assert.match(affiliateMediaSource, /data-affiliate-photo-fallback/, "missing images require visible accessible fallback");
 assert.match(affiliateGridSource, /AffiliateProductMedia/, "standalone product grid must use shared fallback");
 assert.match(discoverSource, /AffiliateProductMedia/, "Discover grid and list must use shared fallback");
