@@ -119,7 +119,7 @@ function ProductTile({ item }: { item: AffiliateItem }) {
   return (
     <a href={`/go/${item.slug}`} className="product-tile">
       <span className="product-tile__media">
-        <AffiliateProductMedia key={item.slug + ":" + (item.imageUrl ?? "")} imageUrl={item.imageUrl} title={item.title} />
+        <AffiliateProductMedia key={item.slug + ":" + (item.imageUrl ?? "")} imageUrl={item.imageUrl} title={item.title} slug={item.slug} />
       </span>
       <span className="product-tile__overlay" aria-hidden>
         <strong>{item.title}</strong>
@@ -311,7 +311,7 @@ export function DiscoverShell() {
                       key={item.slug}
                       href={`/go/${item.slug}`}
                       thumb={
-                        <AffiliateProductMedia key={item.slug + ":" + (item.imageUrl ?? "")} imageUrl={item.imageUrl} title={item.title} />
+                        <AffiliateProductMedia key={item.slug + ":" + (item.imageUrl ?? "")} imageUrl={item.imageUrl} title={item.title} slug={item.slug} />
                       }
                       title={item.title}
                       meta={item.disclosure ?? "Tautan afiliasi"}
