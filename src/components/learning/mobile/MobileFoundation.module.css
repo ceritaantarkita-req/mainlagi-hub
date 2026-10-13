@@ -83,8 +83,10 @@
 .routeBoundary > * {
   min-width: 0;
   max-width: 100%;
-  flex-grow: 1;
 }
+/* ParentShell renders a TopNavbar and a separate content surface. The navbar
+   must keep its natural height; only the actual route body fills the viewport. */
+.routeBoundary > :not(header) { flex-grow: 1; }
 
 .routeBoundary :where(main, section, article, header, footer, nav, aside, div, form, fieldset, dl, ul, ol) {
   min-width: 0;
