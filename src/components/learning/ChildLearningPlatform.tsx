@@ -150,7 +150,12 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
 
   const pairCount = layout.left.length;
   const solvedCount = matched.length / 2;
-  return <section className={styles.matchingExperience} data-match-experience="visual-first-v2" aria-label={activity.prompt ?? "Pasangkan kartu"}>
+  return <section
+    className={styles.matchingExperience}
+    data-match-experience="visual-first-v2"
+    data-match-visual={activity.subjectId === "math" ? "math" : activity.subjectId === "logic" ? "logic" : "language"}
+    aria-label={activity.prompt ?? "Pasangkan kartu"}
+  >
     <div className={styles.matchingIntro}>
       <h1 className={styles.matchingTitle} aria-label={activity.prompt ?? "Pasangkan kartu"}>
         {activity.subjectId === "english" ? "Find a pair!" : "Cari pasangan!"}

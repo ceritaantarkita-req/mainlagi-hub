@@ -1747,6 +1747,27 @@ async function main() {
         assert.notEqual(pairOf(retried.left[row]), pairOf(retried.right[row]), `retry matching row ${row + 1} must not reveal a correct adjacent pair`);
       }
       await page.screenshot({ path: path.join(screenshotDir, "390-visible-matching-retry.png"), fullPage: false });
+      await page.setViewportSize({ width: 320, height: 720 });
+      const compactMatching = await experience.evaluate((node) => {
+        const surface = node.querySelector('[class*="matchingSurface"]');
+        const buttons = Array.from(node.querySelectorAll("[data-match-card]"));
+        return {
+          theme: node.getAttribute("data-match-visual"),
+          bg: getComputedStyle(surface).backgroundColor,
+          border: parseFloat(getComputedStyle(surface).borderTopWidth),
+          shadow: getComputedStyle(surface).boxShadow,
+          width: document.documentElement.clientWidth,
+          scrollWidth: document.documentElement.scrollWidth,
+          cards: buttons.map((b) => ({ width: b.getBoundingClientRect().width, height: b.getBoundingClientRect().height }))
+        };
+      });
+      assert.equal(compactMatching.theme, "language", "English matching uses language visual skin at 320px");
+      assert.equal(compactMatching.border, 0, "Matching 320px must not stack a large white panel");
+      assert.equal(compactMatching.shadow, "none", "Matching 320px must not stack a panel shadow");
+      assert.ok(compactMatching.scrollWidth <= compactMatching.width + 1, "Matching 320px must not overflow");
+      assert.ok(compactMatching.cards.every((rect) => rect.width >= 90 && rect.height >= 82),
+        "Matching 320px must preserve all four playable touch targets");
+      await page.screenshot({ path: path.join(screenshotDir, "320-visible-matching-open-playfield.png"), fullPage: false });
       await page.setViewportSize({ width: 844, height: 390 });
       const landscape = await page.evaluate(() => ({
         viewport: document.documentElement.clientWidth,

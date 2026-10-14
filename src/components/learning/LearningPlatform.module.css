@@ -1945,3 +1945,115 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
   .matchingExperience .matchButton { min-height: 108px; font-size: clamp(35px, 9vw, 52px); }
   .matchingExperience .matchingSurface { padding: 9px; }
 }
+
+
+/* VQA-05: Matching is an open playfield, not a four-card dashboard nested
+   inside a fifth big card. The four tappable objects ARE the game pieces.
+   Subject variants affect only paint, never choice pairing or hit targets. */
+.matchingExperience .matchingSurface {
+  position: relative;
+  padding: 2px 3px 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+.matchingExperience .matchingSideLabels { display: none; }
+.matchingExperience .matchGrid { gap: clamp(15px, 3vw, 32px); }
+.matchingExperience .matchColumn { gap: clamp(12px, 2vw, 18px); }
+.matchingExperience .matchButton {
+  min-height: clamp(110px, 17vh, 150px);
+  background: #fffdf4;
+  border: 2px solid #d9d8c3;
+  border-radius: 27px;
+  box-shadow: 0 5px 0 rgba(70, 99, 88, .22);
+}
+.matchingExperience .matchingFeedback {
+  width: fit-content;
+  max-width: 100%;
+  min-height: 38px;
+  margin: 7px auto 0;
+  padding: 7px 12px;
+  border-radius: 14px;
+  background: rgba(255, 252, 236, .96);
+}
+.matchingExperience .matchingInstructions {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  border-top: 0;
+  border-radius: 12px;
+  background: rgba(255, 252, 238, .91);
+}
+.matchingExperience .matchingInstructions summary { min-height: 44px; padding: 8px 13px; }
+.matchingExperience .matchingInstructions[open] { width: min(560px, 100%); padding-inline: 8px; }
+
+/* Math: generous warm counting stones. The asymmetric edges feel like
+   objects placed in a playground rather than dashboard rectangles. */
+.matchingExperience[data-match-visual="math"] .matchButton:not(.matchSelected):not(.matchDone) {
+  border-color: #d6ab5c;
+  border-radius: 34px 47px 35px 45px;
+  background: #fff1c9;
+  box-shadow: 0 6px 0 #d8b87e;
+}
+.matchingExperience[data-match-visual="math"] .matchColumn:last-child .matchButton:not(.matchSelected):not(.matchDone) {
+  border-radius: 47px 34px 45px 35px;
+}
+.matchingExperience[data-match-visual="math"] .matchingProgress {
+  background: #fff4ce;
+  border-color: #dbb96f;
+}
+
+/* Logic: paired cool reasoning tokens; flatter edges and no piled-up
+   shadows. Not the same visual as Math, but still clear interactive buttons. */
+.matchingExperience[data-match-visual="logic"] .matchButton:not(.matchSelected):not(.matchDone) {
+  border-color: #92bbd0;
+  border-radius: 22px 38px 24px 37px;
+  background: #f0faff;
+  box-shadow: 0 3px 0 rgba(67, 113, 149, .32);
+}
+.matchingExperience[data-match-visual="logic"] .matchColumn:last-child .matchButton:not(.matchSelected):not(.matchDone) {
+  border-radius: 38px 22px 37px 24px;
+}
+.matchingExperience[data-match-visual="logic"] .matchingProgress {
+  background: #e9f6ff;
+  border-color: #a8d3e2;
+}
+/* Bahasa and English retain readable neutral word tiles instead of
+   borrowing Math/Logic colors. */
+.matchingExperience[data-match-visual="language"] .matchButton:not(.matchSelected):not(.matchDone) {
+  border-color: #c4ddc6;
+  border-radius: 22px 34px 22px 34px;
+  background: #fffef6;
+  box-shadow: 0 4px 0 rgba(129, 169, 136, .40);
+}
+
+/* Preserve strongly differentiated selected and solved states for all
+   subjects. Color is additional feedback; aria-pressed, ✓ and live text
+   remain the canonical non-color signals. */
+.matchingExperience .matchButton.matchSelected {
+  background: #e5f4ff;
+  border-color: #176cae;
+  box-shadow: 0 4px 0 #9bc7e5, inset 0 0 0 2px #b8e4ff;
+}
+.matchingExperience .matchButton.matchDone {
+  background: #dff8e9;
+  border-color: #287f63;
+  color: #195c48;
+  box-shadow: 0 4px 0 #a1d3b1;
+}
+@media (max-width: 760px) {
+  .matchingExperience .matchingSurface { padding: 2px 0 0; }
+  .matchingExperience .matchGrid { gap: clamp(10px, 3vw, 18px); }
+  .matchingExperience .matchButton { min-height: 108px; }
+  .matchingExperience .matchingFeedback { margin-top: 6px; min-height: 36px; }
+}
+@media (max-width: 340px) {
+  .matchingExperience .matchingSurface { padding: 0; }
+  .matchingExperience .matchGrid { gap: 9px; }
+  .matchingExperience .matchButton { min-height: 102px; }
+}
+@media (orientation: landscape) and (max-height: 620px) {
+  .matchingExperience .matchButton { min-height: 88px; }
+  .matchingExperience .matchingFeedback { margin-top: 4px; }
+}
