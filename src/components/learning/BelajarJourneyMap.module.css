@@ -926,3 +926,116 @@
   .stageEmoji { width: 31px; height: 31px; font-size: 1.2rem; }
   .stageCopy strong { font-size: 12px; }
 }
+
+/* 14 Oct: signpost landmarks instead of repeated dashboard cards.
+   Presentation-only: locked/complete/current semantics and stage order unchanged. */
+.mapShell {
+  background-image:
+    linear-gradient(180deg, rgba(255,253,243,.12), rgba(241,250,237,.10)),
+    var(--trail-scene);
+  border-color: rgba(216,235,205,.66);
+}
+.mapTrack { gap: 28px; }
+.trailBase { stroke: rgba(255,251,224,.98); stroke-width: 28; }
+.trailDashes { stroke: rgba(69,139,85,.64); stroke-width: 5; }
+.stageRow { min-height: 102px; }
+.stageNode {
+  width: min(305px, 100%);
+  min-height: 88px;
+  padding: 12px 15px;
+  grid-template-columns: 55px minmax(0,1fr) 25px;
+  gap: 10px;
+  border: 3px solid #c59e62;
+  border-radius: 24px 42px 29px 38px;
+  background: linear-gradient(140deg, #fff4d9, #ffe8ba);
+  box-shadow: 0 5px 0 #b39868, 0 13px 24px rgba(39,75,57,.12);
+  transform: rotate(-1.2deg);
+  text-align: left;
+}
+.stageRow[data-side="end"] .stageNode {
+  border-radius: 42px 24px 39px 28px;
+  transform: rotate(1.2deg);
+}
+.stageNode:hover:not(:disabled), .stageNode:focus-visible { transform: translateY(-3px) rotate(0deg); }
+.stageNumber {
+  position: absolute;
+  top: -14px;
+  left: -12px;
+  z-index: 2;
+  width: 29px;
+  height: 29px;
+  font-size: .85rem;
+}
+.stageEmoji {
+  width: 55px;
+  height: 55px;
+  border: 0;
+  background: transparent;
+  border-radius: 0;
+  font-size: 2.4rem;
+}
+.stageCopy { gap: 3px; }
+.stageCopy strong { font-size: clamp(15px, 1.6vw, 19px); line-height: 1.18; }
+.stageCopy small { font-size: .73rem; }
+.stageStateIcon { font-size: 19px; }
+.stageNode[data-state="current"] {
+  border-color: #328867;
+  background: linear-gradient(135deg, #faffdf, #e7f8cc);
+  box-shadow: 0 6px 0 #86b998, 0 13px 26px rgba(29,104,81,.18);
+}
+.stageNode[data-state="current"]::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  top: -13px;
+  width: 32px;
+  height: 16px;
+  background: #ffd157;
+  clip-path: polygon(0 0, 100% 0, 80% 50%, 100% 100%, 0 100%);
+  box-shadow: 0 2px 0 #d5a33d;
+}
+.stageNode[data-state="completed"] {
+  border-color: #d5a650;
+  background: linear-gradient(130deg, #fff3ba, #ffe19a);
+}
+.stageNode[data-state="locked"] {
+  opacity: 1;
+  color: #385b62;
+  border-color: #9eaea1;
+  background: linear-gradient(130deg, #f6f4e9, #e2eadd);
+  box-shadow: 0 4px 0 #bac9bc, 0 10px 16px rgba(44,73,59,.10);
+  cursor: not-allowed;
+}
+.stageNode[data-state="locked"] .stageEmoji { background: transparent; }
+.stageNode[data-state="locked"] .stageCopy small { color: #385b62; }
+.stageNode[data-state="locked"] .stageNumber { background: #647e83; }
+@media (max-width: 760px) {
+  .mapTrack { gap: 19px; }
+  .stageRow, .stageRow[data-side="start"], .stageRow[data-side="end"] { min-height: 86px; }
+  .stageRow[data-side="start"] { padding-right: 7%; }
+  .stageRow[data-side="end"] { padding-left: 7%; }
+  .stageNode {
+    width: min(95%, 310px);
+    min-height: 84px;
+    grid-template-columns: 44px minmax(0,1fr) 20px;
+    gap: 7px;
+    padding: 10px 11px;
+    border-radius: 22px 32px 22px 30px;
+  }
+  .stageRow[data-side="end"] .stageNode { border-radius: 32px 22px 30px 22px; }
+  .stageEmoji { width: 44px; height: 44px; font-size: 2rem; }
+  .stageNumber { width: 26px; height: 26px; top: -11px; left: -7px; font-size: .8rem; }
+  .stageCopy strong { font-size: clamp(13px, 3.6vw, 17px); }
+  .stageStateIcon { font-size: 17px; }
+  .trailBase { stroke-width: 19; }
+  .trailDashes { stroke-width: 4; }
+}
+@media (max-width: 360px) {
+  .stageNode { width: min(97%, 310px); grid-template-columns: 37px minmax(0,1fr) 18px; gap: 5px; padding: 10px 7px; }
+  .stageEmoji { width: 37px; height: 37px; font-size: 1.8rem; }
+  .stageCopy strong { font-size: 12px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stageNode, .stageRow[data-side="end"] .stageNode { transform: none; }
+  .stageNode:hover:not(:disabled), .stageNode:focus-visible { transform: none; }
+}
