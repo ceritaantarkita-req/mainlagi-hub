@@ -1084,7 +1084,7 @@ async function main() {
       // Fallback ChoiceActivity owns this prompt; GardenFrame.hint CSS does not
       // reach it. Protect legibility, hierarchy and localization across artwork.
       assert.equal(geometry.hintText, "Tap your answer!", "English hint must remain localized and answer-free");
-      assert.match(geometry.hintBackground, /^rgba?\\(255,\\s*252,\\s*240,\\s*0\\.96\\)$/,
+      assert.match(geometry.hintBackground, /^rgba?\(255,\s*252,\s*240,\s*0\.96\)$/,
         `tap_choice hint must have a readable paper surface at ${viewport.width}px`);
       assert.ok(geometry.hintFont >= 16 && geometry.hintFont <= 32,
         `tap_choice hint must remain comfortably sized at ${viewport.width}px: ${JSON.stringify(geometry)}`);
