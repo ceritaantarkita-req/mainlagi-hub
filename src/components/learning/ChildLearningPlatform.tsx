@@ -348,7 +348,7 @@ export function ActivityScreen({ childId, activityId }: { childId: string; activ
     return <main className={styles.contentNarrow}><div className={styles.emptyState}>Aktivitas tidak ditemukan.</div></main>;
   }
 
-  return <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} narration={activity.runtime === "story" ? (activity.storyLines ?? []).join(" ") : activity.prompt ?? activity.title} lang={activity.subjectId === "english" ? "en-US" : "id-ID"} matchingFocus={activity.runtime === "matching"} spacious={activity.runtime === "tap_choice" && (activity.prompt?.length ?? 0) < 45}>
+  return <GardenActivityFrame backHref={`/child/${childId}/subject/${activity.subjectId}`} narration={activity.runtime === "story" ? (activity.storyLines ?? []).join(" ") : activity.prompt ?? activity.title} lang={activity.subjectId === "english" ? "en-US" : "id-ID"} matchingFocus={activity.runtime === "matching"}>
     {activity.runtime === "tap_choice" || activity.runtime === "listen_and_choose" ? <ChoiceActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
     {activity.runtime === "matching" ? <MatchingActivity key={activity.id} childId={childId} activity={activity} onDone={setProgress} /> : null}
     {activity.runtime === "trace" ? <TraceActivity childId={childId} activity={activity} onDone={setProgress} /> : null}
