@@ -164,7 +164,7 @@ async function assertNineSubjectJourneyArtwork(page, viewport, subjectId) {
   });
   assert.ok(geometry.scrollWidth <= geometry.viewportWidth + 1,
     `${subjectId} Journey overflows phone/desktop at ${viewport.width}px: ${JSON.stringify(geometry)}`);
-  assert.match(geometry.scene, /\\/artwork\\/backgrounds\\/.*\\.webp/,
+  assert.match(geometry.scene, /\/artwork\/backgrounds\/.*\.webp/,
     `${subjectId} Journey lost approved subject-specific art at ${viewport.width}px`);
   assert.ok(Object.keys(geometry.stateCount).every((state) => ["completed", "current", "open", "locked"].includes(state)),
     `${subjectId} Journey unknown stage states at ${viewport.width}px: ${JSON.stringify(geometry.stateCount)}`);
