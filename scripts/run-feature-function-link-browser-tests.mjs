@@ -138,6 +138,29 @@ async function inspect(viewport){
     assert(response&&response.status()<400,`feature-function bad HTTP at ${viewport.width}`);
     await waitForScene(page);
     await assertLearningVisualContainment(page,"[data-feature-function-link]",`feature-function visual containment at ${viewport.width}`);
+    // Regression from actual 1280px production screenshot: generic spacious
+    // applied 110px h1 to a nested "Hubungkan ciri dan fungsi" task heading.
+    const nestedHeading = await page.locator('[data-feature-function-link] h1').first().evaluate((node) => {
+      const word = "Hubungkan";
+      const text = node.firstChild;
+      if (!text || text.nodeType !== Node.TEXT_NODE || !text.textContent?.startsWith(word)) return null;
+      const range = document.createRange();
+      range.setStart(text, 0);
+      range.setEnd(text, word.length);
+      return {
+        fontPx: parseFloat(getComputedStyle(node).fontSize),
+        wordFragments: Array.from(range.getClientRects()).filter((rect) => rect.width > 0).length,
+        headingRight: node.getBoundingClientRect().right,
+        boardRight: node.closest('[class*="promptCard"]')?.getBoundingClientRect().right ?? 0
+      };
+    });
+    assert.ok(nestedHeading, `feature/function nested task heading missing at ${viewport.width}px`);
+    assert.ok(nestedHeading.fontPx >= 16 && nestedHeading.fontPx <= 32,
+      `feature/function task heading inherited oversized spacious font at ${viewport.width}px: ${JSON.stringify(nestedHeading)}`);
+    assert.equal(nestedHeading.wordFragments, 1,
+      `feature/function word "Hubungkan" split across lines at ${viewport.width}px`);
+    assert.ok(nestedHeading.headingRight <= nestedHeading.boardRight + 1,
+      `feature/function task heading escapes board at ${viewport.width}px`);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept seeded Science Wave C readiness at ${viewport.width}`);
 
     const choices=page.locator("[data-feature-function-choice]");

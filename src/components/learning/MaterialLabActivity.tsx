@@ -89,7 +89,6 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
       title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
-      spacious
     >
       <section
         ref={sceneRef}

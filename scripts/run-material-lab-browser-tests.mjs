@@ -151,6 +151,35 @@ async function inspect(viewport){
     assert(response&&response.status()<400,`material-lab bad HTTP at ${viewport.width}`);
     await waitForLab(page);
     await assertLearningVisualContainment(page,"[data-material-lab]",`material-lab visual containment at ${viewport.width}`);
+    // Visual audit: content can fit the viewport yet break "Laboratorium"
+    // into "Laboratoriu" + "m" at 320px. Test the word-level glyph geometry.
+    const labHeading = await page.locator('[data-material-lab] h1').first().evaluate((heading) => {
+      const text = heading.firstChild;
+      if (!text || text.nodeType !== Node.TEXT_NODE) return null;
+      const word = "Laboratorium";
+      if (!text.textContent?.startsWith(word)) return null;
+      const range = document.createRange();
+      range.setStart(text, 0);
+      range.setEnd(text, word.length);
+      const wordRects = Array.from(range.getClientRects()).filter((rect) => rect.width > 0);
+      const cardBox = heading.closest('[class*="promptCard"]')?.getBoundingClientRect();
+      return {
+        wordRectCount: wordRects.length,
+        wordRight: wordRects[0]?.right ?? 0,
+        cardRight: cardBox?.right ?? 0,
+        fontPx: parseFloat(getComputedStyle(heading).fontSize)
+      };
+    });
+    assert.ok(labHeading, `material-lab heading missing at ${viewport.width}px`);
+    assert.equal(labHeading.wordRectCount, 1,
+      `"Laboratorium" must not split inside a word at ${viewport.width}px: ${JSON.stringify(labHeading)}`);
+    assert.ok(labHeading.wordRight <= labHeading.cardRight + 1,
+      `material-lab heading escapes prompt card at ${viewport.width}px: ${JSON.stringify(labHeading)}`);
+    assert.ok(labHeading.fontPx >= 16 && labHeading.fontPx <= 34,
+      `material-lab nested title inherited generic 38/110px spacious scaling at ${viewport.width}px: ${JSON.stringify(labHeading)}`);
+    assert.equal(await page.locator('[data-activity-frame="garden"] [data-character-safe-content]').evaluate(
+      (element) => Array.from(element.classList).some((name) => /spacious/i.test(name))
+    ), false, `material-lab must use compact Garden presentation at ${viewport.width}px`);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept seeded Science Wave C readiness at ${viewport.width}`);
 
     const heldRaincoat=page.locator('[data-learning-semantic-key="object.raincoat"][data-learning-visual-source="fallback"]');
