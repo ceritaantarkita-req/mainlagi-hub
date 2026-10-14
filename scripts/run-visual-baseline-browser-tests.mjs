@@ -149,6 +149,13 @@ async function assertSubjectJourneyLayout(page, viewport) {
   assert.equal(await locked.first().isDisabled(), true, `Math locked stage can be clicked at ${viewport.width}px`);
   const visibleOpacity = await locked.first().evaluate((element) => Number(getComputedStyle(element).opacity));
   assert.ok(visibleOpacity >= .85, `Math locked stages are visually washed out at ${viewport.width}px: ${visibleOpacity}`);
+  const landmark = await locked.first().evaluate((node) => ({
+    surface: getComputedStyle(node).backgroundImage,
+    emojiSurface: getComputedStyle(node.querySelector('[class*="stageEmoji"]')).backgroundColor
+  }));
+  assert.match(landmark.surface, /linear-gradient/, `Math trail landmark lost its distinct material at ${viewport.width}px`);
+  assert.match(landmark.emojiSurface, /rgba?\\(0,\\s*0,\\s*0,\\s*0\\)/,
+    `Math trail reintroduced nested square emoji cards at ${viewport.width}px`);
   await journey.locator("[data-journey-stage]").first().click();
   const detail = page.locator("[data-stage-detail-open]");
   await detail.waitFor({ state: "visible" });
@@ -186,6 +193,11 @@ async function assertMatchingFocusVisual(page, viewport) {
     `matching touch targets collapsed at ${viewport.width}px: ${JSON.stringify(geometry)}`);
   assert.equal(await game.locator("[data-match-column]").count(), 2, `matching two-column semantics changed at ${viewport.width}px`);
   assert.equal(await frame.locator("[data-character-layer]").count(), 1, `matching lost canonical character layer at ${viewport.width}px`);
+  const sceneWash = await frame.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
+  const overlayAlphas = Array.from(sceneWash.matchAll(/rgba\\(\\s*\\d+,\\s*\\d+,\\s*\\d+,\\s*([0-9]*\\.?[0-9]+)\\s*\\)/g),
+    (match) => Number(match[1]));
+  assert.ok(overlayAlphas.length >= 2 && Math.max(...overlayAlphas) <= .2,
+    `matching Garden background must not be covered by a pale full-scene wash at ${viewport.width}px: ${sceneWash}`);
 }
 
 async function assertStageHierarchy(page, viewport) {
@@ -296,7 +308,11 @@ async function assertPublicFamilyEntry(page, viewport) {
 
   const copy = (await page.locator("[data-mainlagi-public-family-entry]").innerText()).replace(/\s+/g, " ");
   assert.match(copy, /kamera\s+(bersifat\s+)?opsional/i, `public entry must explain optional camera use at ${viewport.width}px`);
-  assert.match(copy, /Belajar,\s*berpetualang,\s*lalu main lagi\./i, `public headline must converge with Child Home at ${viewport.width}px`);
+  assert.match(copy, /Belajar sambil main!/i, `public headline must stay child-friendly at ${viewport.width}px`);
+  assert.doesNotMatch(copy, /Pilih pengalaman dulu|setelah profil anak dipilih|Pilih area belajar untuk/i,
+    `public root restored redundant instructions at ${viewport.width}px`);
+  const experiences = page.locator('[data-mainlagi-public-family-entry] a[class*="experienceCard"]');
+  assert.equal(await experiences.count(), 3, `public root must retain three domain entry paths at ${viewport.width}px`);
 
   const ctaGeometry = await page.locator("[data-mainlagi-public-child-cta], [data-mainlagi-public-parent-cta]").evaluateAll((elements) =>
     elements.map((element) => {
