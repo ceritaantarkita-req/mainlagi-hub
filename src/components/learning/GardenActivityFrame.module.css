@@ -114,11 +114,12 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  background: linear-gradient(180deg,
-    rgba(233, 249, 239, .76) 0%,
-    rgba(240, 249, 235, .83) 37%,
-    rgba(238, 250, 242, .73) 70%,
-    rgba(235, 248, 234, .44) 100%
+  /* Keep the approved Garden scene colorful. Matching cards already own
+     a solid readable play surface; a full-screen .8 white wash is unnecessary. */
+  background: radial-gradient(ellipse at 50% 36%,
+    rgba(255, 253, 240, .16) 0%,
+    rgba(255, 253, 240, .10) 42%,
+    rgba(255, 253, 240, 0) 76%
   );
   pointer-events: none;
 }
