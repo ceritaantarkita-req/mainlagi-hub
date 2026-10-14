@@ -1039,3 +1039,70 @@
   .stageNode, .stageRow[data-side="end"] .stageNode { transform: none; }
   .stageNode:hover:not(:disabled), .stageNode:focus-visible { transform: none; }
 }
+
+/* Secondary destinations are path markers, NOT additional big cards.
+   The one current step remains the prominent signboard. */
+.stageNode[data-state="locked"], .stageNode[data-state="completed"] {
+  width: min(298px,100%);
+  min-height: 84px;
+  padding: 7px 10px;
+  grid-template-columns: 59px minmax(0,1fr) 23px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  transform: none;
+}
+.stageRow[data-side="end"] .stageNode:is([data-state="locked"],[data-state="completed"]) {
+  transform: none;
+  border-radius: 0;
+}
+.stageNode[data-state="locked"] .stageEmoji, .stageNode[data-state="completed"] .stageEmoji {
+  width: 56px;
+  height: 56px;
+  border: 3px solid #a6b8a9;
+  border-radius: 50%;
+  background: #ecf2e7;
+  box-shadow: 0 4px 0 #b1c1ad;
+  font-size: 2rem;
+}
+.stageNode[data-state="completed"] .stageEmoji {
+  border-color: #d9b866;
+  background: #fff2c8;
+  box-shadow: 0 4px 0 #dbc583;
+}
+.stageNode[data-state="locked"] .stageCopy strong, .stageNode[data-state="completed"] .stageCopy strong {
+  display: inline-block;
+  justify-self: start;
+  width: fit-content;
+  max-width: 100%;
+  border-radius: 10px;
+  padding: 3px 7px;
+  background: rgba(255,252,238,.95);
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+.stageNode[data-state="locked"] .stageCopy small, .stageNode[data-state="completed"] .stageCopy small {
+  justify-self: start;
+  width: fit-content;
+  border-radius: 8px;
+  padding: 2px 7px;
+  background: rgba(255,252,238,.93);
+}
+@media (max-width: 760px) {
+  .stageNode[data-state="locked"], .stageNode[data-state="completed"] {
+    width: min(96%,310px);
+    grid-template-columns: 48px minmax(0,1fr) 19px;
+    gap: 6px;
+    padding: 8px 5px;
+  }
+  .stageNode[data-state="locked"] .stageEmoji, .stageNode[data-state="completed"] .stageEmoji {
+    width: 46px; height: 46px; font-size: 1.7rem;
+  }
+}
+@media (max-width: 360px) {
+  .stageNode[data-state="locked"], .stageNode[data-state="completed"] { grid-template-columns: 41px minmax(0,1fr) 17px; gap: 4px; }
+  .stageNode[data-state="locked"] .stageEmoji, .stageNode[data-state="completed"] .stageEmoji {
+    width: 39px; height: 39px; font-size: 1.4rem;
+  }
+}
