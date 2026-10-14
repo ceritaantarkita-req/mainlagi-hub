@@ -22,7 +22,17 @@ const ROUTES = [
   { name: "public-root", path: "/", expectedPath: "/" },
   { name: "child-select", path: "/child/select", expectedPath: "/child/select", kind: "child-select", touch: true },
   { name: "child-home", path: "/child/demo-gian/home", expectedPath: "/child/demo-gian/home", kind: "child-learning", touch: true },
+  // All nine canonical Belajar Journey Maps need their own real screenshot,
+  // rather than inferring scene fidelity from the Math route alone.
+  { name: "subject-bahasa", path: "/child/demo-gian/subject/bahasa", expectedPath: "/child/demo-gian/subject/bahasa", kind: "child-learning", touch: true },
+  { name: "subject-english", path: "/child/demo-gian/subject/english", expectedPath: "/child/demo-gian/subject/english", kind: "child-learning", touch: true },
   { name: "subject-math", path: "/child/demo-gian/subject/math", expectedPath: "/child/demo-gian/subject/math", kind: "child-learning", touch: true },
+  { name: "subject-iqro", path: "/child/demo-gian/subject/iqro", expectedPath: "/child/demo-gian/subject/iqro", kind: "child-learning", touch: true },
+  { name: "subject-letters", path: "/child/demo-gian/subject/letters", expectedPath: "/child/demo-gian/subject/letters", kind: "child-learning", touch: true },
+  { name: "subject-logic", path: "/child/demo-gian/subject/logic", expectedPath: "/child/demo-gian/subject/logic", kind: "child-learning", touch: true },
+  { name: "subject-science", path: "/child/demo-gian/subject/science", expectedPath: "/child/demo-gian/subject/science", kind: "child-learning", touch: true },
+  { name: "subject-color", path: "/child/demo-gian/subject/color", expectedPath: "/child/demo-gian/subject/color", kind: "child-learning", touch: true },
+  { name: "subject-drawing", path: "/child/demo-gian/subject/drawing", expectedPath: "/child/demo-gian/subject/drawing", kind: "child-learning", touch: true },
   { name: "stage-math-angka", path: "/child/demo-gian/stage/math-angka", expectedPath: "/child/demo-gian/stage/math-angka", kind: "child-learning", touch: true },
 
   { name: "activity-math-count", path: "/child/demo-gian/activity/math-count-3", expectedPath: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
@@ -128,6 +138,38 @@ async function assertChildHomeVisualFirst(page, viewport) {
   assert.equal(await choices.count(), 3, `child home must preserve three subject/domain entry choices at ${viewport.width}px`);
   const widths = await choices.evaluateAll((elements) => elements.map((element) => element.getBoundingClientRect().width));
   assert.ok(widths.every((width) => width >= 70), `child experience cards too narrow at ${viewport.width}px: ${JSON.stringify(widths)}`);
+}
+
+async function assertNineSubjectJourneyArtwork(page, viewport, subjectId) {
+  const root = page.locator(`[data-belajar-journey-map="v1"][data-journey-subject="${subjectId}"]`);
+  await root.waitFor({ state: "visible" });
+  const stages = root.locator("[data-journey-stage]");
+  const total = await stages.count();
+  assert.ok(total >= 4 && total <= 8, `${subjectId} Journey stage count unexpected at ${viewport.width}px: ${total}`);
+  assert.equal(await root.locator("[data-journey-browse-all] li").count(), 100,
+    `${subjectId} must retain 100 catalog entries at ${viewport.width}px`);
+  const geometry = await root.evaluate((node) => {
+    const track = node.querySelector("[data-journey-map-track]");
+    const shell = track?.parentElement;
+    return {
+      viewportWidth: document.documentElement.clientWidth,
+      scrollWidth: document.documentElement.scrollWidth,
+      scene: shell ? getComputedStyle(shell).backgroundImage : "",
+      stateCount: Array.from(node.querySelectorAll("[data-journey-stage]")).reduce((acc, element) => {
+        const state = element.getAttribute("data-state") ?? "unknown";
+        acc[state] = (acc[state] ?? 0) + 1;
+        return acc;
+      }, {})
+    };
+  });
+  assert.ok(geometry.scrollWidth <= geometry.viewportWidth + 1,
+    `${subjectId} Journey overflows phone/desktop at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+  assert.match(geometry.scene, /\\/artwork\\/backgrounds\\/.*\\.webp/,
+    `${subjectId} Journey lost approved subject-specific art at ${viewport.width}px`);
+  assert.ok(Object.keys(geometry.stateCount).every((state) => ["completed", "current", "open", "locked"].includes(state)),
+    `${subjectId} Journey unknown stage states at ${viewport.width}px: ${JSON.stringify(geometry.stateCount)}`);
+  assert.ok((geometry.stateCount.current ?? 0) + (geometry.stateCount.completed ?? 0) + (geometry.stateCount.open ?? 0) >= 1,
+    `${subjectId} Journey has no usable starting stage at ${viewport.width}px`);
 }
 
 async function assertSubjectJourneyLayout(page, viewport) {
@@ -460,6 +502,9 @@ async function inspect(page, route, viewport) {
       await assertParentReportPrimaryCopy(page, viewport);
     }
     if (route.name === "child-home") await assertChildHomeVisualFirst(page, viewport);
+    if (route.name.startsWith("subject-")) {
+      await assertNineSubjectJourneyArtwork(page, viewport, route.name.slice("subject-".length));
+    }
     if (route.name === "subject-math") await assertSubjectJourneyLayout(page, viewport);
     if (route.name === "stage-math-angka") await assertStageHierarchy(page, viewport);
     if (route.name === "activity-matching") await assertMatchingFocusVisual(page, viewport);
@@ -535,7 +580,11 @@ async function inspect(page, route, viewport) {
     assert.deepEqual(unexpectedErrors, [], `${route.name} logged console errors: ${unexpectedErrors.join(" | ")}`);
 
     const fileName = `${viewport.width}x${viewport.height}-${route.name}.png`;
-    await page.screenshot({ path: path.join(outputDir, fileName), fullPage: false });
+    // Full-page subject captures expose *all* stage landmarks, not only first fold.
+    await page.screenshot({
+      path: path.join(outputDir, fileName),
+      fullPage: route.name.startsWith("subject-")
+    });
     return {
       viewport: `${viewport.width}x${viewport.height}`,
       name: route.name,
