@@ -213,6 +213,50 @@ async function assertSubjectJourneyLayout(page, viewport) {
   await detail.waitFor({ state: "hidden" });
 }
 
+// The Math matching route belongs to the second Math stage (math-pola).
+// Browser QA must supply qualifying evidence from both REQUIRED math-angka
+// skills, not disable the real stage progression guard for children.
+async function seedMathMatchingPrerequisites(context) {
+  await context.addInitScript(() => {
+    const childId = "demo-gian";
+    const prerequisites = [
+      { activityId: "math-count-3", runtime: "tap_choice", skillId: "math.count.1_3" },
+      { activityId: "math-trace-5-touch", runtime: "guided_trace", skillId: "math.numeral.5.formation" }
+    ];
+    localStorage.setItem("mainlagi-learning-progress-v1", JSON.stringify({
+      [childId]: {
+        completedActivityIds: prerequisites.map((item) => item.activityId),
+        stars: 0,
+        lastActivityId: "math-trace-5-touch"
+      }
+    }));
+    localStorage.setItem("mainlagi-learning-attempts-v1", JSON.stringify({
+      [childId]: prerequisites.map((item, index) => {
+        const id = `vqa05-math-prereq-${index}`;
+        const completedAt = `2026-10-13T10:0${index}:00.000Z`;
+        return {
+          id, childId, activityId: item.activityId,
+          subjectId: "math", stageId: "math-angka",
+          runtime: item.runtime, difficulty: 1,
+          status: "completed", assessed: true,
+          score: 1, accuracy: 1,
+          correctCount: 2, incorrectCount: 0,
+          hintCount: 0, retryCount: 0,
+          durationMs: 1000, inputMode: "touch",
+          startedAt: completedAt, completedAt,
+          metadata: { source: "vqa05-matching-math-prerequisite-only" },
+          evidence: [{
+            attemptId: id, activityId: item.activityId, skillId: item.skillId,
+            score: 1, weight: 1, createdAt: completedAt,
+            qualifiesForMastery: true
+          }],
+          masteryEligible: true
+        };
+      })
+    }));
+  });
+}
+
 async function assertMatchingFocusVisual(page, viewport, expectedVisual = "language") {
   const frame = page.locator('[data-activity-frame="garden"]');
   assert.equal(await frame.getAttribute("data-activity-presentation"), "matching-focus-v2", `matching Garden focus missing at ${viewport.width}px`);
@@ -652,7 +696,22 @@ async function main() {
     for (const viewport of VIEWPORTS) {
       const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
       const page = await context.newPage();
-      for (const route of ROUTES) captures.push(await inspect(page, route, viewport));
+      for (const route of ROUTES) {
+        if (route.name === "activity-matching-math") {
+          // Isolate progress/attempt fixtures so later routes still run with
+          // a genuinely fresh Gian profile. No production unlock bypass.
+          const readyContext = await browser.newContext({ viewport, reducedMotion: "reduce" });
+          try {
+            await seedMathMatchingPrerequisites(readyContext);
+            const readyPage = await readyContext.newPage();
+            captures.push(await inspect(readyPage, route, viewport));
+          } finally {
+            await readyContext.close();
+          }
+        } else {
+          captures.push(await inspect(page, route, viewport));
+        }
+      }
       await context.close();
       console.log(`Visual product baseline passed at ${viewport.width}x${viewport.height}.`);
     }
