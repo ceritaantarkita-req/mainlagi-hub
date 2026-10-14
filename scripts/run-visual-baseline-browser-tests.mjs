@@ -154,7 +154,7 @@ async function assertSubjectJourneyLayout(page, viewport) {
     emojiSurface: getComputedStyle(node.querySelector('[class*="stageEmoji"]')).backgroundColor
   }));
   assert.match(landmark.surface, /linear-gradient/, `Math trail landmark lost its distinct material at ${viewport.width}px`);
-  assert.match(landmark.emojiSurface, /rgba?\\(0,\\s*0,\\s*0,\\s*0\\)/,
+  assert.match(landmark.emojiSurface, /rgba?\(0,\s*0,\s*0,\s*0\)/,
     `Math trail reintroduced nested square emoji cards at ${viewport.width}px`);
   await journey.locator("[data-journey-stage]").first().click();
   const detail = page.locator("[data-stage-detail-open]");
@@ -194,7 +194,7 @@ async function assertMatchingFocusVisual(page, viewport) {
   assert.equal(await game.locator("[data-match-column]").count(), 2, `matching two-column semantics changed at ${viewport.width}px`);
   assert.equal(await frame.locator("[data-character-layer]").count(), 1, `matching lost canonical character layer at ${viewport.width}px`);
   const sceneWash = await frame.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
-  const overlayAlphas = Array.from(sceneWash.matchAll(/rgba\\(\\s*\\d+,\\s*\\d+,\\s*\\d+,\\s*([0-9]*\\.?[0-9]+)\\s*\\)/g),
+  const overlayAlphas = Array.from(sceneWash.matchAll(/rgba\(\s*\d+,\s*\d+,\s*\d+,\s*([0-9]*\.?[0-9]+)\s*\)/g),
     (match) => Number(match[1]));
   assert.ok(overlayAlphas.length >= 2 && Math.max(...overlayAlphas) <= .2,
     `matching Garden background must not be covered by a pale full-scene wash at ${viewport.width}px: ${sceneWash}`);
