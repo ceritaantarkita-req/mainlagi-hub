@@ -177,11 +177,13 @@ function MatchingActivity({ childId, activity, onDone }: { childId: string; acti
         {renderColumn("left", layout.left)}
         {renderColumn("right", layout.right)}
       </div>
-      <div role="status" aria-live="polite" data-match-feedback={feedbackTone} className={styles.matchingFeedback}>{message}</div>
-      <details className={styles.matchingInstructions} data-match-instructions>
-        <summary>{isEnglish ? "Read instructions" : "Baca petunjuk"}</summary>
-        <p data-match-canonical-prompt>{activity.prompt ?? activity.title}</p>
-      </details>
+      <div className={styles.matchingGuidance} data-match-guidance>
+        <div role="status" aria-live="polite" data-match-feedback={feedbackTone} className={styles.matchingFeedback}>{message}</div>
+        <details className={styles.matchingInstructions} data-match-instructions>
+          <summary>{isEnglish ? "Read instructions" : "Baca petunjuk"}</summary>
+          <p data-match-canonical-prompt>{activity.prompt ?? activity.title}</p>
+        </details>
+      </div>
     </div>
     {completed ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
   </section>;
