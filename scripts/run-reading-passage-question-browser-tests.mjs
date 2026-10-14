@@ -121,6 +121,36 @@ async function inspect(viewport){
     assert.equal(await question.count(),1,"literal question renders separately from passage");
     assert.equal((await passage.textContent())?.includes("Lala punya kucing putih."),true,"passage keeps canonical text");
     assert.equal((await question.textContent())?.includes("Apa warna kucing Lala?"),true,"question keeps canonical text");
+    // VQA-04: passage and question are separate accessible content regions
+    // inside one child-friendly book page, not two boxed dashboard cards.
+    const book = page.locator("[data-reading-storybook]");
+    assert.equal(await book.count(), 1, "reading storybook must wrap canonical passage and question");
+    const bookVisual = await book.evaluate((node) => {
+      const passage = node.querySelector("[data-reading-passage]");
+      const question = node.querySelector("[data-reading-question]");
+      return {
+        children: node.children.length,
+        bookBackground: getComputedStyle(node).backgroundImage,
+        bookBorder: parseFloat(getComputedStyle(node).borderTopWidth),
+        passageBackground: getComputedStyle(passage).backgroundColor,
+        questionBackground: getComputedStyle(question).backgroundColor,
+        passageBorder: parseFloat(getComputedStyle(passage).borderTopWidth),
+        questionDivider: parseFloat(getComputedStyle(question).borderTopWidth),
+        bookRight: node.getBoundingClientRect().right
+      };
+    });
+    const transparent = /^(?:transparent|rgba\(0,\s*0,\s*0,\s*0\))$/;
+    assert.equal(bookVisual.children, 2, "reading book keeps separate article and question semantics");
+    assert.match(bookVisual.bookBackground, /linear-gradient/,
+      `reading book lost its warm paper surface at ${viewport.width}px`);
+    assert.ok(bookVisual.bookBorder >= 1, `reading book has no border at ${viewport.width}px`);
+    assert.match(bookVisual.passageBackground, transparent,
+      `reading passage reverted to stacked cards at ${viewport.width}px`);
+    assert.match(bookVisual.questionBackground, transparent,
+      `reading question reverted to stacked cards at ${viewport.width}px`);
+    assert.equal(bookVisual.passageBorder, 0, `reading passage nested border returned at ${viewport.width}px`);
+    assert.ok(bookVisual.questionDivider >= 1, `reading question separator missing at ${viewport.width}px`);
+
 
     const choices=page.locator("[data-reading-answer]");
     assert.equal(await choices.count(),3,"reading-passage keeps three canonical choices");
