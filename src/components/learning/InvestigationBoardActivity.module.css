@@ -391,3 +391,46 @@
     transition: none;
   }
 }
+
+/* VQA-04: one readable process ribbon instead of four equal-weight cards,
+   with the scenario and current task as the only two evidence panels.
+   Does not change investigation steps, copy, choices, or response states. */
+.processRail {
+  align-items: stretch;
+  gap: 4px;
+  padding: 5px;
+  border: 1px solid rgba(58, 106, 81, .16);
+  border-radius: 18px;
+  background: rgba(255, 252, 239, .94);
+  box-shadow: 0 5px 14px rgba(38, 75, 53, .09);
+}
+.processStep {
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  box-shadow: none;
+  line-height: 1.15;
+}
+.processActive {
+  color: #174f3e;
+  background: #daf0db;
+  outline: 2px solid rgba(55, 112, 74, .50);
+  outline-offset: -2px;
+  box-shadow: none;
+}
+.board {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+}
+@media (max-width: 640px) {
+  .processRail { gap: 2px; padding: 4px; border-radius: 16px; }
+  .processStep { min-height: 40px; padding: 5px 3px; border-radius: 10px; font-size: .75rem; }
+  .board { padding: 0; gap: 7px; }
+}
+@media (max-width: 360px) {
+  .processStep { padding: 5px 2px; font-size: .70rem; }
+  .board { padding: 0; }
+}

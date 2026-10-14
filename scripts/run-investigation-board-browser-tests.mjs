@@ -114,6 +114,34 @@ async function inspect(viewport){
     const scene=page.locator("[data-investigation-board]");
     assert.equal(await scene.getAttribute("data-investigation-mode"),"observe");
     assert.equal(await page.locator("[data-investigation-step='observe'][aria-current='step']").count(),1,"representative activity highlights observe step");
+    // VQA04: four canonical process labels share one continuous ribbon;
+    // the scenario and task panels are not nested inside another white card.
+    const hierarchy = await scene.evaluate((node) => {
+      const rail = node.querySelector('[class*="processRail"]');
+      const board = node.querySelector('[class*="board"]');
+      const active = node.querySelector('[data-investigation-step="observe"]');
+      const inactive = node.querySelector('[data-investigation-step="control"]');
+      return {
+        steps: node.querySelectorAll("[data-investigation-step]").length,
+        railBackground: getComputedStyle(rail).backgroundColor,
+        boardBackground: getComputedStyle(board).backgroundColor,
+        boardBorderPx: parseFloat(getComputedStyle(board).borderTopWidth),
+        inactiveBackground: getComputedStyle(inactive).backgroundColor,
+        activeBackground: getComputedStyle(active).backgroundColor
+      };
+    });
+    const transparentSurface = /^(?:transparent|rgba\(0,\s*0,\s*0,\s*0\))$/;
+    assert.equal(hierarchy.steps, 4, `investigation step count drift at ${viewport.width}px`);
+    assert.doesNotMatch(hierarchy.railBackground, transparentSurface,
+      `investigation process ribbon lost readable backing at ${viewport.width}px`);
+    assert.match(hierarchy.inactiveBackground, transparentSurface,
+      `investigation inactive process steps returned to four cards at ${viewport.width}px`);
+    assert.notEqual(hierarchy.activeBackground, hierarchy.inactiveBackground,
+      `investigation active step lost focus at ${viewport.width}px`);
+    assert.match(hierarchy.boardBackground, transparentSurface,
+      `investigation evidence board has a redundant outer card at ${viewport.width}px`);
+    assert.equal(hierarchy.boardBorderPx, 0, `investigation outer board has a redundant border at ${viewport.width}px`);
+
     assert.equal(await page.getByText("Tanaman A: air sama + mendapat cahaya").count(),1);
     assert.equal(await page.getByText("Tanaman B: air sama + tanpa cahaya").count(),1);
     assert.equal(await page.getByText("Yang perlu dibandingkan").count(),1);
