@@ -150,6 +150,15 @@ async function inspect(viewport){
       `reading question reverted to stacked cards at ${viewport.width}px`);
     assert.equal(bookVisual.passageBorder, 0, `reading passage nested border returned at ${viewport.width}px`);
     assert.ok(bookVisual.questionDivider >= 1, `reading question separator missing at ${viewport.width}px`);
+    const instructionBackground = await page.locator('[data-reading-passage-question] [class*="introCard"]').evaluate(
+      (node) => getComputedStyle(node).backgroundColor
+    );
+    const instructionRgba = (instructionBackground.match(/[0-9]*\\.?[0-9]+/g) ?? []).map(Number);
+    assert.ok(instructionRgba.length >= 3 &&
+      instructionRgba.slice(0, 3).every((channel) => channel >= 230) &&
+      (instructionRgba[3] ?? 1) >= .90,
+      `reading instruction must have a light, sufficiently opaque backing over Garden art at ${viewport.width}px: ${instructionBackground}`);
+
 
 
     const choices=page.locator("[data-reading-answer]");
