@@ -8,7 +8,7 @@ Source audit finds a leftover distinct text surface: `ChoiceActivity` renders it
 ## Minimal implementation
 - Modify only the CSS class `.playHint` used by fallback `ChoiceActivity`; add near-opaque cream background, dark ink, balanced 8px/16px padding, and cap vertical gap to 28px desktop / 18px mobile.
 - Add `data-belajar-choice-hint` marker for a stable visual-test target; no spoken prompt or gameplay content changes.
-- Extend PR #495's existing `assertTapChoiceGeometry` for `english-find-blue` at 320px, 430px, and 1440px. Verify exact answer-free localized hint, paper color/opacity, readable text size, <=62px answer-to-hint separation, no viewport clipping or horizontal overflow.
+- Extend PR #495's existing `assertTapChoiceGeometry` for both `english-find-blue` (English) and `science-living-cat` (Indonesian) at 320px, 430px, and 1440px. Verify exact answer-free localized hint, paper color/opacity, readable text size, <=62px answer-to-hint separation, no viewport clipping or horizontal overflow.
 - Use the same CSS class for English and Indonesian `ChoiceActivity` fallback. Do **not** claim testing all 900 activities or authoring variants.
 
 ## Safety
