@@ -39,6 +39,8 @@ const ROUTES = [
   { name: "activity-english-blue", path: "/child/demo-gian/activity/english-find-blue", expectedPath: "/child/demo-gian/activity/english-find-blue", kind: "child-learning", touch: true },
   { name: "stage-drawing", path: "/child/demo-gian/stage/drawing-lines-shapes-basics", expectedPath: "/child/demo-gian/stage/drawing-lines-shapes-basics", kind: "child-learning", touch: true },
   { name: "activity-matching", path: "/child/demo-gian/activity/bahasa-pasang-awal", expectedPath: "/child/demo-gian/activity/bahasa-pasang-awal", kind: "child-learning", touch: true },
+  { name: "activity-matching-math", path: "/child/demo-gian/activity/math-pattern-touch", expectedPath: "/child/demo-gian/activity/math-pattern-touch", kind: "child-learning", touch: true },
+  { name: "activity-matching-logic", path: "/child/demo-gian/activity/logic-match-pairs", expectedPath: "/child/demo-gian/activity/logic-match-pairs", kind: "child-learning", touch: true },
   { name: "rewards", path: "/child/demo-gian/rewards", expectedPath: "/child/demo-gian/rewards", kind: "child-learning", touch: true },
   { name: "parent-report", path: "/parent/children/demo-gian/reports", expectedPath: "/parent/children/demo-gian/reports", kind: "parent" },
   { name: "account", path: "/account", expectedPath: "/account" },
@@ -211,11 +213,42 @@ async function assertSubjectJourneyLayout(page, viewport) {
   await detail.waitFor({ state: "hidden" });
 }
 
-async function assertMatchingFocusVisual(page, viewport) {
+async function assertMatchingFocusVisual(page, viewport, expectedVisual = "language") {
   const frame = page.locator('[data-activity-frame="garden"]');
   assert.equal(await frame.getAttribute("data-activity-presentation"), "matching-focus-v2", `matching Garden focus missing at ${viewport.width}px`);
   const game = page.locator('[data-match-experience="visual-first-v2"]');
   assert.equal(await game.count(), 1, `matching visual-first surface missing at ${viewport.width}px`);
+  assert.equal(await game.getAttribute("data-match-visual"), expectedVisual,
+    `matching subject-specific visual skin drifted at ${viewport.width}px`);
+  const style = await game.evaluate((node) => {
+    const surface = node.querySelector('[class*="matchingSurface"]');
+    const button = node.querySelector("[data-match-card]");
+    const sideLabels = node.querySelector('[class*="matchingSideLabels"]');
+    return {
+      surfaceBackground: getComputedStyle(surface).backgroundColor,
+      surfaceBorder: parseFloat(getComputedStyle(surface).borderTopWidth),
+      surfaceShadow: getComputedStyle(surface).boxShadow,
+      sideLabelDisplay: getComputedStyle(sideLabels).display,
+      buttonColor: getComputedStyle(button).backgroundColor,
+      buttonRadius: getComputedStyle(button).borderTopLeftRadius
+    };
+  });
+  assert.match(style.surfaceBackground, /^rgba\\(0,\\s*0,\\s*0,\\s*0\\)$/,
+    `matching must not stack a full white panel over the playfield at ${viewport.width}px`);
+  assert.equal(style.surfaceBorder, 0,
+    `matching must not restore a large enclosing rectangle at ${viewport.width}px`);
+  assert.equal(style.surfaceShadow, "none",
+    `matching must not restore large panel shadow at ${viewport.width}px`);
+  assert.equal(style.sideLabelDisplay, "none",
+    `matching must not repeat decorative ①② above the actual game pieces at ${viewport.width}px`);
+  const expectedPieceColor = {
+    math: "rgb(255, 241, 201)",
+    logic: "rgb(240, 250, 255)",
+    language: "rgb(255, 254, 246)"
+  }[expectedVisual];
+  assert.equal(style.buttonColor, expectedPieceColor,
+    `matching ${expectedVisual} game pieces lost subject-specific contrast at ${viewport.width}px`);
+
   const cards = game.locator("[data-match-card]");
   assert.equal(await cards.count(), 4, `matching card count drifted at ${viewport.width}px`);
   const progress = game.locator("[data-match-progress]");
@@ -507,7 +540,11 @@ async function inspect(page, route, viewport) {
     }
     if (route.name === "subject-math") await assertSubjectJourneyLayout(page, viewport);
     if (route.name === "stage-math-angka") await assertStageHierarchy(page, viewport);
-    if (route.name === "activity-matching") await assertMatchingFocusVisual(page, viewport);
+    if (route.name.startsWith("activity-matching")) {
+      await assertMatchingFocusVisual(page, viewport,
+        route.name === "activity-matching-math" ? "math"
+          : route.name === "activity-matching-logic" ? "logic" : "language");
+    }
     if (route.name === "activity-english-blue") {
       assert.equal(await page.getByText("Tap your answer!", { exact: true }).count(), 1,
         `English Choice child hint must be localized at ${viewport.width}px`);
