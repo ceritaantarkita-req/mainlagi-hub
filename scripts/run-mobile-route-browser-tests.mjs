@@ -1046,21 +1046,31 @@ async function main() {
     // Shared fallback tap_choice layout must be driven by runtime presentation,
     // never by the length of a translated prompt. Previous generic "spacious"
     // triggered 110px headlines and 190px grid top margin on desktop.
-    const assertTapChoiceGeometry = async (page, viewport) => {
+    const assertTapChoiceGeometry = async (page, viewport, expectedHint = "Tap your answer!") => {
       const geometry = await page.evaluate(() => {
         const frame = document.querySelector('[data-activity-frame="garden"]');
         const play = frame?.querySelector('[data-character-safe-content]');
         const title = play?.querySelector("h1");
         const choices = play?.querySelector("[data-choices]");
-        if (!frame || !play || !title || !choices) return null;
+        const hint = play?.querySelector("[data-belajar-choice-hint]");
+        if (!frame || !play || !title || !choices || !hint) return null;
         const titleBox = title.getBoundingClientRect();
         const choiceBox = choices.getBoundingClientRect();
+        const hintBox = hint.getBoundingClientRect();
+        const hintStyle = getComputedStyle(hint);
         return {
           hasSpacious: [...play.classList].some((name) => /spacious/i.test(name)),
           titlePx: parseFloat(getComputedStyle(title).fontSize),
           titleBottom: titleBox.bottom,
           choiceTop: choiceBox.top,
           choiceCount: choices.querySelectorAll("button").length,
+          choiceBottom: choiceBox.bottom,
+          hintTop: hintBox.top,
+          hintLeft: hintBox.left,
+          hintRight: hintBox.right,
+          hintText: hint.textContent?.trim(),
+          hintBackground: hintStyle.backgroundColor,
+          hintFont: parseFloat(hintStyle.fontSize),
           rootWidth: document.documentElement.scrollWidth,
           viewportWidth: document.documentElement.clientWidth
         };
@@ -1071,6 +1081,18 @@ async function main() {
       const gap = geometry.choiceTop - geometry.titleBottom;
       assert.ok(gap >= -2 && gap <= 130, `tap_choice choices are displaced from prompt at ${viewport.width}px: ${JSON.stringify(geometry)}`);
       assert.equal(geometry.choiceCount, 3, `tap_choice retains 3 options at ${viewport.width}px`);
+      // Fallback ChoiceActivity owns this prompt; GardenFrame.hint CSS does not
+      // reach it. Protect legibility, hierarchy and localization across artwork.
+      assert.equal(geometry.hintText, expectedHint, `fallback hint must remain localized and answer-free at ${viewport.width}px`);
+      assert.match(geometry.hintBackground, /^rgba?\(255,\s*252,\s*240,\s*0\.96\)$/,
+        `tap_choice hint must have a readable paper surface at ${viewport.width}px`);
+      assert.ok(geometry.hintFont >= 16 && geometry.hintFont <= 32,
+        `tap_choice hint must remain comfortably sized at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+      const hintGap = geometry.hintTop - geometry.choiceBottom;
+      assert.ok(hintGap >= -2 && hintGap <= 62,
+        `tap_choice hint must follow answers without a large empty gap at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+      assert.ok(geometry.hintLeft >= -2 && geometry.hintRight <= geometry.viewportWidth + 2,
+        `tap_choice hint must stay inside viewport at ${viewport.width}px: ${JSON.stringify(geometry)}`);
       assert.ok(geometry.rootWidth <= geometry.viewportWidth + 2,
         `tap_choice horizontal overflow at ${viewport.width}px: ${JSON.stringify(geometry)}`);
     };
@@ -1927,7 +1949,16 @@ async function main() {
       const page = await context.newPage();
       for (const [runtime, routePath] of RUNTIME_ROUTES) {
         await inspectPage(page, { path: routePath, kind: "child-learning", touch: true }, viewport);
-        if (runtime === "tap_choice") await assertTapChoiceGeometry(page, viewport);
+        if (runtime === "tap_choice") {
+          await assertTapChoiceGeometry(page, viewport);
+          // Science exercises the same fallback hint in Bahasa Indonesia,
+          // whereas English exercises the translated copy and its own artwork.
+          await inspectPage(page, {
+            path: "/child/demo-gian/activity/science-living-cat",
+            kind: "child-learning", touch: true
+          }, viewport);
+          await assertTapChoiceGeometry(page, viewport, "Sentuh pilihanmu.");
+        }
         if (runtime === "matching") {
           const frame = page.locator('[data-activity-presentation="matching-focus-v2"]');
           assert.equal(await frame.count(), 1, `Matching focus missing at ${width}px`);
@@ -1965,7 +1996,12 @@ async function main() {
           path: path.join(screenshotDir, "tap-choice-no-spacious-1440.png"),
           fullPage: false
         });
-        console.log("Fallback tap_choice geometry PASS at desktop 1440px.");
+        await inspectPage(page, {
+          path: "/child/demo-gian/activity/science-living-cat",
+          kind: "child-learning", touch: true
+        }, viewport);
+        await assertTapChoiceGeometry(page, viewport, "Sentuh pilihanmu.");
+        console.log("Fallback English/Indonesian tap_choice paper hint geometry PASS at desktop 1440px.");
       } finally {
         await context.close();
       }

@@ -1618,7 +1618,23 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
 .choiceGrid { gap:24px; margin:40px auto; width:100%; }
 .bigChoice { min-height:clamp(112px,19vw,280px); border:3px solid #e3ddbd; border-radius:80px 80px 50px 50px; background:#fffbed; box-shadow:0 9px 0 #c9cba9; color:#193b55; font-size:clamp(25px,4vw,58px); font-weight:950; padding:18px 12px; overflow-wrap:anywhere; }
 .bigChoice[data-short=true] { font-size:clamp(58px,14vw,210px); line-height:1.05; }
-.playHint { font-weight:850; font-size:clamp(19px,2.2vw,30px); margin:70px auto 0; }
+/* Fallback ChoiceActivity's hint is NOT GardenActivityFrame.hint.
+   Keep it legible over vivid subject artwork and close to its answer tiles. */
+.playHint {
+  width: fit-content;
+  max-width: 100%;
+  margin: clamp(16px, 3vh, 28px) auto 0;
+  padding: 8px 16px;
+  border-radius: 16px;
+  background: rgba(255, 252, 240, .96);
+  color: #193b55;
+  box-shadow: 0 0 0 3px rgba(255, 252, 240, .4);
+  font-weight: 850;
+  font-size: clamp(19px, 2.2vw, 30px);
+  line-height: 1.35;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
 .bigChoice:hover { background:white; border-color:#93baa7; transform:translateY(-3px); }
 .bigChoice:active { transform:translateY(5px); box-shadow:0 3px 0 #c9cba9; }
 .matchButton { background:#fffbed; border:2px solid #d4d9bc; border-radius:22px; color:#193b55; box-shadow:0 5px 0 #c9cba9; min-height:100px; }
@@ -1925,7 +1941,7 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
   .choiceGrid { gap: 10px; margin: 18px auto; }
   .bigChoice { min-height: 102px; border-radius: 25px; padding: 12px 8px; font-size: clamp(26px, 6vw, 42px); }
   .bigChoice[data-short=true] { font-size: clamp(42px, 11vw, 66px); }
-  .playHint { font-size: 15px; margin: 18px auto 0; }
+  .playHint { font-size: 16px; padding: 8px 12px; margin: 18px auto 0; }
   .matchingExperience .matchButton { min-height: 108px; font-size: clamp(35px, 9vw, 52px); }
   .matchingExperience .matchingSurface { padding: 9px; }
 }
