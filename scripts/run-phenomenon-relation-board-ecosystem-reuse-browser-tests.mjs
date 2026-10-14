@@ -169,6 +169,7 @@ async function inspect({viewport,completionMode}){
         observationBorder: parseFloat(getComputedStyle(observation).borderTopWidth),
         observationShadow: getComputedStyle(observation).boxShadow,
         resultBorderStyle: getComputedStyle(result).borderTopStyle,
+        resultBackground: getComputedStyle(result).backgroundColor,
         cueBorder: parseFloat(getComputedStyle(cue).borderTopWidth),
         cueShadow: getComputedStyle(cue).boxShadow,
         cueBackground: getComputedStyle(cue).backgroundColor,
@@ -208,6 +209,11 @@ async function inspect({viewport,completionMode}){
     assert.notEqual(wrong,correctLabel);
     await status.filter({hasText:"Hubungan belum terisi"}).waitFor({state:"visible",timeout:2000});
     await assertVisible(status,viewportHeight,`ecosystem retry status at ${viewport.width}`);
+    const tryBackground = await page.locator("[data-relation-result]").evaluate(
+      (node) => getComputedStyle(node).backgroundColor
+    );
+    assert.notEqual(tryBackground, chrome.resultBackground,
+      `ecosystem wrong relation destination must differ from idle at ${viewport.width}px`);
     assert.equal(await completed(page),false,"wrong ecosystem relation cannot complete");
     assert.equal(await scene.getAttribute("data-relation-resolved"),"false");
     assert.equal(await page.locator("[data-relation-result-label]").textContent(),"Pilih hubungan");
@@ -218,6 +224,11 @@ async function inspect({viewport,completionMode}){
     assert.equal(await completed(page),true);
     assert.equal(await scene.getAttribute("data-relation-resolved"),"true");
     assert.equal(await page.locator("[data-relation-result-label]").textContent(),"air dan cahaya");
+    const successBackground = await page.locator("[data-relation-result]").evaluate(
+      (node) => getComputedStyle(node).backgroundColor
+    );
+    assert.notEqual(successBackground, tryBackground,
+      `ecosystem correct relation target must use success-specific contrast at ${viewport.width}px`);
     const completion=page.locator("[data-activity-completion]");
     await completion.waitFor({state:"visible",timeout:2000});
     const completionBox=await completion.boundingBox();
