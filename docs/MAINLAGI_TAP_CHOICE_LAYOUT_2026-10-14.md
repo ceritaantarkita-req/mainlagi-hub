@@ -8,7 +8,7 @@ Follow-up source audit found `ChildLearningPlatform` still passed `spacious={act
 ## Change
 - Remove the prompt-length `spacious` heuristic from **ChildLearningPlatform** only. Preserve explicit `matchingFocus` and all specialized runtimes' presentation choices.
 - Use standard Garden + `LearningPlatform` title/grid layout, already adaptive for phone and desktop.
-- Add measured browser QA for the known canonical fallback `/child/demo-gian/activity/math-count-3` at 320, 430 and 1440px. Assert no `spacious` class, title <=68px, 3 options, <=130px gap between prompt and options, no horizontal overflow. This does **not** assert visual acceptance for every activity.
+- Add measured browser QA for the known canonical fallback `/child/demo-gian/activity/english-find-blue` at 320, 430 and 1440px. Assert no `spacious` class, title <=68px, 3 options, <=130px gap between prompt and options, no horizontal overflow. The previous mobile smoke labelled `math-count-3` as `tap_choice`, but that activity dispatches to the purpose-built Count & Select renderer. This QA uses the documented SI-06A fallback `english-find-blue` instead. This does **not** assert visual acceptance for every activity.
 
 ## Protected boundaries
 No change to question content, choice ordering, correct answers, assessed evidence, mastery, audio, Supabase, World, Bermain Motion Engine, Shop, illustration art or character assets. Other game families with purpose-built boards are untouched.
