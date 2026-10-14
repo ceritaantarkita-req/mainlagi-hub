@@ -51,7 +51,7 @@ function ChoiceActivity({ childId, activity, onDone }: { childId: string; activi
       ))}
     </div>
     {feedback === "try" ? <div className={styles.feedbackTry} role="status">{activity.subjectId === "english" ? "Try another one!" : "Belum tepat. Coba pilihan lain ya."}</div> : null}
-    <p className={styles.playHint}>{activity.subjectId === "english" ? "Tap your answer!" : "Sentuh pilihanmu."}</p>
+    <p className={styles.playHint} data-belajar-choice-hint>{activity.subjectId === "english" ? "Tap your answer!" : "Sentuh pilihanmu."}</p>
     {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
   </>;
 }
