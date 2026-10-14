@@ -157,6 +157,38 @@ async function inspect({viewport,completionMode}){
       "Pilih hubungan: mainan dan kertas"
     ]);
     assert.equal(await completed(page),false);
+    // VQA-04: reduce four equally prominent white-framed blocks while
+    // retaining the two-sided observation -> unknown-result relation.
+    const chrome = await scene.evaluate((node) => {
+      const observation = node.querySelector("[data-relation-observation]");
+      const result = node.querySelector("[data-relation-result]");
+      const cue = node.querySelector("[data-relation-cue]");
+      const status = node.querySelector('[role="status"]');
+      return {
+        observationBackground: getComputedStyle(observation).backgroundImage,
+        observationBorder: parseFloat(getComputedStyle(observation).borderTopWidth),
+        observationShadow: getComputedStyle(observation).boxShadow,
+        resultBorderStyle: getComputedStyle(result).borderTopStyle,
+        cueBorder: parseFloat(getComputedStyle(cue).borderTopWidth),
+        cueShadow: getComputedStyle(cue).boxShadow,
+        cueBackground: getComputedStyle(cue).backgroundColor,
+        statusBorder: parseFloat(getComputedStyle(status).borderTopWidth),
+        statusShadow: getComputedStyle(status).boxShadow
+      };
+    });
+    assert.match(chrome.observationBackground, /linear-gradient/,
+      `ecosystem visual observation should feel like a green field at ${viewport.width}px`);
+    assert.equal(chrome.observationBorder, 0,
+      `ecosystem observation must not be another outlined card at ${viewport.width}px`);
+    assert.equal(chrome.observationShadow, "none",
+      `ecosystem observation must not cast redundant UI shadow at ${viewport.width}px`);
+    assert.equal(chrome.resultBorderStyle, "dashed",
+      `ecosystem unanswered relation must remain a clear dashed destination at ${viewport.width}px`);
+    assert.equal(chrome.cueBorder, 0, `ecosystem cue must be a light reading strip at ${viewport.width}px`);
+    assert.equal(chrome.cueShadow, "none", `ecosystem cue must not be another elevated card at ${viewport.width}px`);
+    assert.equal(chrome.statusBorder, 0, `ecosystem idle hint must be a light reading strip at ${viewport.width}px`);
+    assert.equal(chrome.statusShadow, "none", `ecosystem idle hint must not be another elevated card at ${viewport.width}px`);
+
 
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
     const viewportHeight=await page.evaluate(()=>window.innerHeight);
