@@ -383,3 +383,72 @@
     transform: none;
   }
 }
+
+/* 14 Oct owner feedback: home is a quick start, not a second text-heavy dashboard.
+   Keep the approved five-character cast and all child/parent destinations. */
+.hero {
+  grid-template-columns: minmax(0, 1fr) minmax(300px, .9fr);
+  gap: clamp(16px, 3vw, 34px);
+  min-height: 285px;
+  background: linear-gradient(110deg, #e7f6df 0%, #daf2e5 59%, #d6f0fb 100%);
+  border-radius: 38px 38px 54px 34px;
+}
+.hero h1 { max-width: 540px; font-size: clamp(39px, 5.4vw, 66px); line-height: 1.07; }
+.lead { max-width: 470px; margin-top: 14px; font-size: clamp(17px, 1.8vw, 22px); }
+.experienceSection { margin-top: 28px; }
+.subjectSection { margin-top: 30px; }
+.experienceGrid { gap: 13px; }
+.experienceCard {
+  grid-template-columns: auto minmax(0,1fr) auto;
+  min-height: 104px;
+  padding: 16px 20px;
+  border: 2px solid #d9e8d0;
+  border-bottom-width: 5px;
+  border-radius: 32px 24px 32px 20px;
+  background: #fff9e9;
+  box-shadow: none;
+}
+.experienceCard:nth-child(2) {
+  border-radius: 22px 36px 24px 32px;
+  border-color: #c8e2e3;
+  background: #edf8fa;
+}
+.experienceCard:nth-child(3) {
+  border-radius: 30px 20px 35px 25px;
+  border-color: #e7dac7;
+  background: #fff5e8;
+}
+.experienceCard strong { font-size: clamp(19px, 2vw, 23px); }
+.experienceIcon { background: rgba(255,255,255,.82); border-radius: 50%; }
+.sectionHead { margin-bottom: 13px; }
+.parentSection {
+  margin-top: 32px;
+  padding: 20px 26px;
+  border-width: 0;
+  border-top: 2px solid #d9e7d9;
+  border-radius: 18px;
+  background: #f3f5e9;
+  box-shadow: none;
+}
+.parentSection h2 { font-size: clamp(24px, 2.6vw, 30px); }
+.parentSection p { max-width: 560px; font-size: 15px; }
+@media (max-width: 900px) {
+  .hero { grid-template-columns: minmax(0,1fr) minmax(230px,.8fr); }
+  .experienceGrid { grid-template-columns: repeat(3,minmax(0,1fr)); }
+  .experienceCard { grid-template-columns: 1fr; justify-items: center; text-align: center; gap: 8px; padding: 14px 6px; }
+  .experienceCard b { display: none; }
+}
+@media (max-width: 760px) {
+  .hero { grid-template-columns: 1fr; padding: 22px 20px; }
+  .experienceGrid { gap: 8px; }
+  .experienceCard { min-height: 106px; border-radius: 22px; }
+  .experienceCard:nth-child(2), .experienceCard:nth-child(3) { border-radius: 22px; }
+  .experienceCard strong { font-size: clamp(13px, 3.6vw, 18px); }
+  .experienceIcon { width: 48px; height: 48px; }
+  .parentSection { padding: 20px; gap: 10px; }
+}
+@media (max-width: 360px) {
+  .experienceCard { min-height: 100px; }
+  .experienceIcon { width: 42px; height: 42px; font-size: 21px; }
+  .experienceCard strong { font-size: 12px; }
+}
