@@ -56,7 +56,7 @@ const ROUTES = [
 ];
 
 const RUNTIME_ROUTES = [
-  ["tap_choice", "/child/demo-gian/activity/math-count-3"],
+  ["tap_choice", "/child/demo-gian/activity/english-find-blue"],
   ["listen_and_choose", "/child/demo-gian/activity/english-find-blue-audio"],
   ["matching", "/child/demo-gian/activity/bahasa-pasang-awal"],
   ["trace", "/child/demo-gian/activity/math-trace-5-touch"],
@@ -1959,7 +1959,7 @@ async function main() {
       const context = await worldAge7Context(browser, { viewport });
       try {
         const page = await context.newPage();
-        await inspectPage(page, { path: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true }, viewport);
+        await inspectPage(page, { path: "/child/demo-gian/activity/english-find-blue", kind: "child-learning", touch: true }, viewport);
         await assertTapChoiceGeometry(page, viewport);
         await page.screenshot({
           path: path.join(screenshotDir, "tap-choice-no-spacious-1440.png"),
