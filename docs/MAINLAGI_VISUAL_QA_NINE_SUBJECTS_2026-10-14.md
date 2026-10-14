@@ -9,7 +9,7 @@
 - Deterministic learning audit: **9 subjects / 900 activities / 900 KEEP / 0 structural findings**. A zero-flag result is **not** a complete child-facing or visual acceptance decision.
 - Gameplay distribution: **900/900 classified, 47 active patterns**. Overall `choice_grid` 174, `visible_matching` 108, `listen_choose` 76, `symbol_hunt` 74, Coloring 100, Drawing 100.
 - Production artifact contained **772 files**, including **78 baseline route screenshots = 26 routes × 3 viewports** (390×844, 768×1024, 1280×800), three Stage-detail-open screenshots, **52 idle activity-family captures at 390px**, plus extensive 320px/768px state/interaction captures and specialized creative previews. Not every capture is an independent activity.
-- Manual inspection included the public entry, child home, Math and Bahasa subject samples, the changed matching and English choice screens, symbol hunt, and contact sheets of all **52** 390px idle family samples. Closer individual inspection included Material Lab, Investigation Board, Rule Pipeline, Initial Sound, Transitive Chain, among others, and the narrow 320px screenshot families.
+- Manual inspection included the public entry, child home, Math subject and owner-supplied Bahasa subject screenshots, the changed matching and English choice screens, symbol hunt, and contact sheets of all **52** 390px idle family samples. Closer individual inspection included Material Lab, Investigation Board, Rule Pipeline, Initial Sound, Transitive Chain, among others, and the narrow 320px screenshot families.
 - The capture set gives broad runtime sampling but **does not establish per-activity human review of all 900**, nor full 9-subject Journey Map screenshots or real-device iOS acceptance.
 - Source inspection covered the live `HomePage`, `BelajarJourneyMap`, `GardenActivityFrame`, `MaterialLabActivity` and `InvestigationBoardActivity`, their CSS, and relevant browser-test contracts. No new assets, World progression, Motion Engine, or learning evidence modified.
 
@@ -17,7 +17,7 @@
 
 | Subject | Activities | Leading classified patterns | Visual QA scope / remaining gap |
 |---|---:|---|---|
-| Bahasa Indonesia | 100 | choice_grid 24, visible_matching 21, listen_choose 20 | Bahasa Journey screenshot and symbol hunt/matching examples. Full stage/state grid and individual copy review open. |
+| Bahasa Indonesia | 100 | choice_grid 24, visible_matching 21, listen_choose 20 | Owner-supplied Bahasa Journey screenshot; CI artifact has a separate text-only Bahasa fixture and symbol hunt/matching examples. Full nine-subject Journey capture remains open. Full stage/state grid and individual copy review open. |
 | English | 100 | listen_choose 27, visible_matching 25, picture_word_match 18 | English choice + picture-word / cloze screenshots inspected. Native audio listening acceptance open. |
 | Matematika | 100 | visible_matching 15, choice_grid 13, number_line 11 | 390/1280 Journey and diverse number/count/operation screenshots. Long-word stage typography still needs broader review. |
 | Iqro | 100 | choice_grid 58, listen_choose 29, visible_matching 12 | Runtime mechanisms covered by shared samples; no complete Iqro-specific stage and human/expert content/audio acceptance. |
@@ -75,7 +75,7 @@ These counts come from the production gameplay-distribution artifact. Dominant C
 1. PR CI all seven blocking gates PASS; inspect the 320 Material Lab screenshot, not just the test status.
 2. Confirm no new 320/390/430 overflow, unexpected word-fragmentation, answer/assessment drift, completion or audio change.
 3. Merge with exact head SHA only if success. Verify merged SHA via Cloudflare smoke and then owner 320px/Safari visual acceptance.
-4. Preserve existing authority: 9 subjects, 46 Stages, 900 activities, real attempts/mastery, nine World boundaries, Motion Engine, Shop, auth/DB, and characters.
+4. Preserve existing authority: 9 subjects, 46 Stages, 900 activities, real attempts/mastery, World boundaries, Motion Engine, Shop, auth/DB, and characters.
 
 ## 5. Suggested next isolated QA waves
 
