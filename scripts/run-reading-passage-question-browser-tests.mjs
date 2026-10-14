@@ -153,7 +153,7 @@ async function inspect(viewport){
     const instructionBackground = await page.locator('[data-reading-passage-question] [class*="introCard"]').evaluate(
       (node) => getComputedStyle(node).backgroundColor
     );
-    const instructionRgba = (instructionBackground.match(/[0-9]*\\.?[0-9]+/g) ?? []).map(Number);
+    const instructionRgba = (instructionBackground.match(/[0-9]*\.?[0-9]+/g) ?? []).map(Number);
     assert.ok(instructionRgba.length >= 3 &&
       instructionRgba.slice(0, 3).every((channel) => channel >= 230) &&
       (instructionRgba[3] ?? 1) >= .90,
