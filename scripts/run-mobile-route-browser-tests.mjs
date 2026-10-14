@@ -56,7 +56,7 @@ const ROUTES = [
 ];
 
 const RUNTIME_ROUTES = [
-  ["tap_choice", "/child/demo-gian/activity/math-count-3"],
+  ["tap_choice", "/child/demo-gian/activity/english-find-blue"],
   ["listen_and_choose", "/child/demo-gian/activity/english-find-blue-audio"],
   ["matching", "/child/demo-gian/activity/bahasa-pasang-awal"],
   ["trace", "/child/demo-gian/activity/math-trace-5-touch"],
@@ -1043,6 +1043,38 @@ async function main() {
       console.log("World Petualangan Uang Stage 1 end-to-end checkpoint passed at 390px.");
     }
 
+    // Shared fallback tap_choice layout must be driven by runtime presentation,
+    // never by the length of a translated prompt. Previous generic "spacious"
+    // triggered 110px headlines and 190px grid top margin on desktop.
+    const assertTapChoiceGeometry = async (page, viewport) => {
+      const geometry = await page.evaluate(() => {
+        const frame = document.querySelector('[data-activity-frame="garden"]');
+        const play = frame?.querySelector('[data-character-safe-content]');
+        const title = play?.querySelector("h1");
+        const choices = play?.querySelector("[data-choices]");
+        if (!frame || !play || !title || !choices) return null;
+        const titleBox = title.getBoundingClientRect();
+        const choiceBox = choices.getBoundingClientRect();
+        return {
+          hasSpacious: [...play.classList].some((name) => /spacious/i.test(name)),
+          titlePx: parseFloat(getComputedStyle(title).fontSize),
+          titleBottom: titleBox.bottom,
+          choiceTop: choiceBox.top,
+          choiceCount: choices.querySelectorAll("button").length,
+          rootWidth: document.documentElement.scrollWidth,
+          viewportWidth: document.documentElement.clientWidth
+        };
+      });
+      assert.ok(geometry, `tap_choice geometry exists at ${viewport.width}px`);
+      assert.equal(geometry.hasSpacious, false, `tap_choice must not use length-driven spacious stage at ${viewport.width}px`);
+      assert.ok(geometry.titlePx <= 68, `tap_choice headline too large at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+      const gap = geometry.choiceTop - geometry.titleBottom;
+      assert.ok(gap >= -2 && gap <= 130, `tap_choice choices are displaced from prompt at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+      assert.equal(geometry.choiceCount, 3, `tap_choice retains 3 options at ${viewport.width}px`);
+      assert.ok(geometry.rootWidth <= geometry.viewportWidth + 2,
+        `tap_choice horizontal overflow at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+    };
+
     for (const width of [320, 430]) {
       const viewport = VIEWPORTS.find((item) => item.width === width);
       assert.ok(viewport, "missing World map viewport " + width);
@@ -1895,6 +1927,7 @@ async function main() {
       const page = await context.newPage();
       for (const [runtime, routePath] of RUNTIME_ROUTES) {
         await inspectPage(page, { path: routePath, kind: "child-learning", touch: true }, viewport);
+        if (runtime === "tap_choice") await assertTapChoiceGeometry(page, viewport);
         if (runtime === "matching") {
           const frame = page.locator('[data-activity-presentation="matching-focus-v2"]');
           assert.equal(await frame.count(), 1, `Matching focus missing at ${width}px`);
@@ -1917,6 +1950,25 @@ async function main() {
         console.log(`Runtime ${runtime} passed responsive smoke at ${width}px.`);
       }
       await context.close();
+    }
+
+    // Desktop regression for the same legacy choice family. Tablet and
+    // specialist runtimes remain covered by their existing route matrices.
+    {
+      const viewport = { width: 1440, height: 900 };
+      const context = await worldAge7Context(browser, { viewport });
+      try {
+        const page = await context.newPage();
+        await inspectPage(page, { path: "/child/demo-gian/activity/english-find-blue", kind: "child-learning", touch: true }, viewport);
+        await assertTapChoiceGeometry(page, viewport);
+        await page.screenshot({
+          path: path.join(screenshotDir, "tap-choice-no-spacious-1440.png"),
+          fullPage: false
+        });
+        console.log("Fallback tap_choice geometry PASS at desktop 1440px.");
+      } finally {
+        await context.close();
+      }
     }
 
     const accessibilityContext = await worldAge7Context(browser,{
