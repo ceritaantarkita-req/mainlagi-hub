@@ -35,13 +35,13 @@ These counts come from the production gameplay-distribution artifact. Dominant C
 
 **None confirmed in the reviewed representative artifact screenshots.** This does not prove P0 absence across all 900 routes or real iPhones.
 
-### P1-01 — Material Lab breaks a word in the main heading at 320px (CONFIRMED)
+### P1-01 — Material Lab nested heading breaks words at 320px **and desktop 1280px** (CONFIRMED)
 
-- Production screenshot: `320-material-lab-idle.png`.
-- Visible output renders **“Laboratoriu” on the first line and “m bahan” on the next**. The available width is insufficient for the icon plus long heading. Standard no-horizontal-overflow checks do not detect this.
+- Production screenshots: `320-material-lab-idle.png` and `1280-material-lab-idle.png`.
+- At 320px, output renders **“Laboratoriu” / “m bahan”**; at 1280px, the inner title renders **“Laboratori” / “um bahan”** with huge 110px glyphs that push gameplay down. This is inherited from the generic `GardenActivityFrame` `spacious` presentation applied to nested `h1`, not a lack of raw viewport width. No-horizontal-overflow checks miss it.
 - Source: `src/components/learning/MaterialLabActivity.tsx`, `MaterialLabActivity.module.css`.
-- Proposed bounded correction in this branch: remove decorative beaker from the cramped prompt row only at ≤350px, preserve complete word wrapping, and assert the first word stays within **one rendered line fragment** in `run-material-lab-browser-tests.mjs`.
-- **Acceptance:** 320px full screenshot has intact “Laboratorium” and “bahan” on natural word boundaries; test remains touch/keyboard/evidence safe at 320/390/430/768/1280. Do not claim success until the PR Chromium gate and screenshot are checked.
+- Proposed bounded correction in this branch: **remove the generic `spacious` prop from Material Lab only**. Keep the existing icon and material-specific CSS; assert the first word remains in **one rendered line fragment** and the nested title stays within a readable 16–34px in `run-material-lab-browser-tests.mjs`.
+- **Acceptance:** 320px and 1280px screens preserve the intact word “Laboratorium”, normal gameplay-sized title, visible exercise board, and existing beaker; tests remain touch/keyboard/evidence safe at 320/390/430/768/1280. Do not claim success until the PR Chromium gate and screenshots are checked.
 
 ### P1-02 — Visual QA representation gap (CONFIRMED PROCESS GAP)
 
@@ -57,7 +57,7 @@ These counts come from the production gameplay-distribution artifact. Dominant C
 
 ### P2-02 — Material Lab first-action visibility at 320/390px (REVIEW CANDIDATE)
 
-- `320-material-lab-idle.png` and `390-material-lab-idle.png`: the test bench/button starts near or below the bottom of the first captured screen. Vertical scroll may be intentional; no clipping or broken interaction is established.
+- `320-material-lab-idle.png` and `390-material-lab-idle.png`: the test bench/button starts near or below the bottom of the first captured screen. Additionally, 1280px before-fix screenshot shows the nested 110px heading crowds the exercise entirely out of the first fold. Removing `spacious` should be re-evaluated against fresh screenshots. Vertical scroll may still be intentional; no clipping or broken interaction is yet established.
 - Measure scroll distance and consider compacting header/bench on narrow screens without shrinking 44px targets.
 
 ### P2-03 — Public child entry first-fold discovery (REVIEW CANDIDATE)
