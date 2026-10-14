@@ -1046,7 +1046,7 @@ async function main() {
     // Shared fallback tap_choice layout must be driven by runtime presentation,
     // never by the length of a translated prompt. Previous generic "spacious"
     // triggered 110px headlines and 190px grid top margin on desktop.
-    const assertTapChoiceGeometry = async (page, viewport) => {
+    const assertTapChoiceGeometry = async (page, viewport, expectedHint = "Tap your answer!") => {
       const geometry = await page.evaluate(() => {
         const frame = document.querySelector('[data-activity-frame="garden"]');
         const play = frame?.querySelector('[data-character-safe-content]');
@@ -1083,7 +1083,7 @@ async function main() {
       assert.equal(geometry.choiceCount, 3, `tap_choice retains 3 options at ${viewport.width}px`);
       // Fallback ChoiceActivity owns this prompt; GardenFrame.hint CSS does not
       // reach it. Protect legibility, hierarchy and localization across artwork.
-      assert.equal(geometry.hintText, "Tap your answer!", "English hint must remain localized and answer-free");
+      assert.equal(geometry.hintText, expectedHint, `fallback hint must remain localized and answer-free at ${viewport.width}px`);
       assert.match(geometry.hintBackground, /^rgba?\(255,\s*252,\s*240,\s*0\.96\)$/,
         `tap_choice hint must have a readable paper surface at ${viewport.width}px`);
       assert.ok(geometry.hintFont >= 16 && geometry.hintFont <= 32,
@@ -1949,7 +1949,16 @@ async function main() {
       const page = await context.newPage();
       for (const [runtime, routePath] of RUNTIME_ROUTES) {
         await inspectPage(page, { path: routePath, kind: "child-learning", touch: true }, viewport);
-        if (runtime === "tap_choice") await assertTapChoiceGeometry(page, viewport);
+        if (runtime === "tap_choice") {
+          await assertTapChoiceGeometry(page, viewport);
+          // Science exercises the same fallback hint in Bahasa Indonesia,
+          // whereas English exercises the translated copy and its own artwork.
+          await inspectPage(page, {
+            path: "/child/demo-gian/activity/science-living-cat",
+            kind: "child-learning", touch: true
+          }, viewport);
+          await assertTapChoiceGeometry(page, viewport, "Sentuh pilihanmu.");
+        }
         if (runtime === "matching") {
           const frame = page.locator('[data-activity-presentation="matching-focus-v2"]');
           assert.equal(await frame.count(), 1, `Matching focus missing at ${width}px`);
@@ -1987,7 +1996,12 @@ async function main() {
           path: path.join(screenshotDir, "tap-choice-no-spacious-1440.png"),
           fullPage: false
         });
-        console.log("Fallback tap_choice geometry PASS at desktop 1440px.");
+        await inspectPage(page, {
+          path: "/child/demo-gian/activity/science-living-cat",
+          kind: "child-learning", touch: true
+        }, viewport);
+        await assertTapChoiceGeometry(page, viewport, "Sentuh pilihanmu.");
+        console.log("Fallback English/Indonesian tap_choice paper hint geometry PASS at desktop 1440px.");
       } finally {
         await context.close();
       }
