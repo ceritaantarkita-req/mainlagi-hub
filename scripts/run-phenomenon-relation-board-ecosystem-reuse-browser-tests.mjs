@@ -157,6 +157,39 @@ async function inspect({viewport,completionMode}){
       "Pilih hubungan: mainan dan kertas"
     ]);
     assert.equal(await completed(page),false);
+    // VQA-04: reduce four equally prominent white-framed blocks while
+    // retaining the two-sided observation -> unknown-result relation.
+    const chrome = await scene.evaluate((node) => {
+      const observation = node.querySelector("[data-relation-observation]");
+      const result = node.querySelector("[data-relation-result]");
+      const cue = node.querySelector("[data-relation-cue]");
+      const status = node.querySelector('[role="status"]');
+      return {
+        observationBackground: getComputedStyle(observation).backgroundImage,
+        observationBorder: parseFloat(getComputedStyle(observation).borderTopWidth),
+        observationShadow: getComputedStyle(observation).boxShadow,
+        resultBorderStyle: getComputedStyle(result).borderTopStyle,
+        resultBackground: getComputedStyle(result).backgroundColor,
+        cueBorder: parseFloat(getComputedStyle(cue).borderTopWidth),
+        cueShadow: getComputedStyle(cue).boxShadow,
+        cueBackground: getComputedStyle(cue).backgroundColor,
+        statusBorder: parseFloat(getComputedStyle(status).borderTopWidth),
+        statusShadow: getComputedStyle(status).boxShadow
+      };
+    });
+    assert.match(chrome.observationBackground, /linear-gradient/,
+      `ecosystem visual observation should feel like a green field at ${viewport.width}px`);
+    assert.equal(chrome.observationBorder, 0,
+      `ecosystem observation must not be another outlined card at ${viewport.width}px`);
+    assert.equal(chrome.observationShadow, "none",
+      `ecosystem observation must not cast redundant UI shadow at ${viewport.width}px`);
+    assert.equal(chrome.resultBorderStyle, "dashed",
+      `ecosystem unanswered relation must remain a clear dashed destination at ${viewport.width}px`);
+    assert.equal(chrome.cueBorder, 0, `ecosystem cue must be a light reading strip at ${viewport.width}px`);
+    assert.equal(chrome.cueShadow, "none", `ecosystem cue must not be another elevated card at ${viewport.width}px`);
+    assert.equal(chrome.statusBorder, 0, `ecosystem idle hint must be a light reading strip at ${viewport.width}px`);
+    assert.equal(chrome.statusShadow, "none", `ecosystem idle hint must not be another elevated card at ${viewport.width}px`);
+
 
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
     const viewportHeight=await page.evaluate(()=>window.innerHeight);
@@ -176,6 +209,11 @@ async function inspect({viewport,completionMode}){
     assert.notEqual(wrong,correctLabel);
     await status.filter({hasText:"Hubungan belum terisi"}).waitFor({state:"visible",timeout:2000});
     await assertVisible(status,viewportHeight,`ecosystem retry status at ${viewport.width}`);
+    const tryBackground = await page.locator("[data-relation-result]").evaluate(
+      (node) => getComputedStyle(node).backgroundColor
+    );
+    assert.notEqual(tryBackground, chrome.resultBackground,
+      `ecosystem wrong relation destination must differ from idle at ${viewport.width}px`);
     assert.equal(await completed(page),false,"wrong ecosystem relation cannot complete");
     assert.equal(await scene.getAttribute("data-relation-resolved"),"false");
     assert.equal(await page.locator("[data-relation-result-label]").textContent(),"Pilih hubungan");
@@ -186,6 +224,11 @@ async function inspect({viewport,completionMode}){
     assert.equal(await completed(page),true);
     assert.equal(await scene.getAttribute("data-relation-resolved"),"true");
     assert.equal(await page.locator("[data-relation-result-label]").textContent(),"air dan cahaya");
+    const successBackground = await page.locator("[data-relation-result]").evaluate(
+      (node) => getComputedStyle(node).backgroundColor
+    );
+    assert.notEqual(successBackground, tryBackground,
+      `ecosystem correct relation target must use success-specific contrast at ${viewport.width}px`);
     const completion=page.locator("[data-activity-completion]");
     await completion.waitFor({state:"visible",timeout:2000});
     const completionBox=await completion.boundingBox();
