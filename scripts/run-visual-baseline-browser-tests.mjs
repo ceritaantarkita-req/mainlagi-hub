@@ -150,12 +150,13 @@ async function assertSubjectJourneyLayout(page, viewport) {
   const visibleOpacity = await locked.first().evaluate((element) => Number(getComputedStyle(element).opacity));
   assert.ok(visibleOpacity >= .85, `Math locked stages are visually washed out at ${viewport.width}px: ${visibleOpacity}`);
   const landmark = await locked.first().evaluate((node) => ({
-    surface: getComputedStyle(node).backgroundImage,
-    emojiSurface: getComputedStyle(node.querySelector('[class*="stageEmoji"]')).backgroundColor
+    surface: getComputedStyle(node).backgroundColor,
+    emojiShape: getComputedStyle(node.querySelector('[class*="stageEmoji"]')).borderTopLeftRadius
   }));
-  assert.match(landmark.surface, /linear-gradient/, `Math trail landmark lost its distinct material at ${viewport.width}px`);
-  assert.match(landmark.emojiSurface, /rgba?\(0,\s*0,\s*0,\s*0\)/,
-    `Math trail reintroduced nested square emoji cards at ${viewport.width}px`);
+  assert.match(landmark.surface, /rgba?\(0,\s*0,\s*0,\s*0\)/,
+    `Math locked destination must be a path marker, not another rectangular card at ${viewport.width}px`);
+  assert.equal(landmark.emojiShape, "50%",
+    `Math trail milestone lost its round landmark artwork at ${viewport.width}px`);
   await journey.locator("[data-journey-stage]").first().click();
   const detail = page.locator("[data-stage-detail-open]");
   await detail.waitFor({ state: "visible" });
