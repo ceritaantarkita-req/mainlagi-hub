@@ -34,9 +34,9 @@ export function HomePage() {
       <section className={styles.hero} aria-labelledby="public-home-title">
         <div className={styles.heroCopy}>
           <p className={styles.hello}>Hai! 👋</p>
-          <h1 id="public-home-title">Belajar, berpetualang, lalu main lagi.</h1>
+          <h1 id="public-home-title">Belajar sambil main!</h1>
           <p className={styles.lead}>
-            Mainlagi menemani anak usia 3–7 tahun belajar sambil bermain.
+            Petualangan seru untuk anak usia 3–7 tahun.
           </p>
           <div className={styles.actions}>
             <Link
@@ -44,14 +44,14 @@ export function HomePage() {
               className={styles.primary}
               data-mainlagi-public-child-cta
             >
-              Mulai untuk anak
+              Ayo mulai
             </Link>
             <Link
               href="/parent"
               className={styles.secondary}
               data-mainlagi-public-parent-cta
             >
-              Area orang tua
+              Untuk orang tua
             </Link>
           </div>
         </div>
@@ -82,39 +82,22 @@ export function HomePage() {
 
       <section className={styles.experienceSection} aria-labelledby="public-experiences-title">
         <div className={styles.sectionHead}>
-          <p className={styles.eyebrow}>Satu Mainlagi</p>
-          <h2 id="public-experiences-title">Mau mulai dari mana?</h2>
-          <p>Pilih pengalaman dulu. Setelah profil anak dipilih, Mainlagi akan melanjutkan perjalanan yang sesuai.</p>
+          <h2 id="public-experiences-title">Mau main apa?</h2>
         </div>
-
         <div className={styles.experienceGrid}>
           <Link className={styles.experienceCard} href="/child/select?continue=1">
             <span className={styles.experienceIcon} aria-hidden>📚</span>
-            <span>
-              <small>Belajar</small>
-              <strong>Pilih pelajaran</strong>
-              <span>Bahasa, matematika, Iqro, sains, logika, kreativitas, dan lainnya.</span>
-            </span>
+            <span><strong>Belajar</strong></span>
             <b aria-hidden>→</b>
           </Link>
-
           <Link className={styles.experienceCard} href="/child/select?continue=1">
             <span className={styles.experienceIcon} aria-hidden>🗺️</span>
-            <span>
-              <small>World</small>
-              <strong>Mulai berpetualang</strong>
-              <span>Cerita dan tantangan yang menyatu dengan pengalaman belajar Mainlagi.</span>
-            </span>
+            <span><strong>Petualangan</strong></span>
             <b aria-hidden>→</b>
           </Link>
-
           <Link className={styles.experienceCard} href="/games">
             <span className={styles.experienceIcon} aria-hidden>🎮</span>
-            <span>
-              <small>Bermain</small>
-              <strong>Main Gerak</strong>
-              <span>Permainan gerak yang bisa dimainkan bersama keluarga.</span>
-            </span>
+            <span><strong>Main Gerak</strong></span>
             <b aria-hidden>→</b>
           </Link>
         </div>
@@ -122,9 +105,7 @@ export function HomePage() {
 
       <section className={styles.subjectSection} aria-labelledby="subjects">
         <div className={styles.sectionHead}>
-          <p className={styles.eyebrow}>Belajar</p>
-          <h2 id="subjects">Pilih yang mau dipelajari</h2>
-          <p>Pilih area belajar untuk menyiapkan profil anak dan melihat aktivitas yang tersedia.</p>
+          <h2 id="subjects">Pilih pelajaran</h2>
         </div>
         <SubjectDirectory />
       </section>
@@ -132,18 +113,14 @@ export function HomePage() {
       <section className={styles.parentSection} aria-labelledby="parent-home-title">
         <div>
           <p className={styles.eyebrow}>Untuk orang tua</p>
-          <h2 id="parent-home-title">Anak bermain. Orang tua tetap tahu perkembangannya.</h2>
+          <h2 id="parent-home-title">Lihat progres anak</h2>
           <p>
-            Mainlagi menyiapkan profil anak, progres, laporan, dan sertifikat. Main Gerak dengan
-            kamera bersifat opsional; perjalanan belajar utama tetap bisa dimainkan tanpa kamera.
+            Profil, laporan, dan sertifikat di satu tempat. Kamera opsional di Main Gerak.
           </p>
         </div>
-        <Link href="/parent" className={styles.secondary}>Buka area orang tua</Link>
+        <Link href="/parent" className={styles.secondary}>Lihat laporan →</Link>
       </section>
 
-      <p className={styles.footnote}>
-        Kalau perangkat ini sudah punya profil anak aktif, Mainlagi akan melanjutkan profil tersebut secara otomatis.
-      </p>
     </main>
   );
 }
