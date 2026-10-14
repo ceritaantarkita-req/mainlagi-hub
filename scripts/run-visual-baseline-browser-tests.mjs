@@ -233,7 +233,7 @@ async function assertMatchingFocusVisual(page, viewport, expectedVisual = "langu
       buttonRadius: getComputedStyle(button).borderTopLeftRadius
     };
   });
-  assert.match(style.surfaceBackground, /^rgba\\(0,\\s*0,\\s*0,\\s*0\\)$/,
+  assert.match(style.surfaceBackground, /^rgba\(0,\s*0,\s*0,\s*0\)$/,
     `matching must not stack a full white panel over the playfield at ${viewport.width}px`);
   assert.equal(style.surfaceBorder, 0,
     `matching must not restore a large enclosing rectangle at ${viewport.width}px`);
