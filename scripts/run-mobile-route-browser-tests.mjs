@@ -1052,15 +1052,25 @@ async function main() {
         const play = frame?.querySelector('[data-character-safe-content]');
         const title = play?.querySelector("h1");
         const choices = play?.querySelector("[data-choices]");
-        if (!frame || !play || !title || !choices) return null;
+        const hint = play?.querySelector("[data-belajar-choice-hint]");
+        if (!frame || !play || !title || !choices || !hint) return null;
         const titleBox = title.getBoundingClientRect();
         const choiceBox = choices.getBoundingClientRect();
+        const hintBox = hint.getBoundingClientRect();
+        const hintStyle = getComputedStyle(hint);
         return {
           hasSpacious: [...play.classList].some((name) => /spacious/i.test(name)),
           titlePx: parseFloat(getComputedStyle(title).fontSize),
           titleBottom: titleBox.bottom,
           choiceTop: choiceBox.top,
           choiceCount: choices.querySelectorAll("button").length,
+          choiceBottom: choiceBox.bottom,
+          hintTop: hintBox.top,
+          hintLeft: hintBox.left,
+          hintRight: hintBox.right,
+          hintText: hint.textContent?.trim(),
+          hintBackground: hintStyle.backgroundColor,
+          hintFont: parseFloat(hintStyle.fontSize),
           rootWidth: document.documentElement.scrollWidth,
           viewportWidth: document.documentElement.clientWidth
         };
@@ -1071,6 +1081,18 @@ async function main() {
       const gap = geometry.choiceTop - geometry.titleBottom;
       assert.ok(gap >= -2 && gap <= 130, `tap_choice choices are displaced from prompt at ${viewport.width}px: ${JSON.stringify(geometry)}`);
       assert.equal(geometry.choiceCount, 3, `tap_choice retains 3 options at ${viewport.width}px`);
+      // Fallback ChoiceActivity owns this prompt; GardenFrame.hint CSS does not
+      // reach it. Protect legibility, hierarchy and localization across artwork.
+      assert.equal(geometry.hintText, "Tap your answer!", "English hint must remain localized and answer-free");
+      assert.match(geometry.hintBackground, /^rgba?\\(255,\\s*252,\\s*240,\\s*0\\.96\\)$/,
+        `tap_choice hint must have a readable paper surface at ${viewport.width}px`);
+      assert.ok(geometry.hintFont >= 16 && geometry.hintFont <= 32,
+        `tap_choice hint must remain comfortably sized at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+      const hintGap = geometry.hintTop - geometry.choiceBottom;
+      assert.ok(hintGap >= -2 && hintGap <= 62,
+        `tap_choice hint must follow answers without a large empty gap at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+      assert.ok(geometry.hintLeft >= -2 && geometry.hintRight <= geometry.viewportWidth + 2,
+        `tap_choice hint must stay inside viewport at ${viewport.width}px: ${JSON.stringify(geometry)}`);
       assert.ok(geometry.rootWidth <= geometry.viewportWidth + 2,
         `tap_choice horizontal overflow at ${viewport.width}px: ${JSON.stringify(geometry)}`);
     };
