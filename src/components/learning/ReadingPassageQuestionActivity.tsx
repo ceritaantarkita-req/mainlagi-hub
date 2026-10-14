@@ -93,14 +93,16 @@ export function ReadingPassageQuestionActivity({ childId, activityId }: { childI
           </div>
         </div>
 
-        <article className={styles.passageCard} data-reading-passage aria-label="Bacaan pendek">
-          <span className={styles.cardLabel}>Bacaan</span>
-          <p>{config.passage}</p>
-        </article>
+        <div className={styles.storyBook} data-reading-storybook>
+          <article className={styles.passageCard} data-reading-passage aria-label="Bacaan pendek">
+            <span className={styles.cardLabel}>Bacaan</span>
+            <p>{config.passage}</p>
+          </article>
 
-        <div className={styles.questionCard} data-reading-question>
-          <span className={styles.cardLabel}>Pertanyaan</span>
-          <p>{config.question}</p>
+          <div className={styles.questionCard} data-reading-question>
+            <span className={styles.cardLabel}>Pertanyaan</span>
+            <p>{config.question}</p>
+          </div>
         </div>
 
         <div className={styles.choiceList} role="group" aria-label={config.question}>
