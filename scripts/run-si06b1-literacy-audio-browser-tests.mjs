@@ -13,7 +13,8 @@ const route="/child/demo-gian/activity/english-find-blue-audio";
 const activityId="english-find-blue-audio";
 const portrait={width:390,height:844};
 const landscape={width:844,height:390};
-const outDir=path.resolve(".mobile-route-qa/si06b1-literacy-audio");
+// Keep this suite separate: run-mobile-route-browser-tests.mjs resets .mobile-route-qa after this test.
+const outDir=path.resolve(".vqa06-audio-first");
 let server=null;
 let serverLog="";
 
