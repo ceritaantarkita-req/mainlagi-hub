@@ -76,12 +76,21 @@ async function verify(viewport){
       assert.equal(await buttons.count(),3);
       assert.deepEqual(await buttons.allTextContents(),choices,"retain full canonical choice content/order");
       assert.equal(await experience.locator("[data-child-choice-help]").count(),0,"secondary help remains hidden initially");
+      mkdirSync(screenshots,{recursive:true});
+      await page.screenshot({path:path.join(screenshots,`${viewport.width}-child-choice-science-layout-diagnostic.png`),fullPage:false});
       const labelBox=await experience.locator("[data-choice-label]").first().evaluate(node=>{
         const value=node.textContent??"",start=value.indexOf("tanaman");
-        if(start<0||!node.firstChild)return null;
-        const range=document.createRange();
-        range.setStart(node.firstChild,start);range.setEnd(node.firstChild,start+"tanaman".length);
-        return {fragments:range.getClientRects().length,height:range.getBoundingClientRect().height};
+        if(start<0)return {reason:"missing text",value};
+        const textNodes=[...node.childNodes].filter(child=>child.nodeType===Node.TEXT_NODE);
+        const child=textNodes.find(child=>child.textContent?.includes("tanaman"));
+        if(!child)return {reason:"no single text node for word",value,textNodes:textNodes.map(x=>x.textContent)};
+        const wordStart=child.textContent.indexOf("tanaman"),range=document.createRange();
+        range.setStart(child,wordStart);range.setEnd(child,wordStart+"tanaman".length);
+        const element=node.getBoundingClientRect(),style=getComputedStyle(node);
+        return {value,fragments:range.getClientRects().length,height:range.getBoundingClientRect().height,
+          wordNode:child.textContent,wordStart,elementWidth:element.width,elementHeight:element.height,
+          computedDisplay:style.display,whiteSpace:style.whiteSpace,wordBreak:style.wordBreak,
+          overflowWrap:style.overflowWrap,visibility:style.visibility};
       });
       assert(labelBox&&labelBox.fragments===1&&labelBox.height>0,
         `The entire word tanaman must stay on one rendered line at ${viewport.width}px: ${JSON.stringify(labelBox)}`);
