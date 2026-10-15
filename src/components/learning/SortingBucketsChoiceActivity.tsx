@@ -112,9 +112,9 @@ export function SortingBucketsChoiceActivity({ childId, activityId }: { childId:
         data-sorting-buckets
         data-sorting-buckets-done={done ? "true" : "false"}
         data-child-visual-hierarchy="sorting-v1"
+        aria-label={hierarchy.contextTitle}
       >
         <header className={styles.instructions}>
-          <span className={visual.contextLabel}>{hierarchy.contextTitle}</span>
           <h1 className={visual.primaryInstruction} data-sorting-primary-instruction>{hierarchy.primaryInstruction}</h1>
           {hierarchy.onDemandHelp ? (
             <>
