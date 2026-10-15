@@ -12,11 +12,17 @@
   gap: 7px;
   justify-items: center;
   text-align: center;
-  padding: 8px 12px;
-  /* Soft local text contrast, no rectangular title card/whole-scene wash. */
-  background: radial-gradient(ellipse closest-side at center,
-    rgba(255, 252, 240, .95) 0%, rgba(255, 252, 240, .72) 55%,
-    rgba(255, 252, 240, 0) 100%);
+  padding: clamp(15px, 2vw, 24px) clamp(10px, 2vw, 18px) 12px;
+  /* Text-sized diffuse contrast reaches the upper line too: first-line
+     contrast previously regressed over dark space art on 320px and 1280px. */
+  background: radial-gradient(ellipse 67% 76% at 50% 47%,
+    rgba(255, 252, 240, .97) 0%, rgba(255, 252, 240, .84) 55%,
+    rgba(255, 252, 240, .29) 78%, rgba(255, 252, 240, 0) 100%);
+}
+.instructions :global(h1) {
+  text-shadow: 0 1px 1px rgba(255, 252, 240, .98),
+    0 0 12px rgba(255, 252, 240, .96),
+    0 0 25px rgba(255, 252, 240, .88);
 }
 .helpButton {
   font: inherit;
@@ -176,7 +182,7 @@
 
 @media (max-width: 520px) {
   .scene { gap: 10px; padding-top: 0; }
-  .instructions { gap: 5px; padding: 4px 2px; }
+  .instructions { gap: 5px; padding: 13px 6px 7px; }
   .board { gap: 10px; padding: 2px 0; }
   .cardTray { gap: 8px; min-height: 66px; }
   .itemCard { min-height: 68px; border-radius: 17px; font-size: clamp(29px, 10vw, 41px); }
