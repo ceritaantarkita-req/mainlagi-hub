@@ -143,6 +143,8 @@ assert.ok(gardenCss.includes(".garden:not(.workspace):not(.matchingFocus):not(.a
   "Garden headline needs its scoped, accessible text-only treatment");
 assert.match(gardenCss, /background-image:\s*radial-gradient\(/,
   "Garden headlines must keep a localized contrast fade without a solid title card");
+assert.ok(gardenCss.includes("radial-gradient(ellipse closest-side at 50% 50%"),
+  "title fade must reach transparency within its own bounds, not expose rectangular edges");
 assert.ok(gardenCss.includes("rgba(255, 252, 239, 0) 100%"),
   "title fade must dissolve into the underlying illustration at the outer edge");
 assert.ok(!gardenCss.includes('.themedScene[data-subject-theme="logic"] .play :global(h1) {'),
