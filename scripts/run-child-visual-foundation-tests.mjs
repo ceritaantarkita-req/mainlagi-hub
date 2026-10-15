@@ -44,9 +44,9 @@ const compiled = ts.transpileModule(source, {
 assert.deepEqual(compiled.diagnostics?.filter(d => d.category === ts.DiagnosticCategory.Error) ?? [], [],
   "pure presentation policy must transpile without diagnostics");
 const exports = {};
-const module = { exports };
-runInNewContext(compiled.outputText, { exports, module }, { filename: "childVisualHierarchy.js" });
-const { planChildVisualHierarchy } = module.exports;
+const compiledModule = { exports };
+runInNewContext(compiled.outputText, { exports, module: compiledModule }, { filename: "childVisualHierarchy.js" });
+const { planChildVisualHierarchy } = compiledModule.exports;
 assert.equal(typeof planChildVisualHierarchy, "function");
 
 const logic = planChildVisualHierarchy({
