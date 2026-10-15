@@ -37,6 +37,13 @@
   line-height: 1.23;
   text-wrap: pretty;
 }
+.helpCopy {
+  max-width: min(100%, 54ch);
+  padding: 10px 16px;
+  border-radius: 14px;
+  background: rgba(255, 252, 240, .96);
+  box-shadow: 0 0 0 2px rgba(255, 252, 240, .3);
+}
 .helpToggle {
   font: inherit;
   font-size: 15px;
