@@ -25,7 +25,7 @@ P1-b fixes the *shared canonical `tap_choice` renderer* for all activities actua
 Permanent new `scripts/run-child-choice-visual-browser-tests.mjs` is in the canonical `test:ui:mobile-routes` Chromium chain, **after** the route runner's screenshot cleanup so artifacts persist.
 
 Route `/child/demo-gian/activity/science-seed-grows-plant` with legitimate staged local Science prerequisites (same model used by existing cause-effect QA); viewports **320, 390, 768, 1280**. Gates:
-- exactly one main instruction; **exact 67-character question unchanged**, all three labels in canonical order, `tanaman` uses one rendered text line fragment at each width;
+- exactly one main instruction; **exact 66-character question unchanged**, all three labels in canonical order, `tanaman` uses one rendered text line fragment at each width;
 - first answer in the first viewport, all answers >=44px and within viewport, no horizontal document overflow;
 - idle/helper reveal/hide, wrong/correct, canonical Completion and Again; reset does not manufacture another attempt;
 - screenshots `{width}-child-choice-science-idle/help/wrong/success.png` in `.mobile-route-qa`.
