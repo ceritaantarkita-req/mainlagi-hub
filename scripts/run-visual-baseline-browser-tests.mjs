@@ -281,6 +281,8 @@ async function assertActivityTitleSoftFade(page, viewport, routeName) {
       viewport: document.documentElement.clientWidth
     };
   });
+  assert.match(visual.gradient, /closest-side/,
+    `${routeName} gradient must dissolve inside its own edges; no rectangular translucent backing at ${viewport.width}px`);
   assert.match(visual.gradient, /radial-gradient/,
     `${routeName} heading must use feathered gradient at ${viewport.width}px: ${JSON.stringify(visual)}`);
   assert.match(visual.gradient, /rgba\(255, 252, 239, 0\)/,
