@@ -44,7 +44,7 @@ function ChoiceActivity({ childId, activity, onDone }: { childId: string; activi
     setFeedback("try");
   };
 
-  const retry = () => { setFeedback(null); setHelpOpen(false); };
+  const retry = () => setFeedback(null);
 
   if (plan) {
     return <section className={`${visual.activity} ${choicePresentation.experience}`} data-child-visual-hierarchy="choice-v1" aria-label={plan.contextTitle}>
@@ -67,9 +67,9 @@ function ChoiceActivity({ childId, activity, onDone }: { childId: string; activi
       {feedback === "try" ? <div className={styles.feedbackTry} role="status">{activity.subjectId === "english" ? "Try another one!" : "Belum tepat. Coba pilihan lain ya."}</div> : null}
       {plan.onDemandHelp ? <>
         <button type="button" className={choicePresentation.helpToggle} aria-expanded={helpOpen} onClick={() => setHelpOpen((value) => !value)}>{helpOpen ? "Tutup bantuan" : "Cara main"}</button>
-        {helpOpen ? <p className={visual.assistance} data-child-choice-help>{plan.onDemandHelp}</p> : null}
+        {helpOpen ? <p className={`${visual.assistance} ${choicePresentation.helpCopy}`} data-child-choice-help>{plan.onDemandHelp}</p> : null}
       </> : null}
-      {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
+      {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={() => { retry(); setHelpOpen(false); }} /> : null}
     </section>;
   }
 
