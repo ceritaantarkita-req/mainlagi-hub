@@ -19,9 +19,21 @@ import { ChildLoading, useLearningProfile } from "./LearningCommon";
 import styles from "./LearningPlatform.module.css";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { ActivityCompletion } from "./ActivityCompletion";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
+import visual from "./ChildVisualHierarchy.module.css";
+import choicePresentation from "./ChildChoicePresentation.module.css";
 
 function ChoiceActivity({ childId, activity, onDone }: { childId: string; activity: LearningActivity; onDone: (value: LearningProgress) => void }) {
   const [feedback, setFeedback] = useState<"good" | "try" | null>(null);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const isStandardChoice = activity.runtime === "tap_choice";
+  const hintText = activity.subjectId === "english" ? "Tap your answer!" : "Sentuh pilihanmu.";
+  const plan = isStandardChoice ? planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: activity.title.startsWith("Cari huruf") ? activity.title : activity.prompt ?? activity.title,
+    supportingHint: hintText
+  }) : null;
 
   const choose = (choice: string) => {
     if (choice === activity.correctChoice) {
@@ -32,8 +44,37 @@ function ChoiceActivity({ childId, activity, onDone }: { childId: string; activi
     setFeedback("try");
   };
 
-  const retry = () => setFeedback(null);
+  const retry = () => { setFeedback(null); setHelpOpen(false); };
 
+  if (plan) {
+    return <section className={`${visual.activity} ${choicePresentation.experience}`} data-child-visual-hierarchy="choice-v1" aria-label={plan.contextTitle}>
+      <h1 className={visual.primaryInstruction} data-child-choice-question>{plan.primaryInstruction}</h1>
+      <div className={`${visual.choiceGrid} ${choicePresentation.options}`} data-choices>
+        {(activity.choices ?? []).map((choice) => (
+          <button
+            type="button"
+            className={`${visual.choice} ${choicePresentation.option}`}
+            data-short={choice.length <= 2}
+            data-long={choice.length > 9}
+            key={choice}
+            disabled={feedback === "good"}
+            onClick={() => choose(choice)}
+          >
+            <span className={choicePresentation.optionText} data-choice-label>{choice}</span>
+          </button>
+        ))}
+      </div>
+      {feedback === "try" ? <div className={styles.feedbackTry} role="status">{activity.subjectId === "english" ? "Try another one!" : "Belum tepat. Coba pilihan lain ya."}</div> : null}
+      {plan.onDemandHelp ? <>
+        <button type="button" className={choicePresentation.helpToggle} aria-expanded={helpOpen} onClick={() => setHelpOpen((value) => !value)}>{helpOpen ? "Tutup bantuan" : "Cara main"}</button>
+        {helpOpen ? <p className={visual.assistance} data-child-choice-help>{plan.onDemandHelp}</p> : null}
+      </> : null}
+      {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={retry} /> : null}
+    </section>;
+  }
+
+  // Keep legacy listen_and_choose presentation untouched until audio-first QA
+  // approves a separate, answer-safe transition for that runtime family.
   return <>
     <h1 className={styles.activityPrompt}>{activity.title.startsWith("Cari huruf") ? activity.title : activity.prompt}</h1>
     <div className={styles.choiceGrid} data-choices>
