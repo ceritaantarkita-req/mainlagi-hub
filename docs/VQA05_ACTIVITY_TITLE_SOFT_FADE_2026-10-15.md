@@ -13,14 +13,14 @@ Screenshots motivating the issue: Garden Choice headings, title `Temukan huruf A
 ## Implementation
 
 - `GardenActivityFrame.module.css`: remove the obsolete Logic-specific hard paper title rules and broad rule touching nested `h1`. Replace the **direct top-level Garden title and fallback Choice h1** rectangular `background` / box shadow with a feathered cream radial gradient that fades to alpha=0 at its outer edge; retain deep-navy text and subtle **text** shadow, no border/pill/card shadow. Audio-focus/workspace remain excluded because their purposeful instructional workspaces need their own backgrounds. Do not retouch prompts inside separate exercise boards.
-- `LearningPlatform.module.css`: give two Child-owned h1 families the same local fade: `.activityPrompt` (Choice, Symbol Hunt, trace/story where applicable) and `.matchingTitle` (Math, Logic, language). Matching progress badge and four play pieces are deliberately unchanged.
+- `LearningPlatform.module.css`: give two Child-owned h1 families the same local fade: `.activityPrompt` (Choice/trace/story where applicable) and `.matchingTitle` (Math, Logic, language). Matching progress badge and four play pieces are deliberately unchanged.
 - No additional fade layer over the backdrop and no changes to approved scene art, narration or characters.
 
 ## Regression
 
 - Permanent Chromium visual baseline tests the computed title style at **390×844 / 768×1024 / 1280×800** for Garden Math title, Choice English h1, Symbol Hunt Letters h1, and Math/Logic/Bahasa Matching h1.
 - Checks radial gradient, fully transparent edge color, no solid background color, no border, no pill radius, **no box shadow**, subtle text shadow and no title overflow. Adds 3 baseline screenshot files for `letters-find-a`.
-- Existing Symbol Hunt browser QA additionally asserts borderless gradient title at **320px and larger**, while retaining real canonical letter positions, pointer/keyboard/Completion testing.
+- Existing Symbol Hunt browser QA additionally asserts the Garden-owned borderless gradient title at **320px and larger**, while retaining real canonical letter positions, pointer/keyboard/Completion testing.
 - Existing English matching route additionally asserts title treatment at **320px** without changing pairing, wrong/correct feedback, local Again or the full instruction disclosure.
 - Use manual before/after screenshot review for both bright Garden and dark Logic scenes. Test pass alone is *not* human aesthetic acceptance or proof all 900 activities are individually visually approved.
 
