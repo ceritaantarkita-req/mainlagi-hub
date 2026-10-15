@@ -7,6 +7,8 @@ import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isSortingBucketsActivity } from "@/lib/learning/gameplayPresentation";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { completeActivity, getActivity } from "@/lib/learning/system";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
+import visual from "./ChildVisualHierarchy.module.css";
 import styles from "./SortingBucketsChoiceActivity.module.css";
 
 type Bucket = "match" | "other";
@@ -21,6 +23,7 @@ export function SortingBucketsChoiceActivity({ childId, activityId }: { childId:
   const [placed, setPlaced] = useState<Record<string, Bucket>>({});
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
   const [done, setDone] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.sortingBucketsReady = "true";
@@ -33,6 +36,12 @@ export function SortingBucketsChoiceActivity({ childId, activityId }: { childId:
   const remaining = choices.filter((choice) => !placed[choice]);
   const matchingItems = choices.filter((choice) => placed[choice] === "match");
   const otherItems = choices.filter((choice) => placed[choice] === "other");
+  const hierarchy = planChildVisualHierarchy({
+    mode: "sorting",
+    activityTitle: activity.title,
+    visibleInstruction: activity.prompt ?? activity.title,
+    supportingHint: "Pilih satu kartu, lalu masukkan ke keranjang yang sesuai."
+  });
 
   const placeSelected = (bucket: Bucket) => {
     if (!selected || done) return;
@@ -88,32 +97,36 @@ export function SortingBucketsChoiceActivity({ childId, activityId }: { childId:
     setPlaced({});
     setFeedback("idle");
     setDone(false);
+    setHelpOpen(false);
   };
 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
-      spacious
     >
       <section
         ref={sceneRef}
         className={`${styles.scene} ${done ? styles.sceneDone : ""}`}
         data-sorting-buckets
         data-sorting-buckets-done={done ? "true" : "false"}
+        data-child-visual-hierarchy="sorting-v1"
       >
-        <div className={styles.promptCard}>
-          <span aria-hidden>🗂️</span>
-          <div>
-            <h1>{activity.prompt ?? activity.title}</h1>
-            <p>Pilih satu kartu, lalu masukkan ke keranjang yang sesuai.</p>
-          </div>
-        </div>
+        <header className={styles.instructions}>
+          <span className={visual.contextLabel}>{hierarchy.contextTitle}</span>
+          <h1 className={visual.primaryInstruction} data-sorting-primary-instruction>{hierarchy.primaryInstruction}</h1>
+          {hierarchy.onDemandHelp ? (
+            <>
+              <button type="button" className={styles.helpButton} aria-expanded={helpOpen} onClick={() => setHelpOpen((value) => !value)}>
+                {helpOpen ? "Tutup bantuan" : "Cara main"}
+              </button>
+              {helpOpen ? <p className={visual.assistance} data-sorting-help>{hierarchy.onDemandHelp}</p> : null}
+            </>
+          ) : null}
+        </header>
 
         <div className={styles.board}>
-          <div className={styles.trayLabel}>Kartu yang perlu dikelompokkan</div>
           <div className={styles.cardTray} role="group" aria-label="Kartu untuk dikelompokkan" data-sorting-cards>
             {remaining.map((choice) => (
               <button
@@ -132,8 +145,6 @@ export function SortingBucketsChoiceActivity({ childId, activityId }: { childId:
             ))}
             {remaining.length === 0 ? <div className={styles.trayDone}>Semua kartu sudah masuk ✓</div> : null}
           </div>
-
-          <div className={styles.bucketHint}>{selected ? `Kartu ${selected} dipilih. Masukkan ke keranjang.` : "Pilih satu kartu dulu."}</div>
 
           <div className={styles.buckets} role="group" aria-label="Keranjang pengelompokan">
             <button
@@ -168,15 +179,15 @@ export function SortingBucketsChoiceActivity({ childId, activityId }: { childId:
           </div>
         </div>
 
-        <div className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`} role="status" aria-live="polite">
-          {feedback === "good"
-            ? "⭐ Rapi! Semua kartu sudah dikelompokkan."
-            : feedback === "try"
-              ? "💡 Belum tepat. Coba keranjang satunya."
-              : selected
-                ? "👆 Pilih keranjang untuk kartu ini."
-                : "💡 Kelompokkan ketiga kartu sesuai aturannya."}
-        </div>
+        {(selected || feedback !== "idle") ? (
+          <div className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`} role="status" aria-live="polite">
+            {feedback === "good"
+              ? "⭐ Rapi! Semua kartu sudah dikelompokkan."
+              : feedback === "try"
+                ? "💡 Belum tepat. Coba keranjang satunya."
+                : `👆 Kartu ${selected} dipilih. Sekarang pilih keranjang.`}
+          </div>
+        ) : null}
 
         {done ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
       </section>
