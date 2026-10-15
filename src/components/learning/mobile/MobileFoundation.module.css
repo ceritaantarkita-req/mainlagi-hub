@@ -111,6 +111,23 @@
   max-width: 100%;
 }
 
+/* Child-facing visual hierarchy v1 — semantic role tokens only.
+   These are inherited by Belajar pages, but do not restyle existing
+   activity renderers until a family explicitly opts in. Parent, World,
+   Motion, and Shop are not presentation consumers of these tokens. */
+.routeBoundary[data-mainlagi-route-boundary="child-learning"] {
+  --ml-child-context-size: clamp(16px, 2.2vw, 24px);
+  --ml-child-question-size: clamp(23px, 3.4vw, 38px);
+  --ml-child-answer-size: clamp(20px, 2.8vw, 32px);
+  --ml-child-support-size: clamp(15px, 1.7vw, 18px);
+  --ml-child-stage-heading-size: clamp(26px, 3.4vw, 40px);
+  --ml-child-question-measure: 34ch;
+  --ml-child-content-measure: 920px;
+  --ml-child-interaction-gap: clamp(12px, 2vw, 24px);
+  --ml-child-preferred-tap: 56px;
+  --ml-child-answer-card-min: 180px;
+}
+
 .routeBoundary[data-mainlagi-route-boundary="game-play"] {
   min-height: calc(var(--ml-viewport-height) - var(--ml-safe-top) - var(--ml-safe-bottom));
 }

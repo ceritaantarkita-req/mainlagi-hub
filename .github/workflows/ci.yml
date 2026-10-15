@@ -39,6 +39,8 @@ jobs:
         run: npm ci --no-audit --no-fund
       - name: Validate structure, assets, and source
         run: npm run validate:structure && npm run validate:assets && npm run audit:source
+      - name: Child visual hierarchy foundation contracts
+        run: npm run test:ui:child-visual-foundation
       - name: Batch 16 security boundary regressions
         run: npm run test:batch16:security
       - name: Physical-device QA harness contract

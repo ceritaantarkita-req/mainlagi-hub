@@ -1,0 +1,133 @@
+/*
+ * Child visual hierarchy v1 — opt-in presentation primitives.
+ * Inherits --ml-child-* from MobileFoundation's child-learning boundary.
+ *
+ * This file intentionally does not import itself into existing renderers:
+ * a later audited gameplay-family pilot opts in explicitly, with screenshots.
+ * Never apply global h1/hint/button selectors, force every mechanic into
+ * a grid, or change World/Motion/Creative canvas behavior by default.
+ */
+.activity {
+  width: min(100%, var(--ml-child-content-measure, 920px));
+  min-width: 0;
+  margin-inline: auto;
+  display: grid;
+  align-content: start;
+  gap: var(--ml-child-interaction-gap, 16px);
+  text-align: center;
+}
+
+.contextLabel {
+  margin: 0;
+  color: #24445e;
+  font-size: var(--ml-child-context-size, clamp(16px, 2.2vw, 24px));
+  font-weight: 800;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+
+.primaryInstruction {
+  margin: 0 auto;
+  width: 100%;
+  max-width: min(100%, var(--ml-child-question-measure, 34ch));
+  color: #193b55;
+  font-size: var(--ml-child-question-size, clamp(23px, 3.4vw, 38px));
+  font-weight: 950;
+  line-height: 1.18;
+  letter-spacing: -0.025em;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+
+.assistance {
+  margin: 0 auto;
+  max-width: min(100%, 54ch);
+  color: #305766;
+  font-size: var(--ml-child-support-size, 16px);
+  font-weight: 750;
+  line-height: 1.45;
+  text-wrap: pretty;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+
+/* A gameplay scene may provide its own essential board; this container
+   introduces no extra rounded cream box, border, veil, or shadow. */
+.playfield {
+  min-width: 0;
+  width: 100%;
+  display: grid;
+  gap: var(--ml-child-interaction-gap, 16px);
+  background: transparent;
+}
+
+/* Use only with a simple answer-grid mechanic. Sorting, Symbol Hunt,
+   audio-first, trace/drawing canvases, and matching keep their own layouts. */
+.choiceGrid {
+  width: 100%;
+  min-width: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--ml-child-answer-card-min, 180px)), 1fr));
+  gap: var(--ml-child-interaction-gap, 16px);
+}
+
+.choice {
+  display: grid;
+  min-width: 0;
+  min-height: var(--ml-child-preferred-tap, 56px);
+  align-items: center;
+  justify-items: center;
+  padding: 14px;
+  border: 2px solid #d7e2d8;
+  border-radius: 22px;
+  background: #fffdf4;
+  color: #193b55;
+  font: inherit;
+  font-size: var(--ml-child-answer-size, clamp(20px, 2.8vw, 32px));
+  font-weight: 900;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: pretty;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+.choice:focus-visible {
+  outline: 4px solid #155f86;
+  outline-offset: 4px;
+}
+
+.choice:disabled {
+  cursor: default;
+}
+
+/* Stage catalog is its own surface, not an activity's live first-action task. */
+.stageHeading {
+  margin: 0;
+  color: #193b55;
+  font-size: var(--ml-child-stage-heading-size, clamp(26px, 3.4vw, 40px));
+  font-weight: 950;
+  line-height: 1.16;
+  text-wrap: balance;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+
+@media (max-width: 359px) {
+  .choiceGrid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choice { transition: none; }
+}
