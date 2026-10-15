@@ -1779,6 +1779,7 @@ async function main() {
           width: rect.width, right: rect.right, viewport: document.documentElement.clientWidth
         };
       });
+      assert.match(titlePaint.gradient, /closest-side/, "matching title fade must disappear at its boundaries");
       assert.match(titlePaint.gradient, /radial-gradient/,
         "matching title needs its own feathered fade at 320px");
       assert.equal(titlePaint.background, "rgba(0, 0, 0, 0)",
