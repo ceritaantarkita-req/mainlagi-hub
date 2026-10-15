@@ -1772,6 +1772,22 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
   line-height: 1.12;
   font-weight: 950;
   color: #173b56;
+  /* The matching title is nested inside a flex header rather than the
+     Garden-owned direct h1. Use the same edge-fading treatment here. */
+  width: fit-content;
+  max-width: 100%;
+  padding: 5px clamp(14px, 2.1vw, 28px);
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  background-image: radial-gradient(ellipse closest-side at 50% 50%,
+    rgba(255, 252, 239, .92) 0%,
+    rgba(255, 252, 239, .70) 42%,
+    rgba(255, 252, 239, .22) 72%,
+    rgba(255, 252, 239, 0) 100%);
+  background-repeat: no-repeat;
+  box-shadow: none;
+  text-shadow: 0 1px 1px rgba(255, 255, 246, .94), 0 2px 4px rgba(16, 52, 75, .16);
 }
 .matchingProgress {
   display: inline-flex;
@@ -2122,4 +2138,26 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
   }
   .matchingExperience .matchingGuidance .matchingFeedback { font-size: 14px; }
   .matchingExperience .matchingGuidance .matchingInstructions summary { font-size: 13px; padding-inline: 5px; }
+}
+
+
+/* VQA-05: Choice / trace / story child-owned runtime h1 is rendered by the
+   child (not the direct Garden .title slot). Keep that headline borderless
+   with a *local*, edge-transparent light fade over vivid subject scenes.
+   Do not apply this to answer cards, prompt panels or navigation buttons. */
+.activityPrompt {
+  width: fit-content;
+  max-width: 100%;
+  padding: 3px clamp(14px, 2.2vw, 28px);
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  background-image: radial-gradient(ellipse closest-side at 50% 50%,
+    rgba(255, 252, 239, .92) 0%,
+    rgba(255, 252, 239, .70) 42%,
+    rgba(255, 252, 239, .22) 72%,
+    rgba(255, 252, 239, 0) 100%);
+  background-repeat: no-repeat;
+  box-shadow: none;
+  text-shadow: 0 1px 1px rgba(255, 255, 246, .94), 0 2px 4px rgba(16, 52, 75, .16);
 }

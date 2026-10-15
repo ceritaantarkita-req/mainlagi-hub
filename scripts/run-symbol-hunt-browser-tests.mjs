@@ -83,6 +83,34 @@ async function inspect(viewport) {
 
     const choices = hunt.getByRole("button");
     assert.equal(await choices.count(), 3, `symbol hunt must render exactly three canonical choices at ${viewport.width}px`);
+    // A title must float in the illustrated world with a feathered fade,
+    // not a solid cream block with rounded corners. Symbol Hunt owns its
+    // heading in ChildLearningPlatform rather than Garden's title slot.
+    const heading = await page.locator('[data-activity-frame="garden"] h1').first().evaluate((node) => {
+      const css = getComputedStyle(node);
+      const rect = node.getBoundingClientRect();
+      return {
+        gradient: css.backgroundImage,
+        background: css.backgroundColor,
+        border: parseFloat(css.borderTopWidth),
+        radius: css.borderTopLeftRadius,
+        shadow: css.boxShadow,
+        textShadow: css.textShadow,
+        left: rect.left,
+        right: rect.right,
+        viewport: document.documentElement.clientWidth
+      };
+    });
+    assert.match(heading.gradient, /closest-side/, `symbol-hunt title needs an edge-bounded fade at ${viewport.width}px`);
+    assert.match(heading.gradient, /radial-gradient/, `symbol-hunt title needs localized soft fade at ${viewport.width}px`);
+    assert.equal(heading.background, "rgba(0, 0, 0, 0)", `symbol-hunt title has solid box at ${viewport.width}px`);
+    assert.equal(heading.border, 0, `symbol-hunt title regained rectangular border at ${viewport.width}px`);
+    assert.equal(heading.radius, "0px", `symbol-hunt title regained a rounded label at ${viewport.width}px`);
+    assert.equal(heading.shadow, "none", `symbol-hunt title regained a card shadow at ${viewport.width}px`);
+    assert.notEqual(heading.textShadow, "none", `symbol-hunt title lost text readability at ${viewport.width}px`);
+    assert.ok(heading.left >= -1 && heading.right <= heading.viewport + 1,
+      `symbol-hunt title clips outside the scene at ${viewport.width}px`);
+
 
     const geometry = await page.evaluate(() => {
       const viewportWidth = document.documentElement.clientWidth;

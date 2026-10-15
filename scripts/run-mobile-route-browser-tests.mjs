@@ -1767,6 +1767,29 @@ async function main() {
       assert.ok(compactMatching.scrollWidth <= compactMatching.width + 1, "Matching 320px must not overflow");
       assert.ok(compactMatching.cards.every((rect) => rect.width >= 90 && rect.height >= 82),
         "Matching 320px must preserve all four playable touch targets");
+      // VQA-05: title fade is restricted to the title footprint, not a
+      // rectangular label and not an opacity wash over the full scene.
+      const titlePaint = await experience.locator("h1").first().evaluate((element) => {
+        const css = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return {
+          gradient: css.backgroundImage, background: css.backgroundColor,
+          border: parseFloat(css.borderTopWidth), radius: css.borderTopLeftRadius,
+          boxShadow: css.boxShadow, textShadow: css.textShadow,
+          width: rect.width, right: rect.right, viewport: document.documentElement.clientWidth
+        };
+      });
+      assert.match(titlePaint.gradient, /closest-side/, "matching title fade must disappear at its boundaries");
+      assert.match(titlePaint.gradient, /radial-gradient/,
+        "matching title needs its own feathered fade at 320px");
+      assert.equal(titlePaint.background, "rgba(0, 0, 0, 0)",
+        "matching title must not have an opaque cream backplate at 320px");
+      assert.equal(titlePaint.border, 0, "matching title border must be gone");
+      assert.equal(titlePaint.radius, "0px", "matching title must not be a pill");
+      assert.equal(titlePaint.boxShadow, "none", "matching title must not cast a card shadow");
+      assert.notEqual(titlePaint.textShadow, "none", "matching title needs a text contrast aid");
+      assert.ok(titlePaint.right <= titlePaint.viewport + 1 && titlePaint.width > 20,
+        "matching title must fit the 320px viewport");
       await page.screenshot({ path: path.join(screenshotDir, "320-visible-matching-open-playfield.png"), fullPage: false });
       const guidance = experience.locator("[data-match-guidance]");
       assert.equal(await guidance.count(), 1, "English matching uses one joined guidance ribbon at 320px");

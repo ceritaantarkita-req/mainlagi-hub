@@ -1,40 +1,8 @@
 .garden { position:relative; isolation:isolate; min-height:var(--ml-viewport-height, 100dvh); background:#d5eef6 url('/artwork/garden-background.webp') center bottom / cover no-repeat; color:#193b55; padding:24px max(24px,env(safe-area-inset-right)) 100px max(24px,env(safe-area-inset-left)); font-family:'Nunito Variable','Noto Sans Variable',sans-serif; }
 .themedScene { background-color:var(--ml-scene-color,#d5eef6); background-image:var(--ml-scene-wide); background-position:center bottom; background-size:cover; background-repeat:no-repeat; }
-.themedScene[data-subject-theme="logic"] .title { background:rgba(255,251,237,.9); border-radius:14px; width:fit-content; max-width:100%; }
-/* Tap-choice titles live in a child component, not in Garden's .title slot.
-   Keep their dark ink readable against the navy/space scene on iPhone. */
-.themedScene[data-subject-theme="logic"] .play :global(h1) {
-  width: fit-content;
-  max-width: 100%;
-  margin-inline: auto;
-  padding: 8px 16px;
-  border-radius: 18px;
-  color: #193b55;
-  background: rgba(255, 252, 240, .96);
-  box-shadow: 0 3px 0 rgba(25, 59, 85, .12);
-}
-/* Real iPhone QA 12 Oct: dark navy titles blended into illustrated night/space scenes.
-   The readable paper backing applies to regular Garden tasks, never card answers. */
-.themedScene[data-subject-theme="logic"]:not(.workspace):not(.matchingFocus) .title {
-  display: block;
-  width: fit-content;
-  max-width: 100%;
-  padding: 8px 17px;
-  color: #193b55;
-  background: rgba(255, 251, 237, .96);
-  border: 2px solid rgba(255, 253, 245, .95);
-  border-radius: 20px;
-  box-shadow: 0 3px 0 rgba(13, 54, 82, .14);
-  text-shadow: none;
-}
-@media(max-width:760px) {
-  .themedScene[data-subject-theme="logic"]:not(.workspace):not(.matchingFocus) .title {
-    font-size: clamp(27px, 8vw, 38px);
-    line-height: 1.16;
-    padding: 8px 13px;
-  }
-}
-
+/* VQA-05 title system: former Logic-only solid title cards were removed.
+   The shared activity title below uses a feathered fade across subjects;
+   nested learning-board h1 keep their own component typography. */
 .header { max-width:1320px; margin:auto; display:flex; align-items:center; justify-content:space-between; gap:14px; }
 .brand { width:220px; height:80px; object-fit:contain; }
 .control { display:inline-flex; align-items:center; justify-content:center; gap:12px; background:#fffbed; color:#193b55; border:2px solid #e2dfc5; border-radius:999px; padding:12px 22px; min-height:58px; font-weight:900; font-size:19px; box-shadow:0 4px 0 #bbcdce; text-decoration:none; }
@@ -118,13 +86,9 @@
   position: absolute;
   inset: 0;
   z-index: 0;
-  /* Keep the approved Garden scene colorful. Matching cards already own
-     a solid readable play surface; a full-screen .8 white wash is unnecessary. */
-  background: radial-gradient(ellipse at 50% 36%,
-    rgba(255, 253, 240, .16) 0%,
-    rgba(255, 253, 240, .10) 42%,
-    rgba(255, 253, 240, 0) 76%
-  );
+  /* The only fade now belongs to the heading glyph area. Don't add
+     even a subtle wash over the full illustrated Math/Logic scene. */
+  background: none;
   pointer-events: none;
 }
 .matchingFocus .header { position: relative; z-index: 2; }
@@ -180,23 +144,31 @@
 }
 
 
-/* Child UX visual-legibility 13 Oct 2026.
-   Standard Garden titles belong on readable paper, irrespective of scene art.
-   Workspace/matching use their own card systems; audio has a distinct panel. */
-.themedScene:not(.workspace):not(.matchingFocus):not(.audioFocus) .play > :global(h1) {
+/* Child-title readability update, 15 Oct 2026.
+   Replaces hard rectangular backplates with a localized soft fade;
+   workspaces and listening panels keep their independent safe layouts. */
+/* No title "paper blocks": fade is limited to the text footprint,
+   and dissolves at the edges instead of washing the complete Garden scene.
+   Only the direct Garden title (or top-level fallback Choice h1) is affected,
+   never prompts within activity boards or interactive answer cards. */
+.garden:not(.workspace):not(.matchingFocus):not(.audioFocus) .play > :global(h1) {
   display: block;
   width: fit-content;
   max-width: 100%;
   margin-inline: auto;
-  padding: 0;
+  padding: 3px clamp(14px, 2.2vw, 28px);
   border: 0;
-  border-radius: 16px;
-  background: rgba(255,252,240,.96);
+  border-radius: 0;
+  background-color: transparent;
+  background-image: radial-gradient(ellipse closest-side at 50% 50%,
+    rgba(255, 252, 239, .92) 0%,
+    rgba(255, 252, 239, .70) 42%,
+    rgba(255, 252, 239, .22) 72%,
+    rgba(255, 252, 239, 0) 100%);
+  background-repeat: no-repeat;
   color: #193b55;
-  text-shadow: none;
-  /* Paint outside the line box instead of adding padding/height. Many
-     fixed-height lesson boards require all feedback visible in one fold. */
-  box-shadow: 0 0 0 7px rgba(255,252,240,.96);
+  text-shadow: 0 1px 1px rgba(255, 255, 246, .94), 0 2px 4px rgba(16, 52, 75, .16);
+  box-shadow: none;
   overflow-wrap: anywhere;
 }
 .themedScene:not(.workspace):not(.matchingFocus):not(.audioFocus) .hint {
@@ -260,8 +232,7 @@
   text-wrap: balance;
 }
 @media (max-width:760px) {
-  .themedScene:not(.workspace):not(.matchingFocus):not(.audioFocus) .play > :global(h1) {
-    border-radius: 16px;
+  .garden:not(.workspace):not(.matchingFocus):not(.audioFocus) .play > :global(h1) {
     font-size: clamp(25px,7.1vw,38px);
     line-height: 1.17;
   }
