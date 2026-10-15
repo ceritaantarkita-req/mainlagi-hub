@@ -1,0 +1,69 @@
+/*
+ * Opt-in canonical tap_choice family presentation. Scoped CSS only.
+ * Never target audio-first, canvas, Symbol Hunt, Matching or World.
+ */
+.experience {
+  --ml-child-answer-card-min: 152px;
+  --ml-child-interaction-gap: clamp(10px, 2.2vw, 17px);
+  gap: clamp(12px, 2.3vh, 22px);
+  padding-block: clamp(4px, 1vh, 14px);
+}
+.options {
+  margin: 0 auto;
+  align-items: stretch;
+  max-width: min(100%, 820px);
+}
+.option {
+  min-width: 0;
+  min-height: clamp(98px, 12vw, 144px);
+  padding: clamp(10px, 1.6vw, 16px);
+  border-radius: 24px;
+  box-shadow: 0 5px 0 #c5d2ba;
+  font-size: clamp(20px, 2.6vw, 30px);
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+}
+.option[data-long="true"] { font-size: clamp(18px, 2.25vw, 26px); }
+.option[data-short="true"] { font-size: clamp(38px, 6vw, 78px); }
+.optionText {
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  white-space: normal;
+  line-height: 1.23;
+  text-wrap: pretty;
+}
+.helpToggle {
+  font: inherit;
+  font-size: 15px;
+  font-weight: 850;
+  color: #193b55;
+  border: 2px solid #c1d8d3;
+  background: rgba(255, 252, 240, .94);
+  border-radius: 999px;
+  min-height: 44px;
+  padding: 8px 20px;
+  margin-inline: auto;
+  cursor: pointer;
+}
+.helpToggle:focus-visible {
+  outline: 4px solid #155f86;
+  outline-offset: 4px;
+}
+@media (max-width: 359px) {
+  .experience { --ml-child-answer-card-min: 100%; }
+  .option {
+    min-height: 72px;
+    padding: 10px 14px;
+    font-size: 23px;
+  }
+  .option[data-short="true"] { font-size: 40px; }
+  .option[data-long="true"] { font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .option { transition: none; }
+}
