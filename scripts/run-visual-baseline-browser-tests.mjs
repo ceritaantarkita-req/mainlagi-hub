@@ -37,6 +37,7 @@ const ROUTES = [
 
   { name: "activity-math-count", path: "/child/demo-gian/activity/math-count-3", expectedPath: "/child/demo-gian/activity/math-count-3", kind: "child-learning", touch: true },
   { name: "activity-english-blue", path: "/child/demo-gian/activity/english-find-blue", expectedPath: "/child/demo-gian/activity/english-find-blue", kind: "child-learning", touch: true },
+  { name: "activity-letters-title", path: "/child/demo-gian/activity/letters-find-a", expectedPath: "/child/demo-gian/activity/letters-find-a", kind: "child-learning", touch: true },
   { name: "stage-drawing", path: "/child/demo-gian/stage/drawing-lines-shapes-basics", expectedPath: "/child/demo-gian/stage/drawing-lines-shapes-basics", kind: "child-learning", touch: true },
   { name: "activity-matching", path: "/child/demo-gian/activity/bahasa-pasang-awal", expectedPath: "/child/demo-gian/activity/bahasa-pasang-awal", kind: "child-learning", touch: true },
   { name: "activity-matching-math", path: "/child/demo-gian/activity/math-pattern-touch", expectedPath: "/child/demo-gian/activity/math-pattern-touch", kind: "child-learning", touch: true },
@@ -255,6 +256,43 @@ async function seedMathMatchingPrerequisites(context) {
       })
     }));
   });
+}
+
+// Child-first activity title contract: no opaque backplate/rounded label.
+// A localized radial-gradient has zero-alpha outer edge; no extra box shadow.
+// Only headline surfaces are checked, never answer buttons or game panels.
+async function assertActivityTitleSoftFade(page, viewport, routeName) {
+  const h1 = page.locator('[data-activity-frame="garden"] h1').first();
+  await h1.waitFor({ state: "visible" });
+  const visual = await h1.evaluate((node) => {
+    const style = getComputedStyle(node);
+    const rect = node.getBoundingClientRect();
+    return {
+      text: node.textContent?.trim().slice(0, 70),
+      backgroundColor: style.backgroundColor,
+      gradient: style.backgroundImage,
+      borderWidth: parseFloat(style.borderTopWidth),
+      borderRadius: style.borderTopLeftRadius,
+      shadow: style.boxShadow,
+      textShadow: style.textShadow,
+      width: rect.width,
+      left: rect.left,
+      right: rect.right,
+      viewport: document.documentElement.clientWidth
+    };
+  });
+  assert.match(visual.gradient, /radial-gradient/,
+    `${routeName} heading must use feathered gradient at ${viewport.width}px: ${JSON.stringify(visual)}`);
+  assert.match(visual.gradient, /rgba\(255, 252, 239, 0\)/,
+    `${routeName} heading fade must become fully transparent at the edges at ${viewport.width}px`);
+  assert.equal(visual.backgroundColor, "rgba(0, 0, 0, 0)",
+    `${routeName} heading has an opaque box backing at ${viewport.width}px`);
+  assert.equal(visual.borderWidth, 0, `${routeName} heading gained a title border at ${viewport.width}px`);
+  assert.equal(visual.borderRadius, "0px", `${routeName} heading reverted to pill/card shape at ${viewport.width}px`);
+  assert.equal(visual.shadow, "none", `${routeName} heading has a hard box shadow at ${viewport.width}px`);
+  assert.notEqual(visual.textShadow, "none", `${routeName} heading lost text contrast aid at ${viewport.width}px`);
+  assert.ok(visual.left >= -1 && visual.right <= visual.viewport + 1 && visual.width > 20,
+    `${routeName} heading clipped or too small at ${viewport.width}px: ${JSON.stringify(visual)}`);
 }
 
 async function assertMatchingFocusVisual(page, viewport, expectedVisual = "language") {
@@ -615,6 +653,10 @@ async function inspect(page, route, viewport) {
       await assertMatchingFocusVisual(page, viewport,
         route.name === "activity-matching-math" ? "math"
           : route.name === "activity-matching-logic" ? "logic" : "language");
+    }
+    if (["activity-math-count", "activity-english-blue", "activity-letters-title",
+      "activity-matching", "activity-matching-math", "activity-matching-logic"].includes(route.name)) {
+      await assertActivityTitleSoftFade(page, viewport, route.name);
     }
     if (route.name === "activity-english-blue") {
       assert.equal(await page.getByText("Tap your answer!", { exact: true }).count(), 1,
