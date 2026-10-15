@@ -139,7 +139,14 @@ assert.match(discoverSource, /AffiliateProductMedia/, "Discover grid and list mu
 const gardenCss = readFileSync(path.resolve("src/components/learning/GardenActivityFrame.module.css"), "utf8");
 const globalCss = readFileSync(path.resolve("src/app/globals.css"), "utf8");
 const authCss = readFileSync(path.resolve("src/components/auth/AuthFamilyShell.module.css"), "utf8");
-assert.match(gardenCss, /\.themedScene\[data-subject-theme="logic"\]:not\(\.workspace\):not\(\.matchingFocus\) \.title/, "themed Garden headings need a contrast backing");
+assert.ok(gardenCss.includes(".garden:not(.workspace):not(.matchingFocus):not(.audioFocus) .play > :global(h1)"),
+  "Garden headline needs its scoped, accessible text-only treatment");
+assert.match(gardenCss, /background-image:\s*radial-gradient\(/,
+  "Garden headlines must keep a localized contrast fade without a solid title card");
+assert.ok(gardenCss.includes("rgba(255, 252, 239, 0) 100%"),
+  "title fade must dissolve into the underlying illustration at the outer edge");
+assert.ok(!gardenCss.includes('.themedScene[data-subject-theme="logic"] .play :global(h1) {'),
+  "Logic must not restore a broad hard-paper style on nested gameplay headings");
 assert.match(globalCss, /html\[data-theme="dark"\] \.top-nav__brand/, "dark header must keep navy wordmark readable");
 assert.match(globalCss, /\.product-tile__fallback/, "missing product media needs dedicated fallback styling");
 assert.match(authCss, /padding: 24px 20px 115px/, "mobile account copy must clear decorative characters");
