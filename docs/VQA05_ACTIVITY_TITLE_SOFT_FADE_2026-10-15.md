@@ -16,6 +16,12 @@ Screenshots motivating the issue: Garden Choice headings, title `Temukan huruf A
 - `LearningPlatform.module.css`: give two Child-owned h1 families the same local fade: `.activityPrompt` (Choice/trace/story where applicable) and `.matchingTitle` (Math, Logic, language). Matching progress badge and four play pieces are deliberately unchanged.
 - The old **matchingFocus full-scene radial veil** (up to 16% off-white) is removed altogether; only the title glyph area receives a fading cream gradient. This restores the subject illustration's original saturation. Approved art, narration and characters are unchanged.
 
+## Visual correction from first green CI screenshots
+
+The first successful PR screenshot run (head `fcd2ae3`, #38673606496) was inspected at desktop and 320px. **Do not merge that head:** the explicit `ellipse 76% 88%` radial gradient extends beyond the h1 element boundaries and still creates a visible translucent **rectangle** around `Hitung sampai 3` and the nighttime Logic `Cari pasangan!` title. This conflicts with the owner's no-box decision even though tests passed.
+
+Changed all three title-gradient instances to `ellipse closest-side at 50% 50%`, so the fade reaches 0 alpha at the heading's own edges, while preserving the central readable backlight and text-shadow. Regression assertions now require `closest-side` and a zero-alpha edge rather than a generic radial gradient. **New exact-head CI and refreshed screenshots must be reviewed before merge.**
+
 ## Regression
 
 - Permanent Chromium visual baseline tests the computed title style at **390×844 / 768×1024 / 1280×800** for Garden Math title, Choice English h1, Symbol Hunt Letters h1, and Math/Logic/Bahasa Matching h1.
