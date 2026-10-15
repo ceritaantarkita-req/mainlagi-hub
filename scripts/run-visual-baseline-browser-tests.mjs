@@ -305,6 +305,33 @@ async function assertMatchingFocusVisual(page, viewport, expectedVisual = "langu
     `Indonesian matching instruction label changed at ${viewport.width}px`);
   assert.equal(await instructions.locator("[data-match-canonical-prompt]").textContent(),
     await game.getAttribute("aria-label"), `Matching accessible full prompt drifted at ${viewport.width}px`);
+  const guidance = game.locator("[data-match-guidance]");
+  assert.equal(await guidance.count(), 1, `matching requires one joined guidance ribbon at ${viewport.width}px`);
+  const guidanceStyle = await guidance.evaluate((node) => {
+    const feedback = node.querySelector('[data-match-feedback]');
+    const details = node.querySelector('[data-match-instructions]');
+    const summary = details?.querySelector('summary');
+    return {
+      children: node.children.length,
+      backing: getComputedStyle(node).backgroundColor,
+      feedbackBacking: feedback ? getComputedStyle(feedback).backgroundColor : null,
+      detailsBacking: details ? getComputedStyle(details).backgroundColor : null,
+      summaryHeight: summary?.getBoundingClientRect().height ?? 0,
+      feedbackLive: feedback?.getAttribute("aria-live")
+    };
+  });
+  assert.equal(guidanceStyle.children, 2, `matching instruction ribbon must contain only status and fallback at ${viewport.width}px`);
+  assert.equal(guidanceStyle.feedbackLive, "polite", `matching live feedback aria state changed at ${viewport.width}px`);
+  const transparentColor = "rgba(0, 0, 0, 0)";
+  assert.notEqual(guidanceStyle.backing, transparentColor,
+    `matching guide loses contrast against the illustrated scene at ${viewport.width}px`);
+  assert.equal(guidanceStyle.feedbackBacking, transparentColor,
+    `matching status became a second nested box at ${viewport.width}px`);
+  assert.equal(guidanceStyle.detailsBacking, transparentColor,
+    `matching instructions became a second nested box at ${viewport.width}px`);
+  assert.ok(guidanceStyle.summaryHeight >= 44,
+    `matching read-instructions touch area shrank at ${viewport.width}px: ${guidanceStyle.summaryHeight}`);
+
   const geometry = await cards.evaluateAll((nodes) => nodes.map((node) => {
     const rect = node.getBoundingClientRect();
     return { width: rect.width, height: rect.height };

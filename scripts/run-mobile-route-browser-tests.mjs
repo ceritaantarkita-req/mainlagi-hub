@@ -1768,6 +1768,21 @@ async function main() {
       assert.ok(compactMatching.cards.every((rect) => rect.width >= 90 && rect.height >= 82),
         "Matching 320px must preserve all four playable touch targets");
       await page.screenshot({ path: path.join(screenshotDir, "320-visible-matching-open-playfield.png"), fullPage: false });
+      const guidance = experience.locator("[data-match-guidance]");
+      assert.equal(await guidance.count(), 1, "English matching uses one joined guidance ribbon at 320px");
+      assert.equal(await guidance.locator('[role="status"]').count(), 1, "Live feedback stays in the joined guidance");
+      await instructions.locator("summary").click();
+      assert.equal(await instructions.locator("[data-match-canonical-prompt]").isVisible(), true,
+        "320px matching must still reveal full canonical text without audio");
+      const disclosure = await guidance.evaluate((node) => ({
+        width: node.getBoundingClientRect().width,
+        viewport: document.documentElement.clientWidth,
+        scroll: document.documentElement.scrollWidth
+      }));
+      assert.ok(disclosure.width <= disclosure.viewport + 1 && disclosure.scroll <= disclosure.viewport + 1,
+        `320px expanded instructions must not overflow: ${JSON.stringify(disclosure)}`);
+      await page.screenshot({ path: path.join(screenshotDir, "320-visible-matching-guidance-expanded.png"), fullPage: false });
+      await instructions.locator("summary").click();
       await page.setViewportSize({ width: 844, height: 390 });
       const landscape = await page.evaluate(() => ({
         viewport: document.documentElement.clientWidth,
