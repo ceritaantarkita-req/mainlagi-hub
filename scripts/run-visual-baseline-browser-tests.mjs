@@ -379,10 +379,8 @@ async function assertMatchingFocusVisual(page, viewport, expectedVisual = "langu
   assert.equal(await game.locator("[data-match-column]").count(), 2, `matching two-column semantics changed at ${viewport.width}px`);
   assert.equal(await frame.locator("[data-character-layer]").count(), 1, `matching lost canonical character layer at ${viewport.width}px`);
   const sceneWash = await frame.evaluate((node) => getComputedStyle(node, "::before").backgroundImage);
-  const overlayAlphas = Array.from(sceneWash.matchAll(/rgba\(\s*\d+,\s*\d+,\s*\d+,\s*([0-9]*\.?[0-9]+)\s*\)/g),
-    (match) => Number(match[1]));
-  assert.ok(overlayAlphas.length >= 2 && Math.max(...overlayAlphas) <= .2,
-    `matching Garden background must not be covered by a pale full-scene wash at ${viewport.width}px: ${sceneWash}`);
+  assert.equal(sceneWash, "none",
+    `matching Garden must not fade the full scene; only the title has a localized soft fade at ${viewport.width}px`);
 }
 
 async function assertStageHierarchy(page, viewport) {
