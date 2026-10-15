@@ -2141,7 +2141,7 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
 }
 
 
-/* VQA-05: Choice / Symbol Hunt / creative runtime h1 is rendered by the
+/* VQA-05: Choice / trace / story child-owned runtime h1 is rendered by the
    child (not the direct Garden .title slot). Keep that headline borderless
    with a *local*, edge-transparent light fade over vivid subject scenes.
    Do not apply this to answer cards, prompt panels or navigation buttons. */
