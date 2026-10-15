@@ -182,8 +182,8 @@ async function inspect(viewport, { route, activityId, title, prompt, correctChoi
       "Only one prominent activity instruction should render");
     assert.equal((await scene.locator("[data-sorting-primary-instruction]").textContent())?.trim(),prompt,
       "Main instruction retains exact canonical question");
-    assert.equal(await scene.getByText(title,{exact:true}).count(),1,
-      "Canonical activity title remains visible as quiet context");
+    assert.equal(await scene.getAttribute("aria-label"),title,
+      "Canonical activity title remains accessible without duplicate visible heading");
     assert.equal(await scene.locator("[data-sorting-help]").count(),0,
       "Supporting instruction must be hidden initially");
     await scene.getByRole("button",{name:"Cara main"}).click();
