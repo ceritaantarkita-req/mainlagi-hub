@@ -27,6 +27,7 @@
     "test:tracing": "node scripts/run-guided-tracing-tests.mjs",
     "test:audio-manager": "node scripts/run-audio-manager-tests.mjs",
     "test:ui:mobile-foundation": "node scripts/run-mobile-foundation-tests.mjs",
+    "test:ui:child-visual-foundation": "node scripts/run-child-visual-foundation-tests.mjs",
     "test:ui:drawing-guides": "node scripts/run-drawing-guide-tests.mjs",
     "test:ui:drag-target": "node scripts/run-drag-target-browser-tests.mjs",
     "test:ui:count-select": "node scripts/run-count-select-browser-tests.mjs",
