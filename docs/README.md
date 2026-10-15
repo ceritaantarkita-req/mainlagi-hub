@@ -69,6 +69,7 @@ Read these first for current work:
 20. [`MOBILE_ROUTE_QA.md`](MOBILE_ROUTE_QA.md) — blocking browser route and permanent visual QA contract.
 21. [`ARCHITECTURE.md`](ARCHITECTURE.md) — current technical boundaries and system architecture.
 22. [`MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md`](MAINLAGI_LEARNING_PLATFORM_UX_SPEC.md) — child/product/UX/activity rules.
+   - [`CHILD_VISUAL_FOUNDATION_V1_2026-10-15.md`](CHILD_VISUAL_FOUNDATION_V1_2026-10-15.md) — **review branch / not live**: owner-approved global title/instruction/typography/layout P0 contract; passive tokens and per-family opt-in plan; no live gameplay rewrite.
 23. [`LEARNING_ATTEMPTS_MASTERY.md`](LEARNING_ATTEMPTS_MASTERY.md) — evidence/mastery/progression contract.
 24. [`GAMEPLAY_VARIATION_CATALOG.md`](GAMEPLAY_VARIATION_CATALOG.md) — canonical gameplay-pattern catalog and WS-05 boundaries.
    - [`WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md`](WS05_LOGIC_PATTERN_COMPLETION_REUSE_WAVE_2026-09-22.md) — PR #273 implementation wave, exact scope and verification evidence.
