@@ -1780,7 +1780,7 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
   border: 0;
   border-radius: 0;
   background-color: transparent;
-  background-image: radial-gradient(ellipse 76% 88% at 50% 52%,
+  background-image: radial-gradient(ellipse closest-side at 50% 50%,
     rgba(255, 252, 239, .92) 0%,
     rgba(255, 252, 239, .70) 42%,
     rgba(255, 252, 239, .22) 72%,
@@ -2152,7 +2152,7 @@ a.stageCard:hover,a.activityCard:hover,a.profileCard:hover,a.gameCard:hover { bo
   border: 0;
   border-radius: 0;
   background-color: transparent;
-  background-image: radial-gradient(ellipse 76% 88% at 50% 52%,
+  background-image: radial-gradient(ellipse closest-side at 50% 50%,
     rgba(255, 252, 239, .92) 0%,
     rgba(255, 252, 239, .70) 42%,
     rgba(255, 252, 239, .22) 72%,
