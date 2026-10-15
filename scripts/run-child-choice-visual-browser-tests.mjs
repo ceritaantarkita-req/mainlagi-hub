@@ -119,7 +119,7 @@ async function verify(viewport){
       await completion.locator('[data-completion-action="again"]').click();
       await completion.waitFor({state:"hidden",timeout:3000});
       assert.equal(await buttons.filter({hasText:"🌱 tanaman"}).count(),1,"Again retains the canonical answer");
-      assert.equal(await buttons.locator(":disabled").count(),0,"Again re-enables all choices");
+      assert.equal(await experience.locator("[data-choices] button:disabled").count(),0,"Again re-enables all choices");
       const after=await page.evaluate(id=>{
         const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}")["demo-gian"]??[];
         return attempts.filter(a=>a.activityId===id).length;
