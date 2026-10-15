@@ -10,13 +10,16 @@ const host = "127.0.0.1";
 const port = Number(process.env.MAINLAGI_SORTING_BUCKETS_QA_PORT ?? 4015);
 const baseUrl = `http://${host}:${port}`;
 const route = "/child/demo-gian/activity/logic-classify-animal";
-const activityId = "logic-classify-animal";
-const correctChoice = "🐱";
+const scenarios = [
+  { route: "/child/demo-gian/activity/logic-classify-animal", activityId: "logic-classify-animal", title: "Cari hewan", prompt: "Mana yang hewan?", correctChoice: "🐱", stem: "sorting-buckets" },
+  { route: "/child/demo-gian/activity/logic-classify-up-arrow", activityId: "logic-classify-up-arrow", title: "Cari arah ke atas", prompt: "Panah mana yang mengarah ke atas?", correctChoice: "↑", stem: "sorting-up-arrow" }
+];
 const screenshotDir = path.join(root, ".mobile-route-qa");
 const viewports = [
   { width: 320, height: 720 },
   { width: 390, height: 844 },
-  { width: 768, height: 1024 }
+  { width: 768, height: 1024 },
+  { width: 1280, height: 800 }
 ];
 let server = null;
 let serverLog = "";
@@ -122,7 +125,7 @@ async function waitForHydratedBoard(page) {
   await page.waitForTimeout(80);
 }
 
-async function keyboardWrongPlacement(page) {
+async function keyboardWrongPlacement(page, correctChoice) {
   const trace = [];
   let selected = false;
   for (let step = 0; step < 96; step += 1) {
@@ -132,7 +135,7 @@ async function keyboardWrongPlacement(page) {
       tag: document.activeElement?.tagName ?? ""
     }));
     trace.push(`${focused.tag}:${focused.label || "(no label)"}`);
-    if (!selected && focused.label === "Pilih kartu 🐱") {
+    if (!selected && focused.label === `Pilih kartu ${correctChoice}`) {
       await page.keyboard.press("Enter");
       selected = true;
       continue;
@@ -145,7 +148,7 @@ async function keyboardWrongPlacement(page) {
   throw new Error(`Keyboard sorting path not reached. Focus trace: ${trace.join(" -> ")}`);
 }
 
-async function solve(page) {
+async function solve(page, correctChoice) {
   const cards = page.locator("[data-sorting-cards] button");
   while ((await cards.count()) > 0) {
     const label = await cards.first().getAttribute("aria-label");
@@ -157,7 +160,7 @@ async function solve(page) {
   }
 }
 
-async function inspect(viewport) {
+async function inspect(viewport, { route, activityId, title, prompt, correctChoice, stem }) {
   const browser = await chromium.launch({ headless: true });
   try {
     const context = await browser.newContext({ viewport, reducedMotion: "reduce" });
@@ -173,11 +176,32 @@ async function inspect(viewport) {
     await waitForHydratedBoard(page);
     assert.equal(new URL(page.url()).pathname, route, `progression guard must accept seeded Logic prerequisites at ${viewport.width}`);
 
+    const scene = page.locator('[data-sorting-buckets][data-child-visual-hierarchy="sorting-v1"]');
+    assert.equal(await scene.count(),1,"Logic sorting must opt in to the reusable child hierarchy");
+    assert.equal(await page.locator('[data-activity-frame="garden"] h1').count(),1,
+      "Only one prominent activity instruction should render");
+    assert.equal((await scene.locator("[data-sorting-primary-instruction]").textContent())?.trim(),prompt,
+      "Main instruction retains exact canonical question");
+    assert.equal(await scene.getByText(title,{exact:true}).count(),1,
+      "Canonical activity title remains visible as quiet context");
+    assert.equal(await scene.locator("[data-sorting-help]").count(),0,
+      "Supporting instruction must be hidden initially");
+    await scene.getByRole("button",{name:"Cara main"}).click();
+    assert.equal(await scene.locator("[data-sorting-help]").count(),1,
+      "Assistance must be available on demand");
+    await scene.getByRole("button",{name:"Tutup bantuan"}).click();
+    assert.equal(await scene.locator("[data-sorting-help]").count(),0);
+
     const cards = page.locator("[data-sorting-cards] button");
     assert.equal(await cards.count(), 3, "representative classification keeps three canonical cards");
     const buckets = page.getByRole("group", { name: "Keranjang pengelompokan" }).getByRole("button");
     assert.equal(await buckets.count(), 2, "sorting board exposes exactly two buckets");
 
+    const firstAction = await cards.first().boundingBox();
+    assert(firstAction && firstAction.y < viewport.height - 40,
+      `Sorting first playable card must be discoverable in first viewport at ${viewport.width}: ${JSON.stringify(firstAction)}`);
+    assert.equal(await scene.getByRole("status").count(),0,
+      "Idle state must not add a duplicate instruction/status banner");
     const viewportWidth = await page.evaluate(() => document.documentElement.clientWidth);
     const scrollWidth = await page.evaluate(() => Math.max(document.documentElement.scrollWidth, document.body.scrollWidth));
     assert(scrollWidth <= viewportWidth + 1, `sorting buckets overflow horizontally at ${viewport.width}`);
@@ -194,14 +218,14 @@ async function inspect(viewport) {
     }
 
     mkdirSync(screenshotDir, { recursive: true });
-    await page.screenshot({ path: path.join(screenshotDir, `${viewport.width}-sorting-buckets-idle.png`), fullPage: false });
+    await page.screenshot({ path: path.join(screenshotDir, `${viewport.width}-${stem}-idle.png`), fullPage: false });
 
-    await keyboardWrongPlacement(page);
+    await keyboardWrongPlacement(page, correctChoice);
     await page.getByRole("status").filter({ hasText: "Belum tepat" }).waitFor({ state: "visible", timeout: 2_000 });
     assert.equal(await cards.count(), 3, "wrong bucket placement does not consume the card");
-    await page.screenshot({ path: path.join(screenshotDir, `${viewport.width}-sorting-buckets-try.png`), fullPage: false });
+    await page.screenshot({ path: path.join(screenshotDir, `${viewport.width}-${stem}-try.png`), fullPage: false });
 
-    await solve(page);
+    await solve(page, correctChoice);
     await page.getByRole("status").filter({ hasText: "Semua kartu" }).waitFor({ state: "visible", timeout: 2_000 });
     assert.equal(await page.locator("[data-sorting-match-items] > span").count(), 1, "one positive item lands in matching bucket");
     assert.equal(await page.locator("[data-sorting-other-items] > span").count(), 2, "two negative items land in other bucket");
@@ -232,7 +256,7 @@ async function inspect(viewport) {
     assert.equal(state.attempt.retryCount, 1);
     assert.equal(state.attempt.accuracy, 0.75);
 
-    await page.screenshot({ path: path.join(screenshotDir, `${viewport.width}-sorting-buckets-success.png`), fullPage: false });
+    await page.screenshot({ path: path.join(screenshotDir, `${viewport.width}-${stem}-success.png`), fullPage: false });
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({ state: "hidden", timeout: 2_000 });
     assert.equal(await page.locator("[data-sorting-buckets]").getAttribute("data-sorting-buckets-done"), "false", "Again clears sorting completion state");
@@ -254,8 +278,10 @@ async function inspect(viewport) {
 async function main() {
   startServer();
   await waitForServer();
-  for (const viewport of viewports) await inspect(viewport);
-  console.log(`Sorting-buckets browser QA passed ${viewports.length} viewports with progression, keyboard wrong-state, pointer sorting, visual layout, canonical Completion, local Again replay, and assessed evidence checks.`);
+  for (const viewport of viewports) {
+    for (const scenario of scenarios) await inspect(viewport, scenario);
+  }
+  console.log(`Sorting-buckets browser QA passed ${viewports.length} viewports × ${scenarios.length} reviewed Logic activities with one primary instruction, help-on-demand, three cards, keyboard wrong-state, pointer sorting, Completion, Again, and evidence.`);
 }
 
 main()
