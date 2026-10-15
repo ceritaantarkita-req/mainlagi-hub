@@ -11,7 +11,7 @@ const port = Number(process.env.MAINLAGI_SORTING_BUCKETS_QA_PORT ?? 4015);
 const baseUrl = `http://${host}:${port}`;
 const route = "/child/demo-gian/activity/logic-classify-animal";
 const scenarios = [
-  { route: "/child/demo-gian/activity/logic-classify-animal", activityId: "logic-classify-animal", title: "Cari hewan", prompt: "Mana yang hewan?", correctChoice: "🐱", stem: "sorting-buckets" },
+  { route: "/child/demo-gian/activity/logic-classify-animal", activityId: "logic-classify-animal", title: "Cari yang termasuk hewan", prompt: "Mana yang termasuk hewan?", correctChoice: "🐱", stem: "sorting-buckets" },
   { route: "/child/demo-gian/activity/logic-classify-up-arrow", activityId: "logic-classify-up-arrow", title: "Cari arah ke atas", prompt: "Panah mana yang mengarah ke atas?", correctChoice: "↑", stem: "sorting-up-arrow" }
 ];
 const screenshotDir = path.join(root, ".mobile-route-qa");
