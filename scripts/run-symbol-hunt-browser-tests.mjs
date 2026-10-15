@@ -101,6 +101,7 @@ async function inspect(viewport) {
         viewport: document.documentElement.clientWidth
       };
     });
+    assert.match(heading.gradient, /closest-side/, `symbol-hunt title needs an edge-bounded fade at ${viewport.width}px`);
     assert.match(heading.gradient, /radial-gradient/, `symbol-hunt title needs localized soft fade at ${viewport.width}px`);
     assert.equal(heading.background, "rgba(0, 0, 0, 0)", `symbol-hunt title has solid box at ${viewport.width}px`);
     assert.equal(heading.border, 0, `symbol-hunt title regained rectangular border at ${viewport.width}px`);
