@@ -179,9 +179,35 @@ async function inspect(viewport){
     }
 
     const status=page.getByRole("status");
+    // P1 child-first: one visible instruction, extra reading guidance only on
+    // an intentional accessible Help reveal; do not delete authored prompts.
+    const help=page.locator('[data-picture-word-help="v1"]');
+    assert.equal(await help.count(),1,"Bahasa PictureWord retains native accessible Help at "+viewport.width);
+    const helpSummary=help.locator("summary");
+    assert.equal((await helpSummary.innerText()).trim(),"Cara main",
+      "Bahasa Help trigger is localized");
+    assert.equal(await help.getAttribute("open"),null,
+      "Bahasa supplemental guidance must be collapsed on idle");
+    assert.equal(await help.locator("p").isVisible(),false,
+      "Bahasa helper text not initially visible");
+    await assertFullyVisible(helpSummary,viewportHeight,
+      "Bahasa first action Help is reachable at "+viewport.width);
     await assertFullyVisible(status,viewportHeight,`idle picture-word feedback at ${viewport.width}`);
     mkdirSync(screenshotDir,{recursive:true});
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-picture-word-idle.png`),fullPage:false});
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"),"",
+      "Bahasa Help expands by keyboard/pointer");
+    assert.equal(await help.locator("p").isVisible(),true,
+      "Bahasa canonical instruction becomes visible on request");
+    assert.match(await help.locator("p").innerText(),"Amati objeknya lalu sentuh kata yang paling cocok.",
+      "Bahasa underlying authored guidance must be preserved");
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-picture-word-help.png`),fullPage:false});
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"),null,
+      "Bahasa Help must re-collapse");
+    assert.equal(await help.locator("p").isVisible(),false,
+      "Bahasa no duplicate helper text after closing");
 
     const wrongLabel=await keyboardWrongChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
