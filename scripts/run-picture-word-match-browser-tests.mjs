@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readdirSync, copyFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -14,6 +14,7 @@ const route="/child/demo-gian/activity/bahasa-gambar-apel";
 const activityId="bahasa-gambar-apel";
 const correctLabel="Pilih kata apel";
 const screenshotDir=path.join(root,".mobile-route-qa");
+const evidenceDir=path.join(root,".vqa08-picture-word");
 const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
@@ -252,11 +253,22 @@ async function inspect(viewport){
   }
 }
 
+function preservePictureWordEvidence(){
+  // Later mobile-route suites clear .mobile-route-qa; keep original screenshots
+  // there for legacy QA, and archive only this family before cleanup starts.
+  mkdirSync(evidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir).filter(file=>/^\d+-picture-word-(?:idle|help|try|success)\.png$/.test(file));
+  assert.equal(files.length,viewports.length*4,
+    "Bahasa Picture Word visual QA must capture 4 states at every width");
+  for(const file of files)copyFileSync(path.join(screenshotDir,file),path.join(evidenceDir,file));
+}
+
 async function main(){
   startServer();
   await waitForServer();
   await inspectSemanticCoverage();
   for(const viewport of viewports)await inspect(viewport);
+  preservePictureWordEvidence();
   console.log(`Picture Word Match browser QA passed ${viewports.length} required Session 13 viewports plus exact Bahasa semantic coverage with held-car fallback.`);
 }
 
