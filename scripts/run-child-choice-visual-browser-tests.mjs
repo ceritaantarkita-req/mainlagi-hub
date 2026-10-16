@@ -37,19 +37,20 @@ function stopServer(){if(server&&!server.killed)server.kill("SIGTERM");}
 async function seedReadiness(context){
   await context.addInitScript(()=>{
     const childId="demo-gian",progressKey="mainlagi-learning-progress-v1",attemptsKey="mainlagi-learning-attempts-v1";
-    const ids=["science-living-dog","science-match-living-nonliving","science-plant-needs-sunlight","science-animal-fur-cat","science-match-animal-homes-a","science-sense-eyes-see","science-weather-rain-clue"];
+    // Science Wave A is stage 2. The progression guard requires BOTH completed
+    // core tasks and qualifying mastery evidence from stage 1 science-foundations.
+    // Keep this consistent with the existing run-drag-target-browser-tests fixture.
+    const ids=["science-living-cat","science-match-habitat","science-find-plant"];
     localStorage.setItem(progressKey,JSON.stringify({[childId]:{completedActivityIds:ids,stars:0,lastActivityId:ids.at(-1)}}));
     const seeds=[
-      ["science-living-dog","science.living.basic_classification"],
-      ["science-plant-needs-sunlight","science.plants.parts_needs.basic"],
-      ["science-animal-fur-cat","science.animals.features_habitat.basic"],
-      ["science-sense-eyes-see","science.observation.senses.basic"],
-      ["science-weather-rain-clue","science.weather.daynight.basic"]
+      ["science-living-cat","science.living.classification","tap_choice"],
+      ["science-match-habitat","science.animals.habitat","matching"],
+      ["science-find-plant","science.living.classification","tap_choice"]
     ];
-    const attempts=seeds.map(([id,skillId],index)=>{
-      const attemptId=`qa-choice-prereq-${index}`,at="2026-09-15T00:00:00.000Z";
-      return {id:attemptId,childId,activityId:id,subjectId:"science",stageId:"science-living-observation-basics",runtime:"tap_choice",
-        difficulty:2,status:"completed",assessed:true,score:1,accuracy:1,correctCount:1,incorrectCount:0,hintCount:0,retryCount:0,
+    const attempts=seeds.map(([id,skillId,runtime],index)=>{
+      const attemptId=`qa-choice-prereq-${index}`,at=`2026-09-15T00:0${index}:00.000Z`;
+      return {id:attemptId,childId,activityId:id,subjectId:"science",stageId:"science-foundations",runtime,
+        difficulty:1,status:"completed",assessed:true,score:1,accuracy:1,correctCount:runtime==="matching"?2:1,incorrectCount:0,hintCount:0,retryCount:0,
         durationMs:1000,inputMode:"touch",startedAt:at,completedAt:at,metadata:{source:"choice-browser-prerequisite"},
         evidence:[{attemptId,activityId:id,skillId,score:1,weight:1,createdAt:at,qualifiesForMastery:true}],masteryEligible:true};
     });
