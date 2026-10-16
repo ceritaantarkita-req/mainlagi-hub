@@ -172,7 +172,7 @@ export function CreativePracticeActivity({childId,activityId}:{childId:string;ac
   const resumeWorkspace=()=>setCompletionOpen(false);
   return <GardenActivityFrame workspace backHref={`/child/${childId}/subject/${activity.subjectId}`} title={activity.title} onHear={()=>{unlockAudio();const status=speakWithStatus(prompt);setAudioError(status!=="spoken");}}>
     {activity.runtime==="drawing" && prompt!==activity.title ? <p className={styles.prompt}>{prompt}</p>:null}
-    {activity.runtime==="coloring" ? <p className={styles.hint}>Pilih warna. Sentuh gambarnya.</p>:null}
+    {activity.runtime==="coloring" ? <p className={`${styles.hint} ${styles.coloringInstruction}`} data-creative-color-instruction="v1">Pilih warna. Sentuh gambarnya.</p>:null}
     {audioError ? <p role="status">Narasi dengan pelafalan yang sesuai belum tersedia atau suara sedang dimatikan. Petunjuk tetap bisa dibaca di atas.</p>:null}
     {activity.runtime==="drawing" ? <DrawingCanvas key={activity.id} activity={activity} onDone={finish}/>:<ColoringRegions key={activity.id} activity={activity} onDone={finish}/>}
     {completionOpen ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={resumeWorkspace} /> : null}
