@@ -99,6 +99,31 @@ async function inspect(browser,viewport,item){
         ()=>Boolean(document.querySelector('[data-coloring-hit-areas="ready"]')),
         undefined,{timeout:5000}
       );
+      const instruction=page.locator('[data-creative-color-instruction="v1"]');
+      await instruction.waitFor({state:"visible",timeout:5000});
+      assert.equal((await instruction.innerText()).trim(),"Pilih warna. Sentuh gambarnya.",
+        "Coloring keeps exact canonical child instruction");
+      const appearance=await instruction.evaluate(node=>{
+        const style=getComputedStyle(node),rect=node.getBoundingClientRect();
+        return {color:style.color,backgroundColor:style.backgroundColor,
+          gradient:style.backgroundImage,shadow:style.boxShadow,
+          border:style.borderTopWidth,left:rect.left,right:rect.right,
+          viewport:document.documentElement.clientWidth,height:rect.height};
+      });
+      assert.equal(appearance.color,"rgb(25, 59, 85)",
+        "Coloring instruction keeps readable dark text "+viewport.width);
+      assert.match(appearance.gradient,/radial-gradient.*closest-side/,
+        "Coloring instruction needs a local warm contrast halo "+viewport.width);
+      assert.match(appearance.gradient,/rgba\(255, 252, 240, 0\)/,
+        "Coloring halo must dissolve without a rectangular box "+viewport.width);
+      assert.equal(appearance.backgroundColor,"rgba(0, 0, 0, 0)",
+        "Coloring instruction must not gain an opaque card "+viewport.width);
+      assert.equal(appearance.border,"0px","Coloring instruction must stay unboxed");
+      assert(appearance.left>=-1&&appearance.right<=appearance.viewport+1&&appearance.height>=24,
+        "Coloring instruction must be fully in frame "+viewport.width+": "+JSON.stringify(appearance));
+    }else{
+      assert.equal(await page.locator('[data-creative-color-instruction]').count(),0,
+        "Drawing scaffold must never inherit the Coloring-only instruction halo");
     }
     const palette=page.getByRole("group",{name:"Palet warna"}).getByRole("button");
     assert.equal(await palette.count(),10,item.kind+" maintains all canonical palette colors");
