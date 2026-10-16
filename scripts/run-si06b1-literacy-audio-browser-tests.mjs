@@ -13,7 +13,8 @@ const route="/child/demo-gian/activity/english-find-blue-audio";
 const activityId="english-find-blue-audio";
 const portrait={width:390,height:844};
 const landscape={width:844,height:390};
-const outDir=path.resolve(".mobile-route-qa/si06b1-literacy-audio");
+// Keep this suite separate: run-mobile-route-browser-tests.mjs resets .mobile-route-qa after this test.
+const outDir=path.resolve(".vqa06-audio-first");
 let server=null;
 let serverLog="";
 
@@ -40,8 +41,8 @@ async function waitForServer(){
   throw new Error(`SI-06B1 QA server did not become ready.\n${serverLog.slice(-4000)}`);
 }
 
-async function installQaState(context){
-  await context.addInitScript(()=>{
+async function installQaState(context, speechMode="normal"){
+  await context.addInitScript((speechMode)=>{
     localStorage.setItem("mainlagi-learning-progress-v1",JSON.stringify({
       "demo-gian":{completedActivityIds:[],stars:0,lastActivityId:null}
     }));
@@ -60,7 +61,7 @@ async function installQaState(context){
       emit(type){for(const listener of this.listeners.get(type)??[])listener();}
     }
 
-    const voices=[
+    const voices=speechMode==="unavailable" ? [] : [
       {default:false,lang:"en-US",localService:true,name:"QA English",voiceURI:"qa-en"},
       {default:true,lang:"id-ID",localService:true,name:"QA Indonesia",voiceURI:"qa-id"}
     ];
@@ -72,6 +73,13 @@ async function installQaState(context){
       speak(utterance){
         this.current=utterance;
         this.speaking=true;
+        if(speechMode==="error"){
+          setTimeout(()=>{
+            if(this.current!==utterance)return;
+            this.current=null;this.speaking=false;utterance.emit("error");
+          },8);
+          return;
+        }
         setTimeout(()=>{if(this.current===utterance)utterance.emit("start");},8);
         setTimeout(()=>{
           if(this.current!==utterance)return;
@@ -84,7 +92,7 @@ async function installQaState(context){
 
     Object.defineProperty(window,"SpeechSynthesisUtterance",{configurable:true,value:QaSpeechUtterance});
     Object.defineProperty(window,"speechSynthesis",{configurable:true,value:qaSynth});
-  });
+  },speechMode);
 }
 
 async function targetAttempts(page){
@@ -127,6 +135,9 @@ async function main(){
   try{
     const response=await page.goto(baseUrl+route,{waitUntil:"domcontentloaded",timeout:30000});
     assert(response&&response.status()<400,"AudioChoice production route must load");
+    assert.equal(await page.locator('[data-choices] button:not([disabled])').count(),0,
+      "direct AudioChoice entry must not expose playable answers before speech");
+    await page.screenshot({path:path.join(outDir,"390-idle-before-audio.png"),fullPage:false});
     await page.getByRole("button",{name:"Dengar petunjuk"}).click();
 
     const choices=page.locator("[data-choices] button");
@@ -137,6 +148,7 @@ async function main(){
     await choices.filter({hasText:"🔴"}).click();
     await page.getByText("Belum tepat. Dengarkan lagi atau coba pilihan lain ya.").waitFor({state:"visible",timeout:3000});
     assert.equal((await targetAttempts(page)).length,0,"wrong AudioChoice answer must not complete");
+    await page.screenshot({path:path.join(outDir,"390-wrong-feedback.png"),fullPage:false});
 
     await choices.filter({hasText:"🔵"}).click();
     const completion=page.locator('[data-canonical-completion="v1"][data-activity-completion]');
@@ -197,7 +209,7 @@ async function main(){
     for (const viewport of [
       { width: 320, height: 720 }, { width: 390, height: 844 },
       { width: 430, height: 860 }, { width: 768, height: 1024 },
-      { width: 844, height: 390 }, { width: 1440, height: 900 }
+      { width: 844, height: 390 }, { width: 1280, height: 800 }, { width: 1440, height: 900 }
     ]) {
       const sceneContext=await browser.newContext({viewport,reducedMotion:"reduce",hasTouch:viewport.width<=430});
       try {
@@ -243,8 +255,38 @@ async function main(){
         assert.ok(geometry.maxButtonBottom <= geometry.stageBottom+2,"all choices stay inside paper panel");
         assert.ok(geometry.hintTop >= geometry.choicesBottom-2,"hint must come after answers");
         assert.ok(geometry.overflowX <= 2,"no horizontal overflow at "+viewport.width+"px");
+        assert.equal(await scenePage.locator('[data-choices] button:not([disabled])').count(),0,
+          `AudioChoice ${viewport.width}px: first action must not bypass speech readiness`);
         await scenePage.screenshot({path:path.join(outDir,`audio-legibility-${viewport.width}x${viewport.height}.png`),fullPage:false});
+        await scenePage.getByRole("button",{name:"Dengar petunjuk"}).click();
+        await scenePage.waitForFunction(()=>[...document.querySelectorAll('[data-choices] button')].length===3 &&
+          [...document.querySelectorAll('[data-choices] button')].every(button=>!button.disabled),null,{timeout:5000});
+        await scenePage.screenshot({path:path.join(outDir,`audio-spoken-${viewport.width}x${viewport.height}.png`),fullPage:false});
       }finally{await sceneContext.close();}
+    }
+
+    // VQA-06: isolated device states must not bypass audio readiness.
+    for (const speechMode of ["unavailable","error"]) {
+      for (const viewport of [{width:320,height:720},{width:390,height:844}]) {
+        const fallbackContext=await browser.newContext({viewport,reducedMotion:"reduce",hasTouch:true});
+        try {
+          await installQaState(fallbackContext,speechMode);
+          const fallbackPage=await fallbackContext.newPage();
+          const response=await fallbackPage.goto(baseUrl+route,{waitUntil:"domcontentloaded",timeout:30000});
+          assert(response&&response.status()<400,`AudioChoice ${speechMode} route must load`);
+          await fallbackPage.getByRole("button",{name:"Dengar petunjuk"}).click();
+          const text=speechMode==="unavailable"?"Narasi dengan pelafalan":"Suara belum bisa diputar";
+          await fallbackPage.getByRole("status").filter({hasText:text}).waitFor({state:"visible",timeout:5000});
+          assert.equal(await fallbackPage.locator('[data-choices] button:not([disabled])').count(),0,
+            `${speechMode} must not unlock audio-dependent answers at ${viewport.width}px`);
+          assert.equal(await fallbackPage.getByRole("link",{name:"Pilih permainan lain"}).count(),1,
+            `${speechMode} must offer a safe exit at ${viewport.width}px`);
+          assert.equal((await targetAttempts(fallbackPage)).length,0,
+            `${speechMode} must not emit an assessed attempt`);
+          await assertNoOverflow(fallbackPage,`AudioChoice ${speechMode} ${viewport.width}px`);
+          await fallbackPage.screenshot({path:path.join(outDir,`audio-${speechMode}-${viewport.width}.png`),fullPage:false});
+        } finally { await fallbackContext.close(); }
+      }
     }
 
     console.log("SI-06B1 AudioChoice browser QA PASS: canonical Completion+Share, assessed choice evidence, orientation persistence and Again duplicate-attempt safety are preserved.");
