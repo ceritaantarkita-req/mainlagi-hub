@@ -177,7 +177,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: vqa08-picture-word-screenshots
-          path: .mobile-route-qa/*picture-word*.png
+          path: .vqa08-picture-word/
           if-no-files-found: error
           retention-days: 14
 
