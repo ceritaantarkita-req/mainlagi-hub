@@ -1,8 +1,8 @@
 # Mainlagi Child Visual Pilot P1-b — generic tap-choice (15 Oct 2026)
 
-Status: **review branch only / not merged / not production verified**.  
-Base: `main@94dc356e8a25a9d2f8de0b3472bd46d00485dc9f` — P0 child visual foundation (#509 merged, real Cloudflare exact-SHA verification still unavailable from Github run history).  
-Sibling: [draft Logic Sorting PR #510](https://github.com/ceritaantarkita-req/mainlagi-hub/pull/510) has CI 7/7 PASS, but its downloaded image ZIP is not yet manually inspected; **do not merge based on CI alone**. VQA-06 PR #508 remains a separate draft.
+Status: **review successor PR #513 / not merged / not production verified**.  
+Base: `main@6b850c5362aa494c09a188361399d372272232a4` after P0 foundation #509, merged Logic Sorting #510, and merged Audio/Symbol Hunt QA successor #512. Exact-SHA Cloudflare production proof remains separate from PR CI.  
+This is a protected-branch-safe successor to historical draft #511; source files were transplanted without replacing unrelated changes on current main. Historical #508 is superseded and closed after #512 merged.
 
 ## Owner-observed problem, scoped fix
 
@@ -20,7 +20,11 @@ P1-b fixes the *shared canonical `tap_choice` renderer* for all activities actua
 - `listen_and_choose` legacy Choice renderer remains **unchanged** until an answer-safe audio-first audit. Audio target text must not leak into the visible question. No audio manager, narration, answer, stage/age gating or assessment change.
 - Existing `LearningPlatform.module.css` other families are untouched; no global `h1` or `button` override and no catalog-copy rewrite.
 
-### Regression
+### Shared heading soft-fade compatibility
+
+The permanent VQA-05 title regression requires a radial `closest-side` heading fade without a rectangular background. A direct Garden title previously received it via `.play > h1`, but this opt-in renderer nests the canonical `h1` within a semantic `section`. The scoped `ChildChoicePresentation.module.css` `.experience > .question` reinstates the identical zero-alpha-edge fade on only the Choice primary heading. Do not weaken the visual baseline and do not globally style gameplay `h1`.
+
+## Regression
 
 Permanent new `scripts/run-child-choice-visual-browser-tests.mjs` is in the canonical `test:ui:mobile-routes` Chromium chain, **after** the route runner's screenshot cleanup so artifacts persist.
 
@@ -35,6 +39,6 @@ Do not merge unless the PR exact-head 7/7 gates PASS **and** real screenshot PNG
 ### Boundaries & next
 
 - No change to Learning Evidence/mastery, catalog scoring/distractors, World, Motion Engine, Character, Shop, auth or DB.
-- Pilot #510 remains separate and must be closed after actual screenshot acceptance.
+- Logic Sorting #510 is already merged following 24 screenshot approvals; this Choice PR remains independent of that renderer.
 - Next P1-c is Drawing Stage using a shared playful-catalog presentation, **not** converting drawing to a choice game.
 - Physical iPhone Safari and owner reading/copy approval remain separate gates. Activity structural 900/900 classification does not imply 900 visual acceptances.
