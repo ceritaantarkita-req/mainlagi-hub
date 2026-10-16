@@ -48,7 +48,7 @@ function ChoiceActivity({ childId, activity, onDone }: { childId: string; activi
 
   if (plan) {
     return <section className={`${visual.activity} ${choicePresentation.experience}`} data-child-visual-hierarchy="choice-v1" aria-label={plan.contextTitle}>
-      <h1 className={visual.primaryInstruction} data-child-choice-question>{plan.primaryInstruction}</h1>
+      <h1 className={`${visual.primaryInstruction} ${choicePresentation.question}`} data-child-choice-question>{plan.primaryInstruction}</h1>
       <div className={`${visual.choiceGrid} ${choicePresentation.options}`} data-choices>
         {(activity.choices ?? []).map((choice) => (
           <button
