@@ -1,72 +1,20 @@
 "use client";
 
-import Link from "next/link";
-import type { CSSProperties } from "react";
-import { getActivitiesForStage, getStage, getSubject, type LearningActivity } from "@/lib/learning/system";
-import { getLessonsForStage } from "@/lib/learning/curriculum";
-import { getActivityLearningSpec } from "@/lib/learning/catalog";
-import { ChildLoading, useLearningProfile, useLearningProgress } from "./LearningCommon";
+import { getStage } from "@/lib/learning/system";
+import { StageScreen } from "./ChildLearningPathViews";
 import styles from "./LearningPlatform.module.css";
 
-function DrawingActivityCard({ childId, activity, done, accent, soft }: { childId: string; activity: LearningActivity; done: boolean; accent: string; soft: string }) {
-  const spec = getActivityLearningSpec(activity.id);
-  return (
-    <Link href={`/child/${childId}/activity/${activity.id}`} className={styles.activityCard} style={{ "--accent": accent, "--soft": soft } as CSSProperties}>
-      <span className={styles.activityIcon} aria-hidden>{activity.emoji}</span>
-      <h3>{activity.title}</h3>
-      
-      <span className={styles.activityMeta}>
-        <span className={styles.tag}>✏️ Menggambar</span>
-        <span className={styles.tag}>Ayo coba!</span>
-        {spec?.requiredForStage ? <span className={styles.tag}>Inti</span> : null}
-        {done ? <span className={`${styles.tag} ${styles.tagDone}`}>✓ Selesai</span> : null}
-      </span>
-    </Link>
-  );
-}
-
+/**
+ * Menggambar keeps its canonical route/owner for existing Journey Map links.
+ * P1-c presentation delegates to the same stage catalog as eight other subjects:
+ * age-gated lessons, canonical progress/evidence, recommendations and activity links.
+ *
+ * CreativePracticeActivity, drawing canvas, completion and mastery stay independent.
+ */
 export function DrawingStageScreen({ childId, stageId }: { childId: string; stageId: string }) {
-  const profile = useLearningProfile(childId);
-  const progress = useLearningProgress(childId);
   const stage = getStage(stageId);
-  if (!profile || !stage) return <ChildLoading />;
-  if (stage.subjectId !== "drawing") return <main className={styles.content}><div className={styles.emptyState}>Stage menggambar tidak ditemukan.</div></main>;
-  const subject = getSubject("drawing")!;
-  const activities = getActivitiesForStage(stage.id).filter((activity) => profile.age >= activity.ageMin && profile.age <= activity.ageMax);
-  const activityMap = new Map(activities.map((activity) => [activity.id, activity]));
-  const lessons = getLessonsForStage(stage.id).filter((lesson) => profile.age >= lesson.ageMin && profile.age <= lesson.ageMax);
-
-  return (
-    <main className={styles.content}>
-      <div style={{ marginTop: 16 }}>
-        <p className={styles.eyebrow}>{subject.emoji} {subject.title}</p>
-        <h1 className={styles.pageTitle}>{stage.title}</h1>
-        
-      </div>
-      <p className={styles.pageLead}>✏️ Ayo menggambar! Coba garis dan bentuk favoritmu.</p>
-      {lessons.map((lesson) => {
-        const items = lesson.activityIds.map((id) => activityMap.get(id)).filter((item): item is LearningActivity => Boolean(item));
-        if (!items.length) return null;
-        return (
-          <section className={styles.section} key={lesson.id}>
-            <div className={styles.sectionHead}>
-              <div><p className={styles.eyebrow}>Ayo mencoba</p><h2>{lesson.title}</h2></div>
-            </div>
-            <div className={styles.cardGrid}>
-              {items.map((activity) => (
-                <DrawingActivityCard
-                  key={activity.id}
-                  childId={childId}
-                  activity={activity}
-                  done={progress.completedActivityIds.includes(activity.id)}
-                  accent={subject.accent}
-                  soft={subject.soft}
-                />
-              ))}
-            </div>
-          </section>
-        );
-      })}
-    </main>
-  );
+  if (stage && stage.subjectId !== "drawing") {
+    return <main className={styles.content}><div className={styles.emptyState}>Stage menggambar tidak ditemukan.</div></main>;
+  }
+  return <StageScreen childId={childId} stageId={stageId} />;
 }
