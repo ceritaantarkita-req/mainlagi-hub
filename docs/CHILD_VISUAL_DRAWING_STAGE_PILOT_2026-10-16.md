@@ -1,6 +1,6 @@
 # Child Visual Pilot P1-c — Drawing Stage shared playful catalog (16 Oct 2026)
 
-Status: **DRAFT / NOT MERGED / NOT LIVE VERIFIED**. Base `main@6b850c5362aa494c09a188361399d372272232a4` after P0 #509, Sorting #510 and Audio/Symbol QA #512. P1-b shared Choice successor #513 is independent and must meet exact-head CI before any integration. Supersession of historical approvals is not implied.
+Status: **DRAFT / NOT MERGED / NOT LIVE VERIFIED**. Base `main@657df2ca822c648334490714ad38a790e9275c0f` after P0 #509, Sorting #510, Audio/Symbol QA #512, and merged shared Choice #513. This is the protected-branch-safe successor to draft #514. Supersession of historical approvals is not implied.
 
 ## User goal
 One global Stage Page visual system, **including Drawing**, not 900 manual patches. Preserve nine separate subject identities and the creative canvas/gameplay runtime. Stage is a catalog, not an answer/question experience.
@@ -27,3 +27,8 @@ Extend the existing JM-06 shared Journey Map Chromium suite rather than duplicat
 2. If visually wrong, fix shared catalog *with opt-in Drawing styling only* or reject this pilot. Avoid global Stage CSS regressions.
 3. Squash merge protected exact head only after acceptance, then independently verify merged-main **8/8 including Cloudflare exact SHA**. Real iOS Safari and owner review remain open.
 4. 900/900 classification is NOT 900 visual approvals. No answers, scoring, mastery, stage locks, DB, auth, World, Motion, Shop or character design change.
+
+## 16 Oct mobile image rejection and correction
+Original #514 exact head `5ef95052637d35ea75797b75c722d65a9ae2be41` passed 7/7 but **was not accepted for merge**: artifact #12019613799 showed that at 320px the first playable Drawing activity was BELOW the 720px phone viewport, and at 390px it was near the bottom. A subsequent targeted patch uses `data-drawing-stage-catalog="v1"` on only Drawing Stage and the explicit small-screen (<=560px) rules in `StagePath.module.css` to reduce nested decorative spacing, keep the canonical Stage hero and meaningful progress label/metric, and bring the card above the fold.
+
+The new permanent JM-06 test fails if the first card does not show at least 80px of visible touch target before the phone bottom (40px tolerance) **without scrolling** on 320x720 and 390x844, followed by screenshot captures. The correction does not alter stage unlock/readiness math or any other subject Stage template. Do not claim acceptance until the new QA screenshot is actually inspected.
