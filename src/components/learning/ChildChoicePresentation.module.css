@@ -8,6 +8,26 @@
   gap: clamp(12px, 2.3vh, 22px);
   padding-block: clamp(4px, 1vh, 14px);
 }
+.experience > .question {
+  /* Garden's P0 feathered heading is applied to direct h1 children only.
+     Choice v1 has a semantic section wrapper: retain the identical fade here
+     without targeting its answer buttons or any other gameplay family. */
+  width: fit-content;
+  max-width: min(100%, var(--ml-child-question-measure, 34ch));
+  margin-inline: auto;
+  padding: 3px clamp(14px, 2.2vw, 28px);
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  background-image: radial-gradient(ellipse closest-side at 50% 50%,
+    rgba(255, 252, 239, .92) 0%,
+    rgba(255, 252, 239, .70) 42%,
+    rgba(255, 252, 239, .22) 72%,
+    rgba(255, 252, 239, 0) 100%);
+  background-repeat: no-repeat;
+  text-shadow: 0 1px 1px rgba(255, 255, 246, .94), 0 2px 4px rgba(16, 52, 75, .16);
+  box-shadow: none;
+}
 .options {
   margin: 0 auto;
   align-items: stretch;
