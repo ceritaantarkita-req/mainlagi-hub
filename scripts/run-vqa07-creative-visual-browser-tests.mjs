@@ -114,7 +114,7 @@ async function inspect(browser,viewport,item){
         "Coloring instruction keeps readable dark text "+viewport.width);
       assert.match(appearance.gradient,/radial-gradient.*closest-side/,
         "Coloring instruction needs a local warm contrast halo "+viewport.width);
-      assert.match(appearance.gradient,/rgba\\(255, 252, 240, 0\\)/,
+      assert.match(appearance.gradient,/rgba\(255, 252, 240, 0\)/,
         "Coloring halo must dissolve without a rectangular box "+viewport.width);
       assert.equal(appearance.backgroundColor,"rgba(0, 0, 0, 0)",
         "Coloring instruction must not gain an opaque card "+viewport.width);
