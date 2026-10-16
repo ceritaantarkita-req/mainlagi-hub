@@ -180,6 +180,7 @@ jobs:
           path: .vqa08-picture-word/
           if-no-files-found: error
           retention-days: 14
+          include-hidden-files: true
 
       # VQA-06 AudioChoice captures live outside the standard screenshots directory,
       # which the later mobile-route runner clears before its own collection.
