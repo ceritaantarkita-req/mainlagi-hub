@@ -1,7 +1,7 @@
 # VQA-05 — Activity title soft fade (15 Oct 2026)
 
-Status: **review branch / not merged / not production verified**
-Baseline: `main@de04dd2eb8e7c56eb0dac9528e1dd79318f2640c` (#506 merged and Cloudflare exact SHA verified).
+Status: **MERGED / LIVE VERIFIED** — PR #507, production `main@3644a9270d7557ee3033ccbf393d06f7ed75c965` (15 Oct 2026).
+Historical pre-PR baseline: `main@de04dd2eb8e7c56eb0dac9528e1dd79318f2640c` (#506 merged and Cloudflare exact SHA verified).
 Parent: VQA visual quality issue #501.
 
 ## Owner decision
@@ -20,7 +20,7 @@ Screenshots motivating the issue: Garden Choice headings, title `Temukan huruf A
 
 The first successful PR screenshot run (head `fcd2ae3`, #38673606496) was inspected at desktop and 320px. **Do not merge that head:** the explicit `ellipse 76% 88%` radial gradient extends beyond the h1 element boundaries and still creates a visible translucent **rectangle** around `Hitung sampai 3` and the nighttime Logic `Cari pasangan!` title. This conflicts with the owner's no-box decision even though tests passed.
 
-Changed all three title-gradient instances to `ellipse closest-side at 50% 50%`, so the fade reaches 0 alpha at the heading's own edges, while preserving the central readable backlight and text-shadow. Regression assertions now require `closest-side` and a zero-alpha edge rather than a generic radial gradient. **New exact-head CI and refreshed screenshots must be reviewed before merge.**
+Changed all three title-gradient instances to `ellipse closest-side at 50% 50%`, so the fade reaches 0 alpha at the heading's own edges, while preserving the central readable backlight and text-shadow. Regression assertions now require `closest-side` and a zero-alpha edge rather than a generic radial gradient. **Closed:** final PR head `e26918505e84a0ad914c74aaa4f12543e3470d36` passed required CI (7/7); real Chromium screenshot samples at 320/390/768/1280 were reviewed before squash merge. The preceding paragraphs are historical review notes, not outstanding release blockers.
 
 ## Regression
 
@@ -32,10 +32,18 @@ Changed all three title-gradient instances to `ellipse closest-side at 50% 50%`,
 
 ## Release gates
 
-- [ ] Exact PR head 7/7 blocking CI checks PASS (Ubuntu, Windows, Chromium, production build, secrets, dependencies, Shop staging).
-- [ ] Inspect title area on desktop + 390/320 phones, including nighttime Logic contrast, multi-line titles and no horizontal overflow.
-- [ ] Squash merge **exact head SHA** after safety checks; never bypass branch protection.
-- [ ] Post-merge `main` 8/8 checks, Cloudflare smoke must confirm the precise merged SHA.
-- [ ] Real iPhone Safari/owner visual acceptance remains separately open.
+- [x] Exact PR head 7/7 blocking CI checks PASS (Ubuntu, Windows, Chromium, production build, secrets, dependencies, Shop staging) — [run #38682664337](https://github.com/ceritaantarkita-req/mainlagi-hub/actions/runs/38682664337).
+- [x] Representative Chromium title samples at 320/390/768/1280 reviewed, including nighttime Logic and multiline Math; this is not 900-activity approval — see [final PR comment](https://github.com/ceritaantarkita-req/mainlagi-hub/pull/507#issuecomment-6184777205).
+- [x] Final reviewed head `e26918505e84a0ad914c74aaa4f12543e3470d36` squash-merged to `main@3644a9270d7557ee3033ccbf393d06f7ed75c965` on 15 Oct 2026.
+- [x] Post-merge `main` [run #38684386266](https://github.com/ceritaantarkita-req/mainlagi-hub/actions/runs/38684386266) 8/8 SUCCESS. Cloudflare smoke log reports `Production is serving expected commit 3644a9270d7557ee3033ccbf393d06f7ed75c965` with canonical Supabase target at 12:14 WIB, 15 Oct 2026.
+- [ ] Real iPhone Safari / owner physical-device visual acceptance remains **open** and is not proven by Chromium or Cloudflare smoke.
 
 **Frozen:** 9 subjects / 900 activities / 47 active patterns, correct answers, tap choices, score, mastery, learning evidence, readiness/stage locks, audio/TTS, World, Motion Engine, character production, Shop, Supabase/auth.
+
+## Post-release visual audit boundary (15 Oct 2026)
+
+- Issue [#501](https://github.com/ceritaantarkita-req/mainlagi-hub/issues/501) stays **open** for evidence-led audio-first, Symbol Hunt and other visual/pedagogical acceptance; PR #507 closed only its title-soft-fade scope.
+- Audio focus retains a reading-safe task panel, including muted/unavailable/error fallback; the fallback must not reveal the hidden audio answer or unlock choices.
+- Symbol Hunt's `promptCard` is a **nested instruction card**, not the Garden-owned main title. Removing it requires separate child-first visual evidence, not a broad CSS rule.
+- 900/900 deterministic classification and 47 active patterns do **not** mean 900 individually inspected or approved visual states.
+- Follow-up QA evidence tracking: `docs/VQA06_AUDIO_SYMBOL_HUNT_EVIDENCE_2026-10-15.md` (separate test-only review branch, no runtime presentation change).
