@@ -194,6 +194,18 @@ jobs:
           retention-days: 14
           include-hidden-files: true
 
+      # The canonical mobile runner clears .mobile-route-qa; preserve creative
+      # Coloring/Drawing evidence separately for human 320/390/768/1280 review.
+      - name: Upload VQA-07 creative canvas QA screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vqa07-creative-canvas-screenshots
+          path: .vqa07-creative-canvas/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
   windows-quality:
     name: Windows compatibility
     runs-on: windows-latest
