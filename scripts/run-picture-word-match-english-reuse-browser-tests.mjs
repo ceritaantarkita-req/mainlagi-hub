@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readdirSync, copyFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -15,6 +15,7 @@ const activityId="english-action-jump";
 const correctChoice="JUMP";
 const correctLabel="Choose word JUMP";
 const screenshotDir=path.join(root,".mobile-route-qa");
+const evidenceDir=path.join(root,".vqa08-picture-word");
 const cases=[
   {viewport:{width:320,height:720},completionMode:"touch"},
   {viewport:{width:390,height:844},completionMode:"pointer"},
@@ -305,11 +306,22 @@ async function inspect({viewport,completionMode}){
   }
 }
 
+function preservePictureWordEvidence(){
+  // Later mobile-route suites clear .mobile-route-qa; keep original screenshots
+  // there for legacy QA, and archive only this family before cleanup starts.
+  mkdirSync(evidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir).filter(file=>/^\d+-picture-word-english-(?:idle|help|try|success)\.png$/.test(file));
+  assert.equal(files.length,cases.length*4,
+    "English Picture Word visual QA must capture 4 states at every width");
+  for(const file of files)copyFileSync(path.join(screenshotDir,file),path.join(evidenceDir,file));
+}
+
 async function main(){
   startServer();
   await waitForServer();
   await inspectSemanticCoverage();
   for(const item of cases)await inspect(item);
+  preservePictureWordEvidence();
   console.log(`English Picture Word Match browser QA passed ${cases.length} required Session 13 viewports plus exact five-key semantic coverage, leak-free English presentation and assessed evidence checks.`);
 }
 
