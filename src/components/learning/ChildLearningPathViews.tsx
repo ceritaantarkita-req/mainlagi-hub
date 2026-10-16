@@ -142,7 +142,7 @@ export function StageScreen({ childId, stageId }: { childId: string; stageId: st
   const recommendedId = ranked.find((item) => getStageForActivity(item.id) === stage.id)?.id ?? null;
 
   return (
-    <main className={`${styles.content} ${stageStyles.stagePage}`} data-mainlagi-stage-screen>
+    <main className={`${styles.content} ${stageStyles.stagePage}`} data-mainlagi-stage-screen data-drawing-stage-catalog={subject.id === "drawing" ? "v1" : undefined}>
       <section className={stageStyles.stageHero} aria-labelledby="stage-title">
         <div className={stageStyles.stageIdentity}>
           <span className={stageStyles.stageSymbol} aria-hidden><LearningSymbol name={subject.id} size={32} /></span>
