@@ -4,6 +4,31 @@
 .title { font-size:clamp(26px,3vw,38px); line-height:1.2; text-align:center; margin:10px 0; letter-spacing:-1px; }
 .prompt { text-align:center; margin:8px auto; font-size:18px; line-height:1.5; max-width:640px; }
 .hint { text-align:center; color:#486e63; font-size:14px; line-height:1.5; margin:8px auto 18px; max-width:580px; overflow-wrap:anywhere; }
+/* VQA-07: instructional copy stays above the artwork, not in a new box.
+   A feathered warm halo improves contrast over the Coloring studio wall
+   frames at 320/390px; drawing scaffold instructions are intentionally untouched. */
+.coloringInstruction {
+  width: fit-content;
+  max-width: min(100%, 46ch);
+  min-height: 44px;
+  margin: 3px auto 10px;
+  padding: 8px clamp(14px, 4vw, 28px);
+  color: #193b55;
+  font-size: clamp(15px, 1.7vw, 18px);
+  line-height: 1.4;
+  font-weight: 800;
+  text-shadow: 0 1px 1px rgba(255, 252, 240, .98), 0 2px 3px rgba(25, 59, 85, .16);
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  background-image: radial-gradient(ellipse closest-side at center,
+    rgba(255, 252, 240, .94) 0%,
+    rgba(255, 252, 240, .84) 54%,
+    rgba(255, 252, 240, .36) 80%,
+    rgba(255, 252, 240, 0) 100%);
+  background-repeat: no-repeat;
+  box-shadow: none;
+}
 .paper { position:relative; width:min(100%,440px); aspect-ratio:1; margin:18px auto; background:white; border:1px solid #dce1d6; border-radius:16px; overflow:hidden; box-shadow:0 5px 20px #164b430a; }
 .illustration,.canvas { width:100%; height:100%; display:block; }
 .illustration [data-color-region] { cursor:pointer; }
