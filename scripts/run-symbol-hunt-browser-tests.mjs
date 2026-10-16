@@ -181,6 +181,35 @@ async function inspect(viewport) {
     };
     await verifyLetterPositions(route);
 
+    // VQA-06: the nested pedagogical prompt is not the main Garden title.
+    // Guard that it remains readable and doesn't physically obstruct the
+    // three letter choices before considering any visual simplification.
+    const instruction = await page.evaluate(() => {
+      const title = document.querySelector("#symbol-hunt-prompt");
+      const scene = title?.closest("section");
+      const panel = title?.parentElement?.parentElement;
+      const field = scene?.querySelector("[data-symbol-hunt]");
+      if (!title || !scene || !panel || !field) return null;
+      const p = panel.getBoundingClientRect();
+      const r = scene.getBoundingClientRect();
+      const buttons = [...field.querySelectorAll("button")].map(node => node.getBoundingClientRect());
+      return {
+        label: title.textContent?.trim() ?? "",
+        help: panel.querySelector("p")?.textContent?.trim() ?? "",
+        left: p.left, right: p.right, top: p.top, bottom: p.bottom,
+        sceneLeft: r.left, sceneRight: r.right, sceneTop: r.top,
+        minLetterTop: Math.min(...buttons.map(button => button.top)),
+        width: p.width
+      };
+    });
+    assert.ok(instruction && instruction.label.length > 0 && instruction.help.length > 0,
+      `Symbol Hunt prompt and child instruction must be readable at ${viewport.width}px`);
+    assert.ok(instruction.width >= 180 && instruction.left >= instruction.sceneLeft - 2 &&
+      instruction.right <= instruction.sceneRight + 2,
+      `Symbol Hunt nested instruction stays inside the board at ${viewport.width}px: ${JSON.stringify(instruction)}`);
+    assert.ok(instruction.bottom <= instruction.minLetterTop + 2,
+      `Symbol Hunt prompt overlaps the first playable letter at ${viewport.width}px: ${JSON.stringify(instruction)}`);
+
     mkdirSync(screenshotDir, { recursive: true });
     await page.screenshot({
       path: path.join(screenshotDir, `${viewport.width}-${screenshotStem}-idle.png`),
@@ -200,6 +229,7 @@ async function inspect(viewport) {
 
     await page.mouse.click(wrongButton.centerX, wrongButton.centerY);
     await page.getByRole("status").filter({ hasText: "Belum tepat" }).waitFor({ state: "visible", timeout: 3_000 });
+    await page.screenshot({path:path.join(screenshotDir, `${viewport.width}-${screenshotStem}-wrong.png`),fullPage:false});
 
     const correct = page.getByRole("button", { name: `Huruf ${targetSymbol}`, exact: true });
     await correct.waitFor({ state: "visible" });
@@ -221,6 +251,11 @@ async function inspect(viewport) {
     });
 
     assert.equal(new URL(page.url()).pathname, route, `symbol hunt unexpectedly navigated away at ${viewport.width}px`);
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"hidden",timeout:3000});
+    assert.equal(await hunt.getByRole("button", {disabled:false}).count(),3,
+      `symbol hunt Again must restore all three playable letters at ${viewport.width}px`);
+    await page.screenshot({path:path.join(screenshotDir, `${viewport.width}-${screenshotStem}-again.png`),fullPage:false});
     // Same positioning contract for the reported Bahasa vowel-O route.
     await page.goto(baseUrl + "/child/demo-gian/activity/bahasa-vokal-o", { waitUntil: "domcontentloaded" });
     await page.locator("[data-symbol-hunt]").waitFor({ state: "visible", timeout: 5_000 });
