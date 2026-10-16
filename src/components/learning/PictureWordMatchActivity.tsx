@@ -132,7 +132,6 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
           <span className={styles.promptIcon} aria-hidden>👀</span>
           <div>
             <h1>{ui.heading}</h1>
-            <p>{ui.instruction}</p>
           </div>
         </div>
 
@@ -168,12 +167,15 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
           })}
         </div>
 
-        <div className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`} role="status" aria-live="polite">
+        <div className={`${styles.status} ${feedback === "idle" ? styles.statusIdle : ""} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`} role="status" aria-live="polite">
           {feedback === "good"
             ? `⭐ ${ui.correctLead} ${config.successText}`
             : feedback === "try"
               ? ui.retry
-              : ui.idle}
+              : <details className={styles.helpDetails} data-picture-word-help="v1">
+                  <summary className={styles.helpToggle}>{isEnglish ? "How to play" : "Cara main"}</summary>
+                  <p className={styles.helpText}>{ui.instruction} {ui.idle}</p>
+                </details>}
         </div>
 
         {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
