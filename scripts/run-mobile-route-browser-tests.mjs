@@ -1052,25 +1052,31 @@ async function main() {
         const play = frame?.querySelector('[data-character-safe-content]');
         const title = play?.querySelector("h1");
         const choices = play?.querySelector("[data-choices]");
-        const hint = play?.querySelector("[data-belajar-choice-hint]");
-        if (!frame || !play || !title || !choices || !hint) return null;
+        const visual = play?.querySelector('[data-child-visual-hierarchy="choice-v1"]');
+        const helpToggle = visual?.querySelector('button[aria-expanded]');
+        const hint = visual ? null : play?.querySelector("[data-belajar-choice-hint]");
+        if (!frame || !play || !title || !choices || (!visual && !hint)) return null;
         const titleBox = title.getBoundingClientRect();
         const choiceBox = choices.getBoundingClientRect();
-        const hintBox = hint.getBoundingClientRect();
-        const hintStyle = getComputedStyle(hint);
+        const hintBox = hint?.getBoundingClientRect();
+        const hintStyle = hint ? getComputedStyle(hint) : null;
         return {
+          visualMode: Boolean(visual),
+          helpToggle: Boolean(helpToggle),
+          helpExpanded: helpToggle?.getAttribute("aria-expanded"),
+          helpInitiallyHidden: !visual?.querySelector("[data-child-choice-help]"),
           hasSpacious: [...play.classList].some((name) => /spacious/i.test(name)),
           titlePx: parseFloat(getComputedStyle(title).fontSize),
           titleBottom: titleBox.bottom,
           choiceTop: choiceBox.top,
           choiceCount: choices.querySelectorAll("button").length,
           choiceBottom: choiceBox.bottom,
-          hintTop: hintBox.top,
-          hintLeft: hintBox.left,
-          hintRight: hintBox.right,
-          hintText: hint.textContent?.trim(),
-          hintBackground: hintStyle.backgroundColor,
-          hintFont: parseFloat(hintStyle.fontSize),
+          hintTop: hintBox?.top,
+          hintLeft: hintBox?.left,
+          hintRight: hintBox?.right,
+          hintText: hint?.textContent?.trim(),
+          hintBackground: hintStyle?.backgroundColor,
+          hintFont: hintStyle ? parseFloat(hintStyle.fontSize) : null,
           rootWidth: document.documentElement.scrollWidth,
           viewportWidth: document.documentElement.clientWidth
         };
@@ -1081,18 +1087,44 @@ async function main() {
       const gap = geometry.choiceTop - geometry.titleBottom;
       assert.ok(gap >= -2 && gap <= 130, `tap_choice choices are displaced from prompt at ${viewport.width}px: ${JSON.stringify(geometry)}`);
       assert.equal(geometry.choiceCount, 3, `tap_choice retains 3 options at ${viewport.width}px`);
-      // Fallback ChoiceActivity owns this prompt; GardenFrame.hint CSS does not
-      // reach it. Protect legibility, hierarchy and localization across artwork.
-      assert.equal(geometry.hintText, expectedHint, `fallback hint must remain localized and answer-free at ${viewport.width}px`);
-      assert.match(geometry.hintBackground, /^rgba?\(255,\s*252,\s*240,\s*0\.96\)$/,
-        `tap_choice hint must have a readable paper surface at ${viewport.width}px`);
-      assert.ok(geometry.hintFont >= 16 && geometry.hintFont <= 32,
-        `tap_choice hint must remain comfortably sized at ${viewport.width}px: ${JSON.stringify(geometry)}`);
-      const hintGap = geometry.hintTop - geometry.choiceBottom;
-      assert.ok(hintGap >= -2 && hintGap <= 62,
-        `tap_choice hint must follow answers without a large empty gap at ${viewport.width}px: ${JSON.stringify(geometry)}`);
-      assert.ok(geometry.hintLeft >= -2 && geometry.hintRight <= geometry.viewportWidth + 2,
-        `tap_choice hint must stay inside viewport at ${viewport.width}px: ${JSON.stringify(geometry)}`);
+
+      if (geometry.visualMode) {
+        // New family contract: a single answer-safe question. Supporting text
+        // exists behind Help rather than a second always-visible hint strip.
+        assert.equal(geometry.helpToggle, true, `choice Help remains accessible at ${viewport.width}px`);
+        assert.equal(geometry.helpExpanded, "false", `choice Help is collapsed initially at ${viewport.width}px`);
+        assert.equal(geometry.helpInitiallyHidden, true, `choice has no duplicate idle hint at ${viewport.width}px`);
+        const experience = page.locator('[data-child-visual-hierarchy="choice-v1"]');
+        await experience.getByRole("button", {name: "Cara main"}).click();
+        const hint = experience.locator("[data-child-choice-help]");
+        await hint.waitFor({state:"visible"});
+        assert.equal((await hint.textContent())?.trim(),expectedHint,
+          `choice on-demand hint must remain localized and answer-free at ${viewport.width}px`);
+        const help = await hint.evaluate(node => {
+          const rect=node.getBoundingClientRect();
+          return {left:rect.left,right:rect.right,font:parseFloat(getComputedStyle(node).fontSize),
+            background:getComputedStyle(node).backgroundColor};
+        });
+        assert.ok(help.font >= 15 && help.font <= 32, `choice help must be legible at ${viewport.width}px`);
+        assert.match(help.background, /^rgba?\(255,\s*252,\s*240,\s*0\.96\)$/,
+          `choice help needs readable on-demand contrast at ${viewport.width}px`);
+        assert.ok(help.left>=-2 && help.right<=geometry.viewportWidth+2,
+          `choice help inside viewport at ${viewport.width}px`);
+        await experience.getByRole("button",{name:"Tutup bantuan"}).click();
+        assert.equal(await hint.count(),0,`choice Help can close at ${viewport.width}px`);
+      } else {
+        // Preserve prior readability gates for legacy listen_and_choose owner.
+        assert.equal(geometry.hintText, expectedHint, `fallback hint remains localized at ${viewport.width}px`);
+        assert.match(geometry.hintBackground, /^rgba?\(255,\s*252,\s*240,\s*0\.96\)$/,
+          `fallback hint must have readable paper at ${viewport.width}px`);
+        assert.ok(geometry.hintFont >= 16 && geometry.hintFont <= 32,
+          `fallback hint remains comfortably sized at ${viewport.width}px`);
+        const hintGap = geometry.hintTop - geometry.choiceBottom;
+        assert.ok(hintGap >= -2 && hintGap <= 62,
+          `legacy hint must follow choices without a large empty gap at ${viewport.width}px`);
+        assert.ok(geometry.hintLeft >= -2 && geometry.hintRight <= geometry.viewportWidth + 2,
+          `legacy hint must stay inside viewport at ${viewport.width}px`);
+      }
       assert.ok(geometry.rootWidth <= geometry.viewportWidth + 2,
         `tap_choice horizontal overflow at ${viewport.width}px: ${JSON.stringify(geometry)}`);
     };

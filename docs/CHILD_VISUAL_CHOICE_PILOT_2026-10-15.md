@@ -1,0 +1,44 @@
+# Mainlagi Child Visual Pilot P1-b — generic tap-choice (15 Oct 2026)
+
+Status: **review successor PR #513 / not merged / not production verified**.  
+Base: `main@6b850c5362aa494c09a188361399d372272232a4` after P0 foundation #509, merged Logic Sorting #510, and merged Audio/Symbol Hunt QA successor #512. Exact-SHA Cloudflare production proof remains separate from PR CI.  
+This is a protected-branch-safe successor to historical draft #511; source files were transplanted without replacing unrelated changes on current main. Historical #508 is superseded and closed after #512 merged.
+
+## Owner-observed problem, scoped fix
+
+The owner-provided Science `science-seed-grows-plant` screenshot shows a long oversized question and cramped 3-column answer layout splitting the canonical label `🌱 tanaman` into the word fragments `tana`/`man`.
+
+Current fallback family owner: `src/components/learning/ChildLearningPlatform.tsx` `ChoiceActivity`, with former `LearningPlatform.module.css` `.activityPrompt`, `.choiceGrid`, `.bigChoice`. That CSS had broad `overflow-wrap:anywhere` plus 58px desktop answer labels and a fixed 3-column grid.
+
+P1-b fixes the *shared canonical `tap_choice` renderer* for all activities actually routed through this component (rather than patching one Science ID); dedicated gameplay families still use their own components. This is an **opt-in family**, not a claim that every one of 174 classified choice_grid activities flows through this exact renderer.
+
+### Changes
+
+- `tap_choice` branch consumes the P0 pure `planChildVisualHierarchy` policy and shared `ChildVisualHierarchy.module.css`. One exact canonical `activity.prompt` is the visible main heading (legacy Cari huruf exception remains). Canonical activity title remains present as semantic context via `aria-label`, not a second giant text heading.
+- Adds `ChildChoicePresentation.module.css`, scoped only to this branch: adaptive 1/2/3-column choices based on minimum label width; font 18–30px for words, larger single glyphs; no unnatural `word-break:break-all` or `overflow-wrap:anywhere`; responsive touch hit areas and focus outline; no surrounding decorative panel.
+- `Sentuh pilihanmu.` or English `Tap your answer!` is *help on demand* via an accessible `Cara main` control instead of a permanent redundant idle instruction block. Wrong feedback is still announced, correct choice still calls `onDone(completeActivity)`, and canonical Completion/Again are unchanged.
+- `listen_and_choose` legacy Choice renderer remains **unchanged** until an answer-safe audio-first audit. Audio target text must not leak into the visible question. No audio manager, narration, answer, stage/age gating or assessment change.
+- Existing `LearningPlatform.module.css` other families are untouched; no global `h1` or `button` override and no catalog-copy rewrite.
+
+### Shared heading soft-fade compatibility
+
+The permanent VQA-05 title regression requires a radial `closest-side` heading fade without a rectangular background. A direct Garden title previously received it via `.play > h1`, but this opt-in renderer nests the canonical `h1` within a semantic `section`. The scoped `ChildChoicePresentation.module.css` `.experience > .question` reinstates the identical zero-alpha-edge fade on only the Choice primary heading. Do not weaken the visual baseline and do not globally style gameplay `h1`.
+
+## Regression
+
+Permanent new `scripts/run-child-choice-visual-browser-tests.mjs` is in the canonical `test:ui:mobile-routes` Chromium chain, **after** the route runner's screenshot cleanup so artifacts persist.
+
+Route `/child/demo-gian/activity/science-seed-grows-plant` with legitimate staged local Science prerequisites (same model used by existing cause-effect QA); viewports **320, 390, 768, 1280**. Gates:
+- exactly one main instruction; **exact 66-character question unchanged**, all three labels in canonical order, `tanaman` uses one rendered text line fragment at each width;
+- first answer in the first viewport, all answers >=44px and within viewport, no horizontal document overflow;
+- idle/helper reveal/hide, wrong/correct, canonical Completion and Again; reset does not manufacture another attempt;
+- screenshots `{width}-child-choice-science-idle/help/wrong/success.png` in `.mobile-route-qa`.
+
+Do not merge unless the PR exact-head 7/7 gates PASS **and** real screenshot PNGs are inspected for first-action hierarchy, balanced choice sizes, language fit, completion and any screenshot-specific failure. Fix the presentation, not the assertions, if a test fails.
+
+### Boundaries & next
+
+- No change to Learning Evidence/mastery, catalog scoring/distractors, World, Motion Engine, Character, Shop, auth or DB.
+- Logic Sorting #510 is already merged following 24 screenshot approvals; this Choice PR remains independent of that renderer.
+- Next P1-c is Drawing Stage using a shared playful-catalog presentation, **not** converting drawing to a choice game.
+- Physical iPhone Safari and owner reading/copy approval remain separate gates. Activity structural 900/900 classification does not imply 900 visual acceptances.
