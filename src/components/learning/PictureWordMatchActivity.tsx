@@ -174,7 +174,7 @@ export function PictureWordMatchActivity({ childId, activityId }: { childId: str
               ? ui.retry
               : <details className={styles.helpDetails} data-picture-word-help="v1">
                   <summary className={styles.helpToggle}>{isEnglish ? "How to play" : "Cara main"}</summary>
-                  <p className={styles.helpText}>{ui.instruction} {ui.idle}</p>
+                  <p className={styles.helpText}><span>{ui.instruction}</span> <span>{ui.idle}</span></p>
                 </details>}
         </div>
 
