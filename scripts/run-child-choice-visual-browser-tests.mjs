@@ -68,6 +68,9 @@ async function verify(viewport){
       assert(response&&response.status()<400,`HTTP error at ${viewport.width}px`);
       const experience=page.locator('[data-child-visual-hierarchy="choice-v1"]');
       await experience.waitFor({state:"visible",timeout:6000});
+      // Let the client-side learning profile hydrate before measuring live text geometry.
+      await page.waitForLoadState("load");
+      await page.waitForTimeout(80);
       assert.equal(new URL(page.url()).pathname,route,"canonical Science readiness must allow this exact route");
       assert.equal(await page.locator('[data-activity-frame="garden"] h1').count(),1,"one main activity instruction, not a second giant title");
       assert.equal((await experience.locator('[data-child-choice-question]').textContent())?.trim(),prompt,
@@ -76,22 +79,28 @@ async function verify(viewport){
       assert.equal(await buttons.count(),3);
       assert.deepEqual(await buttons.allTextContents(),choices,"retain full canonical choice content/order");
       assert.equal(await experience.locator("[data-child-choice-help]").count(),0,"secondary help remains hidden initially");
-      mkdirSync(screenshots,{recursive:true});
-      await page.screenshot({path:path.join(screenshots,`${viewport.width}-child-choice-science-layout-diagnostic.png`),fullPage:false});
-      const labelBox=await experience.locator("[data-choice-label]").first().evaluate(node=>{
+      // Inspect the DOM from the already-verified three answer buttons in ONE evaluation.
+      // A chained first() locator could wait 30 seconds during hydration/unmount and lose
+      // the actual route/DOM evidence. This still fails closed if the word is absent/split.
+      const labelBox=await buttons.evaluateAll(nodes=>{
+        const node=nodes[0]?.querySelector("[data-choice-label]");
+        if(!node)return {reason:"choice label missing",route:location.pathname,
+          buttonCount:nodes.length,firstButtonHTML:nodes[0]?.outerHTML?.slice(0,800)};
         const value=node.textContent??"",start=value.indexOf("tanaman");
-        if(start<0)return {reason:"missing text",value};
+        if(start<0)return {reason:"missing canonical word",value,route:location.pathname};
         const textNodes=[...node.childNodes].filter(child=>child.nodeType===Node.TEXT_NODE);
         const child=textNodes.find(child=>child.textContent?.includes("tanaman"));
-        if(!child)return {reason:"no single text node for word",value,textNodes:textNodes.map(x=>x.textContent)};
+        if(!child)return {reason:"word not in one text node",value,textNodes:textNodes.map(x=>x.textContent)};
         const wordStart=child.textContent.indexOf("tanaman"),range=document.createRange();
         range.setStart(child,wordStart);range.setEnd(child,wordStart+"tanaman".length);
         const element=node.getBoundingClientRect(),style=getComputedStyle(node);
         return {value,fragments:range.getClientRects().length,height:range.getBoundingClientRect().height,
           wordNode:child.textContent,wordStart,elementWidth:element.width,elementHeight:element.height,
           computedDisplay:style.display,whiteSpace:style.whiteSpace,wordBreak:style.wordBreak,
-          overflowWrap:style.overflowWrap,visibility:style.visibility};
+          overflowWrap:style.overflowWrap,visibility:style.visibility,route:location.pathname};
       });
+      mkdirSync(screenshots,{recursive:true});
+      await page.screenshot({path:path.join(screenshots,`${viewport.width}-child-choice-science-layout-diagnostic.png`),fullPage:false});
       assert(labelBox&&labelBox.fragments===1&&labelBox.height>0,
         `The entire word tanaman must stay on one rendered line at ${viewport.width}px: ${JSON.stringify(labelBox)}`);
       const vw=await page.evaluate(()=>document.documentElement.clientWidth);
