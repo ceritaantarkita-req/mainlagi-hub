@@ -150,6 +150,10 @@ async function verifyDrawingStageSharedCatalog(browser) {
         "Drawing Stage links must retain canonical creative activity routes: "+JSON.stringify(hrefs));
       const firstBox=await cards.first().boundingBox();
       assert(firstBox&&firstBox.width>=44&&firstBox.height>=44,"Drawing Stage first card remains touch accessible");
+      if(viewport.width<=390) {
+        assert(firstBox.y>=-1&&firstBox.y+Math.min(firstBox.height,80)<=viewport.height-40,
+          `The first Drawing activity must appear with at least 80px of its card above the phone bottom edge *without scrolling* at ${viewport.width}px: ${JSON.stringify(firstBox)}`);
+      }
       await noOverflow(page,"Drawing shared catalog "+viewport.width);
       await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-drawing-stage-catalog-idle.png`),fullPage:false});
       await cards.first().scrollIntoViewIfNeeded();
