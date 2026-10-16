@@ -1,5 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
+import { mkdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -120,6 +121,51 @@ async function inspectSubject(page,subject,title,stageIds){
   await dialog.waitFor({state:"hidden",timeout:3000});
   await noOverflow(page,subject);
 }
+async function verifyDrawingStageSharedCatalog(browser) {
+  const route="/child/demo-gian/stage/drawing-lines-shapes-basics";
+  const screenshotDir=path.join(root,".drawing-stage-qa");
+  mkdirSync(screenshotDir,{recursive:true});
+  for(const viewport of [{width:320,height:720},{width:390,height:844},{width:768,height:1024},{width:1280,height:860}]) {
+    const context=await browser.newContext({viewport,reducedMotion:"reduce",hasTouch:viewport.width<=390});
+    await seed(context);
+    try {
+      const page=await context.newPage();
+      const errors=[];
+      page.on("pageerror",e=>errors.push(e.message));
+      const response=await page.goto(base+route,{waitUntil:"domcontentloaded",timeout:30000});
+      assert(response&&response.status()<400,"Drawing Stage route must load at "+viewport.width);
+      const stage=page.locator('[data-mainlagi-stage-screen]');
+      await stage.waitFor({state:"visible",timeout:8000});
+      await page.waitForLoadState("load");
+      assert.equal(new URL(page.url()).pathname,route,"Drawing Stage guard must preserve the stage route");
+      assert.equal(await stage.locator("h1").count(),1,"Drawing Stage shares one canonical catalog title");
+      assert.equal((await stage.locator("h1").innerText()).trim(),"Garis, Bentuk & Jalur","canonical Drawing title must not change");
+      assert.equal(await stage.locator("[data-stage-readiness]").count(),1,"shared Stage progress/readiness visible for Drawing");
+      const lessons=stage.locator("[data-stage-lesson]");
+      assert(await lessons.count()>=1,"Drawing uses the shared lesson sections");
+      const cards=stage.locator('[data-stage-activity-card="true"]');
+      assert(await cards.count()>=1,"Drawing keeps actual playable activities");
+      const hrefs=await cards.evaluateAll(nodes=>nodes.map(n=>n.getAttribute("href")));
+      assert(hrefs.every(href=>href?.startsWith("/child/demo-gian/activity/drawing-")),
+        "Drawing Stage links must retain canonical creative activity routes: "+JSON.stringify(hrefs));
+      const firstBox=await cards.first().boundingBox();
+      assert(firstBox&&firstBox.width>=44&&firstBox.height>=44,"Drawing Stage first card remains touch accessible");
+      if(viewport.width<=390) {
+        assert(firstBox.y>=-1&&firstBox.y+Math.min(firstBox.height,80)<=viewport.height-40,
+          `The first Drawing activity must appear with at least 80px of its card above the phone bottom edge *without scrolling* at ${viewport.width}px: ${JSON.stringify(firstBox)}`);
+      }
+      await noOverflow(page,"Drawing shared catalog "+viewport.width);
+      await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-drawing-stage-catalog-idle.png`),fullPage:false});
+      await cards.first().scrollIntoViewIfNeeded();
+      const visible=await cards.first().boundingBox();
+      assert(visible&&visible.x>=-1&&visible.x+visible.width<=viewport.width+1,
+        "Drawing card must fit horizontally at "+viewport.width);
+      await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-drawing-stage-catalog-first-card.png`),fullPage:false});
+      assert.deepEqual(errors,[],"Drawing Stage must not emit page errors at "+viewport.width);
+    }finally{await context.close();}
+  }
+}
+
 async function main(){
   startServer(); await waitForServer();
   const browser=await chromium.launch({headless:true});
@@ -148,6 +194,7 @@ async function main(){
     await page.waitForURL(/\/child\/demo-gian\/stage\/drawing-lines-shapes-basics$/);
     assert.equal(await page.getByRole("heading",{name:"Garis, Bentuk & Jalur",exact:true}).count(),1,"Drawing stage route remains canonical after Journey Map handoff");
     await desktop.close();
+    await verifyDrawingStageSharedCatalog(browser);
     const mobile=await browser.newContext({viewport:{width:390,height:844},hasTouch:true,reducedMotion:"reduce"}); await seed(mobile);
     const m=await mobile.newPage();
     await m.goto(base+"/child/demo-gian/subject/math?qa=unlock-all",{waitUntil:"domcontentloaded",timeout:30000});
@@ -160,7 +207,7 @@ async function main(){
     assert.equal(await m.getByRole("dialog").locator("h2").textContent(),titleBefore,"Math rotation preserves selected stage");
     await noOverflow(m,"Math landscape");
     await mobile.close();
-    console.log("JM-06 through JM-13 shared Journey Map QA PASS: all nine Belajar subjects share one engine with exact canonical Stage order and 100 activities; Mewarnai keeps creative activity handoff, Menggambar preserves DrawingStageScreen stage handoff, and shared text-only detail, JM-02 header, responsive bottom sheet and rotation state remain intact.");
+    console.log("JM-06 through JM-13 shared Journey Map QA PASS: all nine Belajar subjects share one engine with exact canonical Stage order and 100 activities; Mewarnai keeps creative activity handoff, Menggambar keeps DrawingStageScreen route while using the shared Stage catalog, and shared text-only detail, JM-02 header, responsive bottom sheet and rotation state remain intact.");
   }finally{await browser.close();stopServer();}
 }
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;stopServer();});
