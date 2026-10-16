@@ -659,8 +659,22 @@ async function inspect(page, route, viewport) {
       await assertActivityTitleSoftFade(page, viewport, route.name);
     }
     if (route.name === "activity-english-blue") {
-      assert.equal(await page.getByText("Tap your answer!", { exact: true }).count(), 1,
-        `English Choice child hint must be localized at ${viewport.width}px`);
+      // P1-b: canonical tap_choice is a single-instruction, help-on-demand family.
+      // Do not reinstate the redundant always-visible hint from the legacy renderer.
+      const choice = page.locator('[data-child-visual-hierarchy="choice-v1"]');
+      await choice.waitFor({ state: "visible", timeout: 6000 });
+      assert.equal(await choice.locator("[data-child-choice-question]").count(), 1,
+        `English Choice must keep one canonical primary instruction at ${viewport.width}px`);
+      assert.equal(await choice.locator("[data-child-choice-help]").count(), 0,
+        `English Choice helper must be hidden on idle at ${viewport.width}px`);
+      assert.equal(await page.getByText("Tap your answer!", { exact: true }).count(), 0,
+        `English Choice must not duplicate permanent help at ${viewport.width}px`);
+      await choice.getByRole("button", { name: "Cara main" }).click();
+      assert.equal((await choice.locator("[data-child-choice-help]").innerText()).trim(), "Tap your answer!",
+        `English Choice expanded helper must be precisely localized at ${viewport.width}px`);
+      await choice.getByRole("button", { name: "Tutup bantuan" }).click();
+      assert.equal(await choice.locator("[data-child-choice-help]").count(), 0,
+        `English Choice expanded helper must close on demand at ${viewport.width}px`);
     }
     if (route.name === "stage-drawing") {
       const screen = await page.locator("main").first().innerText();
