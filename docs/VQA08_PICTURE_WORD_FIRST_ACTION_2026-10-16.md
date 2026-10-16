@@ -30,3 +30,8 @@ The visual problem is therefore redundant **idle** copy/plates, not incorrect sc
 - Download and visually inspect all 40 PNGs. In particular compare old 320/390 mobile idle screenshot and new idle + Help-open; verify first answer row stays above fold and feedback on wrong/complete remains readable.
 - Reject if necessary learning copy disappears from Help or the opened help pushes the child's answer buttons off-screen irreversibly. Preserve native keyboard behavior and reduced motion.
 - Merge via protected main exact head only after acceptance. Separate merged-main 8/8 exact-SHA Cloudflare and real iOS Safari/owner check.
+
+## 16 Oct — CI artifact fix (no gameplay changes)
+The first exact-head CI `#38920346021` completed all underlying Chromium routes/tests successfully, but its **artifact upload** failed: after the picture-word suites completed, the later mobile-route sweep removed the shared `.mobile-route-qa/` directory. Consequently `.mobile-route-qa/*picture-word*.png` matched zero files by the final artifact step. This was **not** a picture-word gameplay failure.
+
+The two existing language-specific browser tests now archive their 20 expected PNGs each to dedicated `.vqa08-picture-word/` **immediately after** their respective screenshots are generated, while preserving the original `.mobile-route-qa/` captures for legacy QA. The archive operation explicitly asserts exactly four screenshots per viewport and fails closed on any missing state. CI now uploads the dedicated folder with `if-no-files-found: error`. Re-review the entire 40-image artifact on the final exact PR SHA before merge. No scorer, renderer, CSS, curriculum or production workflow behavior was altered by this repair.
