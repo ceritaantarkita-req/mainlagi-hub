@@ -263,3 +263,118 @@
     min-height: 0;
   }
 }
+
+/* P1-c Drawing catalog — mobile-first density ONLY. Without this opt-in,
+   the shared Stage hero pushed the first playable drawing card below 720px
+   on a 320px phone. Core Stage/progression markup and other subjects stay
+   unchanged. Do not hide progress state or remove stage eligibility. */
+@media (max-width: 560px) {
+  .stagePage[data-drawing-stage-catalog="v1"] .stageHero {
+    margin-top: 0;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 20px;
+    box-shadow: none;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .stageIdentity {
+    gap: 8px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .stageSymbol {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .stageIdentity :global(.pageTitle) {
+    font-size: clamp(22px, 6.6vw, 27px);
+    line-height: 1.1;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .stageIdentity :global(.pageLead) {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .readinessCard {
+    gap: 5px;
+    padding: 10px 12px;
+    border-radius: 14px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .readinessTopline {
+    flex-flow: row wrap;
+    align-items: baseline;
+    gap: 3px 8px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .readinessTopline strong {
+    font-size: 13px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .readinessTopline span {
+    font-size: 11px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .readinessProgress {
+    height: 7px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .readinessCard p {
+    /* Redundant adult-facing explanation retained for screen readers;
+       status and numeric progress remain visible above the stage cards. */
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .lessonSection {
+    padding: 12px;
+    border-radius: 18px;
+    box-shadow: none;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .lessonHeader {
+    margin-bottom: 8px;
+    gap: 5px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .lessonCopy h2 {
+    font-size: 20px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .lessonCopy p {
+    margin-top: 4px;
+    font-size: 12px;
+    line-height: 1.35;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .lessonProgress {
+    min-height: 26px;
+    padding: 3px 8px;
+    font-size: 11px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .lessonGrid {
+    gap: 10px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .stageActivityCard {
+    padding: 12px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .stageActivityCard :global(h3) {
+    margin-top: 7px;
+    font-size: 18px;
+  }
+
+  .stagePage[data-drawing-stage-catalog="v1"] .stageActivityCard :global(p) {
+    font-size: 12px;
+    line-height: 1.35;
+  }
+}
