@@ -2,3 +2,72 @@
 .scene[data-picture-word-locale="en-US"] .answerSlot{text-transform:none}
 
 @media (min-width: 900px) and (max-height: 820px){.scene{gap:6px;padding-bottom:4px}.promptCard{gap:0;padding:4px 8px;border-radius:14px}.promptIcon{display:none}.promptCard h1{font-size:16px;line-height:1.1}.promptCard p{display:none}.pictureBoard{gap:3px;padding:6px 12px}.picture{--learning-visual-frame-size:120px;--learning-visual-font-size:68px;--learning-visual-padding:8px}.answerSlot{min-height:44px;padding:5px 14px;font-size:26px}.pictureHint{font-size:12px}.choiceGrid{gap:8px}.choiceButton{min-height:48px}.status{min-height:44px;padding:6px 10px;font-size:13px}.sceneDone .promptCard{display:none}}
+
+
+/* VQA-08 scoped hierarchy: keep the visual word-learning board and choices,
+   remove redundant idle instruction chrome, never hide retries/completion.
+   Essential child guidance remains one native keyboard-operable disclosure. */
+.scene .promptCard{
+  padding:4px 2px 2px;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+}
+.scene .promptCard h1{
+  line-height:1.18;
+  text-wrap:balance;
+}
+.scene .statusIdle{
+  min-height:44px;
+  padding:0;
+  background:transparent;
+  border:0;
+}
+.helpDetails{
+  width:100%;
+  font-size:14px;
+  line-height:1.4;
+}
+.helpToggle{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  width:fit-content;
+  max-width:100%;
+  margin:0 auto;
+  padding:7px 16px;
+  list-style:none;
+  cursor:pointer;
+  border-radius:999px;
+  border:1px solid rgba(57,101,98,.32);
+  background:rgba(255,254,246,.9);
+  color:#214e51;
+  font-size:14px;
+  font-weight:900;
+  box-shadow:0 2px 8px rgba(22,64,52,.12);
+}
+.helpToggle::-webkit-details-marker{display:none}
+.helpToggle:focus-visible{
+  outline:3px solid #286c71;
+  outline-offset:3px;
+}
+.helpText{
+  max-width:46ch;
+  margin:8px auto 0;
+  padding:11px 13px;
+  border-radius:14px;
+  background:rgba(255,253,238,.97);
+  color:#344c50;
+  font-size:14px;
+  font-weight:650;
+  line-height:1.45;
+  text-align:center;
+  overflow-wrap:break-word;
+}
+@media(max-width:520px){
+  .scene .promptCard{padding:3px 2px 1px}
+  .helpToggle{font-size:13px}
+  .helpText{font-size:13px}
+}
