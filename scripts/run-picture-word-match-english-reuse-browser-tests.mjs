@@ -252,7 +252,7 @@ async function inspect({viewport,completionMode}){
       "English Help expands by keyboard/pointer");
     assert.equal(await help.locator("p").isVisible(),true,
       "English canonical instruction becomes visible on request");
-    assert.match(await help.locator("p").innerText(),"Look carefully, then choose the word that matches.",
+    assert((await help.locator("p").innerText()).includes("Look carefully, then choose the word that matches."),
       "English underlying authored guidance must be preserved");
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-picture-word-english-help.png`),fullPage:false});
     await helpSummary.click();
