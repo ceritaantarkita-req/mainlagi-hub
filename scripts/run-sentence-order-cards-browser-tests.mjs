@@ -212,7 +212,7 @@ async function inspect(viewport){
 function archiveOrderEvidence(){
   mkdirSync(evidenceDir,{recursive:true});
   const files=readdirSync(screenshotDir)
-    .filter(file=>/^\\d+-sentence-order-(?:idle|help|try|success)\\.png$/.test(file));
+    .filter(file=>/^\d+-sentence-order-(?:idle|help|try|success)\.png$/.test(file));
   assert.equal(files.length,viewports.length*4,
     "Sentence Order evidence must include exactly 4 genuine states for every width");
   for(const file of files)copyFileSync(path.join(screenshotDir,file),path.join(evidenceDir,file));
