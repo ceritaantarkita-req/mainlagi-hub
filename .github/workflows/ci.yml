@@ -215,6 +215,17 @@ jobs:
           retention-days: 14
           include-hidden-files: true
 
+      # Syllable Assembly snapshots captured before the shared screenshot cleanup.
+      - name: Upload VQA-12 Syllable first-action screenshot matrix
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vqa12-syllable-first-action-screenshots
+          path: .vqa12-syllable-assembly/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
       # VQA-06 AudioChoice captures live outside the standard screenshots directory,
       # which the later mobile-route runner clears before its own collection.
       - name: Upload VQA-06 audio-first QA screenshots

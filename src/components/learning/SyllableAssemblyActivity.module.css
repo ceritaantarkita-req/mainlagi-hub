@@ -307,3 +307,81 @@
     transition: none;
   }
 }
+
+
+/* VQA-12: keep one always-visible, readable task heading even at 320px,
+   leave ba + ju = ? and the three choice buttons unchanged.
+   The original pedagogy cue appears only inside native on-demand Help. */
+.scene .promptCard{
+  display:flex;
+  min-height:44px;
+  padding:7px 13px;
+  border:0;
+  border-radius:15px;
+  background:rgba(255,253,246,.96);
+  box-shadow:none;
+}
+.scene .promptCard h1{
+  margin:0;
+  line-height:1.2;
+  text-wrap:balance;
+}
+.scene .statusIdle{
+  min-height:44px;
+  padding:0;
+  background:transparent;
+  border:0;
+  box-shadow:none;
+}
+.helpDetails{width:100%;font-size:14px;line-height:1.4}
+.helpToggle{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:fit-content;
+  max-width:100%;
+  min-height:44px;
+  margin:0 auto;
+  padding:8px 16px;
+  border:1px solid rgba(73,75,123,.38);
+  border-radius:999px;
+  background:rgba(255,254,248,.96);
+  box-shadow:0 2px 8px rgba(29,41,83,.12);
+  color:#263f64;
+  font-size:14px;
+  font-weight:900;
+  list-style:none;
+  cursor:pointer;
+}
+.helpToggle::-webkit-details-marker{display:none}
+.helpToggle:focus-visible{outline:3px solid #4f52a5;outline-offset:3px}
+.helpBody{
+  max-width:48ch;
+  margin:8px auto 0;
+  padding:10px;
+  border-radius:15px;
+  background:rgba(255,253,246,.97);
+  color:#2a4564;
+  font-size:14px;
+  font-weight:700;
+  line-height:1.4;
+}
+.helpBody p{margin:0 0 8px;overflow-wrap:break-word}
+.helpBody .cueCard{
+  padding:7px 10px;
+  background:rgba(243,240,255,.96);
+  box-shadow:none;
+}
+@media(max-width:560px){
+  .helpToggle{font-size:13px}
+  .helpBody{font-size:13px}
+}
+@media(max-width:360px){
+  .scene .promptCard{
+    display:flex;
+    padding:7px 10px;
+    min-height:44px;
+  }
+  .scene .promptIcon{display:none}
+  .scene .promptCard h1{font-size:16px}
+}

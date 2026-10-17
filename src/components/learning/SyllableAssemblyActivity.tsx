@@ -89,7 +89,6 @@ export function SyllableAssemblyActivity({ childId, activityId }: { childId: str
           <span className={styles.promptIcon} aria-hidden>🧩</span>
           <div>
             <h1>Satukan suku katanya</h1>
-            <p>Baca dua bagian dari kiri ke kanan, lalu pilih kata yang terbentuk.</p>
           </div>
         </div>
 
@@ -109,11 +108,6 @@ export function SyllableAssemblyActivity({ childId, activityId }: { childId: str
           >
             {feedback === "good" ? activity.correctChoice : "?"}
           </div>
-        </div>
-
-        <div className={styles.cueCard} data-syllable-cue>
-          <span>Petunjuk</span>
-          <strong>{config.cue}</strong>
         </div>
 
         <div className={styles.choiceGrid} role="group" aria-label="Pilih kata hasil gabungan">
@@ -137,7 +131,7 @@ export function SyllableAssemblyActivity({ childId, activityId }: { childId: str
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "idle" ? styles.statusIdle : ""} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
           role="status"
           aria-live="polite"
         >
@@ -145,7 +139,16 @@ export function SyllableAssemblyActivity({ childId, activityId }: { childId: str
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
               ? `💡 Belum tepat. ${config.cue}`
-              : `💡 ${config.cue}`}
+              : <details className={styles.helpDetails} data-syllable-help="v1">
+                  <summary className={styles.helpToggle}>Cara main</summary>
+                  <div className={styles.helpBody}>
+                    <p>Baca dua bagian dari kiri ke kanan, lalu pilih kata yang terbentuk.</p>
+                    <div className={styles.cueCard} data-syllable-cue>
+                      <span>Petunjuk</span>
+                      <strong>{config.cue}</strong>
+                    </div>
+                  </div>
+                </details>}
         </div>
 
         {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
