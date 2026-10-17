@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, copyFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,6 +13,7 @@ const route = "/child/demo-gian/activity/english-complete-cat-sleeps";
 const activityId = "english-complete-cat-sleeps";
 const correctChoice = "SLEEPS";
 const screenshotDir = path.join(root, ".mobile-route-qa");
+const evidenceDir = path.join(root, ".vqa09-cloze-sentence");
 const cases = [
   { viewport: { width: 320, height: 720 }, completionMode: "touch" },
   { viewport: { width: 390, height: 844 }, completionMode: "pointer" },
@@ -225,6 +226,16 @@ async function inspect({ viewport, completionMode }) {
     }
 
     const status = page.getByRole("status");
+    const help = page.locator('[data-cloze-help="v1"]');
+    assert.equal(await help.count(), 1, "English Cloze idle native Help exists");
+    const helpSummary = help.locator("summary");
+    assert.equal((await helpSummary.innerText()).trim(), "How to play", "English localized Help trigger");
+    assert.equal(await help.getAttribute("open"), null, "English extra idle advice starts collapsed");
+    assert.equal(await help.locator("p").isVisible(), false, "English advice stays hidden initially");
+    const intro = page.locator('[data-cloze-sentence-choice] h1');
+    assert.equal(await intro.count(), 1, "English keeps exactly one task heading");
+    assert.equal(await helpSummary.evaluate(n=>getComputedStyle(n).minHeight), "44px",
+      "English on-demand Help has accessible 44px minimum touch target");
     await assertFullyVisible(sentence, viewportHeight, `English cloze sentence at ${viewport.width}`);
     await assertFullyVisible(status, viewportHeight, `English idle feedback at ${viewport.width}`);
     mkdirSync(screenshotDir, { recursive: true });
@@ -232,6 +243,14 @@ async function inspect({ viewport, completionMode }) {
       path: path.join(screenshotDir, `${viewport.width}-cloze-english-idle.png`),
       fullPage: false
     });
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"), "", "English Help expands");
+    assert.equal(await help.locator("p").isVisible(), true, "English guidance visible on request");
+    assert((await help.locator("p").innerText()).includes("Choose the word that makes the sentence complete and meaningful."),
+      "English full original instruction retained, not rewritten");
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-cloze-english-help.png`),fullPage:false});
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"), null, "English Help re-collapses");
 
     const wrongChoice = await keyboardWrongChoice(page);
     assert.notEqual(wrongChoice, correctChoice);
@@ -281,10 +300,20 @@ async function inspect({ viewport, completionMode }) {
   }
 }
 
+function preserveClozeScreenshots(){
+  // Runs before the shared mobile screenshots directory is cleared.
+  mkdirSync(evidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir).filter(filename=>/^\d+-cloze-english-(?:idle|help|try|success)\.png$/.test(filename));
+  assert.equal(files.length,cases.length*4,
+    "English Cloze must produce all 4 visual states per viewport");
+  for(const filename of files)copyFileSync(path.join(screenshotDir,filename),path.join(evidenceDir,filename));
+}
+
 async function main() {
   startServer();
   await waitForServer();
   for (const item of cases) await inspect(item);
+  preserveClozeScreenshots();
   console.log("English Cloze Sentence Choice browser QA passed 3 viewports with English locale/copy, keyboard retry, pointer + touchscreen completion, touch targets, screenshots and assessed evidence.");
 }
 

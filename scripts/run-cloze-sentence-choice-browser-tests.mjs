@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, copyFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,6 +13,7 @@ const route = "/child/demo-gian/activity/bahasa-lengkap-ayah-minum";
 const activityId = "bahasa-lengkap-ayah-minum";
 const correctChoice = "air";
 const screenshotDir = path.join(root, ".mobile-route-qa");
+const evidenceDir = path.join(root, ".vqa09-cloze-sentence");
 const viewports = [
   { width: 320, height: 720 },
   { width: 390, height: 844 },
@@ -225,6 +226,16 @@ async function inspect(viewport) {
     }
 
     const status = page.getByRole("status");
+    const help = page.locator('[data-cloze-help="v1"]');
+    assert.equal(await help.count(), 1, "Bahasa Cloze idle native Help exists");
+    const helpSummary = help.locator("summary");
+    assert.equal((await helpSummary.innerText()).trim(), "Cara main", "Bahasa localized Help trigger");
+    assert.equal(await help.getAttribute("open"), null, "Bahasa extra idle advice starts collapsed");
+    assert.equal(await help.locator("p").isVisible(), false, "Bahasa advice stays hidden initially");
+    const intro = page.locator('[data-cloze-sentence-choice] h1');
+    assert.equal(await intro.count(), 1, "Bahasa keeps exactly one task heading");
+    assert.equal(await helpSummary.evaluate(n=>getComputedStyle(n).minHeight), "44px",
+      "Bahasa on-demand Help has accessible 44px minimum touch target");
     await assertFullyVisible(sentence, viewportHeight, `cloze sentence at ${viewport.width}`);
     await assertFullyVisible(status, viewportHeight, `idle cloze feedback at ${viewport.width}`);
     mkdirSync(screenshotDir, { recursive: true });
@@ -232,6 +243,14 @@ async function inspect(viewport) {
       path: path.join(screenshotDir, `${viewport.width}-cloze-sentence-idle.png`),
       fullPage: false
     });
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"), "", "Bahasa Help expands");
+    assert.equal(await help.locator("p").isVisible(), true, "Bahasa guidance visible on request");
+    assert((await help.locator("p").innerText()).includes("Pilih kata yang membuat kalimat ini lengkap dan masuk akal."),
+      "Bahasa full original instruction retained, not rewritten");
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-cloze-sentence-help.png`),fullPage:false});
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"), null, "Bahasa Help re-collapses");
 
     const wrongChoice = await keyboardWrongChoice(page);
     assert.notEqual(wrongChoice, correctChoice);
@@ -284,10 +303,20 @@ async function inspect(viewport) {
   }
 }
 
+function preserveClozeScreenshots(){
+  // Runs before the shared mobile screenshots directory is cleared.
+  mkdirSync(evidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir).filter(filename=>/^\d+-cloze-sentence-(?:idle|help|try|success)\.png$/.test(filename));
+  assert.equal(files.length,viewports.length*4,
+    "Bahasa Cloze must produce all 4 visual states per viewport");
+  for(const filename of files)copyFileSync(path.join(screenshotDir,filename),path.join(evidenceDir,filename));
+}
+
 async function main() {
   startServer();
   await waitForServer();
   for (const viewport of viewports) await inspect(viewport);
+  preserveClozeScreenshots();
   console.log(
     `Cloze Sentence Choice browser QA passed ${viewports.length} viewports with legitimate Bahasa Wave C readiness, exact sentence/choices, keyboard wrong-state, pointer completion, touch targets, feedback/canonical Completion visibility and assessed evidence checks.`
   );
