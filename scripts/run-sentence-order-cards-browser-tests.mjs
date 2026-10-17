@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, copyFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,6 +13,7 @@ const route="/child/demo-gian/activity/bahasa-urut-ibu-memasak";
 const activityId="bahasa-urut-ibu-memasak";
 const correctLabel="Pilih kalimat Ibu memasak nasi.";
 const screenshotDir=path.join(root,".mobile-route-qa");
+const evidenceDir=path.join(root,".vqa10-sentence-order");
 const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
 let server=null;
 let serverLog="";
@@ -117,6 +118,13 @@ async function inspect(viewport){
 
     const guide=page.locator("[data-sentence-order-guide]");
     assert.equal(await guide.count(),1,"sentence-order guide renders");
+    assert.deepEqual(
+      (await guide.locator("span").allTextContents()).map(s=>s.trim()),
+      ["1","2","3","…"],
+      "visual directional 1→2→3→… learning guide is never removed"
+    );
+    assert.equal((await guide.locator("small").innerText()).trim(),"Baca dari kiri ke kanan",
+      "canonical visual guide remains visible as task content");
     const choices=page.locator("[data-sentence-order-choice]");
     assert.equal(await choices.count(),3,"sentence-order keeps three canonical choices");
     assert.deepEqual(new Set(await choices.evaluateAll(items=>items.map(node=>node.getAttribute("aria-label")))),new Set([
@@ -135,9 +143,32 @@ async function inspect(viewport){
     }
 
     const status=page.getByRole("status");
+    const help=page.locator('[data-sentence-order-help="v1"]');
+    assert.equal(await help.count(),1,"sentence-order has one idle help");
+    const summary=help.locator("summary");
+    assert.equal((await summary.innerText()).trim(),"Cara main","sentence-order Help localized");
+    assert.equal(await help.getAttribute("open"),null,"advice closed before attempting");
+    assert.equal(await help.locator("p").isVisible(),false,"instructions are on demand");
+    const target=await summary.boundingBox();
+    assert(target&&target.width>=44&&target.height>=44,"Help touch target >=44px");
+    assert.equal(await page.locator("[data-sentence-order-cards] h1").count(),1,
+      "one visible main instruction heading");
+    await assertFullyVisible(guide,viewportHeight,"visual 1-2-3 order guide");
+    await assertFullyVisible(summary,viewportHeight,"Help trigger");
     await assertFullyVisible(status,viewportHeight,`idle sentence-order feedback at ${viewport.width}`);
     mkdirSync(screenshotDir,{recursive:true});
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-sentence-order-idle.png`),fullPage:false});
+    await summary.click();
+    assert.equal(await help.getAttribute("open"),"","Help opens");
+    const helpText=await help.locator("p").innerText();
+    assert(helpText.includes("Baca kartu dari kiri ke kanan, lalu pilih kalimat yang paling masuk akal."),
+      "canonical task instruction preserved in native Help");
+    assert(helpText.includes("Perhatikan siapa yang melakukan apa, lalu cek urutan katanya."),
+      "canonical idle guidance preserved without rewriting");
+    assert.equal(await help.locator("p").isVisible(),true,"Help visible on demand");
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-sentence-order-help.png`),fullPage:false});
+    await summary.click();
+    assert.equal(await help.getAttribute("open"),null,"Help closes before game input");
 
     const wrongLabel=await keyboardWrongChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
@@ -178,10 +209,20 @@ async function inspect(viewport){
   }
 }
 
+function archiveOrderEvidence(){
+  mkdirSync(evidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir)
+    .filter(file=>/^\\d+-sentence-order-(?:idle|help|try|success)\\.png$/.test(file));
+  assert.equal(files.length,viewports.length*4,
+    "Sentence Order evidence must include exactly 4 genuine states for every width");
+  for(const file of files)copyFileSync(path.join(screenshotDir,file),path.join(evidenceDir,file));
+}
+
 async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
+  archiveOrderEvidence();
   console.log(`Sentence Order Cards browser QA passed ${viewports.length} viewports with legitimate Bahasa Wave B readiness, canonical sentence choices, keyboard wrong-state, pointer completion, touch targets, feedback/canonical Completion visibility and assessed evidence checks.`);
 }
 
