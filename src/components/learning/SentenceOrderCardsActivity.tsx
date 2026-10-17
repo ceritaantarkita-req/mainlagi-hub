@@ -87,7 +87,6 @@ export function SentenceOrderCardsActivity({ childId, activityId }: { childId: s
           <span className={styles.promptIcon} aria-hidden>🧩</span>
           <div>
             <h1>Pilih susunan kata yang benar</h1>
-            <p>Baca kartu dari kiri ke kanan, lalu pilih kalimat yang paling masuk akal.</p>
           </div>
         </div>
 
@@ -124,12 +123,18 @@ export function SentenceOrderCardsActivity({ childId, activityId }: { childId: s
           })}
         </div>
 
-        <div className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`} role="status" aria-live="polite">
+        <div className={`${styles.status} ${feedback === "idle" ? styles.statusIdle : ""} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`} role="status" aria-live="polite">
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
               ? "💡 Belum tepat. Coba baca lagi urutan setiap kartu dari kiri ke kanan."
-              : "💡 Perhatikan siapa yang melakukan apa, lalu cek urutan katanya."}
+              : <details className={styles.helpDetails} data-sentence-order-help="v1">
+                  <summary className={styles.helpToggle}>Cara main</summary>
+                  <p className={styles.helpText}>
+                    <span>Baca kartu dari kiri ke kanan, lalu pilih kalimat yang paling masuk akal.</span>{" "}
+                    <span>💡 Perhatikan siapa yang melakukan apa, lalu cek urutan katanya.</span>
+                  </p>
+                </details>}
         </div>
 
         {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
