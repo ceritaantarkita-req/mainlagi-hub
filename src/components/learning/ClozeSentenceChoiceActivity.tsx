@@ -118,7 +118,6 @@ export function ClozeSentenceChoiceActivity({ childId, activityId }: { childId: 
           <span className={styles.introIcon} aria-hidden>✍️</span>
           <div>
             <h1>{ui.heading}</h1>
-            <p>{ui.instruction}</p>
           </div>
         </div>
 
@@ -158,11 +157,18 @@ export function ClozeSentenceChoiceActivity({ childId, activityId }: { childId: 
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "idle" ? styles.statusIdle : ""} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
           role="status"
           aria-live="polite"
         >
-          {feedback === "good" ? ui.good : feedback === "try" ? ui.retry : ui.idle}
+          {feedback === "good"
+            ? ui.good
+            : feedback === "try"
+              ? ui.retry
+              : <details className={styles.helpDetails} data-cloze-help="v1">
+                  <summary className={styles.helpToggle}>{config.locale === "en-US" ? "How to play" : "Cara main"}</summary>
+                  <p className={styles.helpText}><span>{ui.instruction}</span> <span>{ui.idle}</span></p>
+                </details>}
         </div>
 
         {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
