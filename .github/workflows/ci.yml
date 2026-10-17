@@ -170,6 +170,18 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
           include-hidden-files: true
+      # 30 canonical idle/try/success captures + 10 on-demand Help states,
+      # isolated from hundreds of unrelated mobile QA images for visual approval.
+      - name: Upload VQA-08 Picture Word visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vqa08-picture-word-screenshots
+          path: .vqa08-picture-word/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
       # VQA-06 AudioChoice captures live outside the standard screenshots directory,
       # which the later mobile-route runner clears before its own collection.
       - name: Upload VQA-06 audio-first QA screenshots

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readdirSync, copyFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -15,6 +15,7 @@ const activityId="english-action-jump";
 const correctChoice="JUMP";
 const correctLabel="Choose word JUMP";
 const screenshotDir=path.join(root,".mobile-route-qa");
+const evidenceDir=path.join(root,".vqa08-picture-word");
 const cases=[
   {viewport:{width:320,height:720},completionMode:"touch"},
   {viewport:{width:390,height:844},completionMode:"pointer"},
@@ -231,9 +232,35 @@ async function inspect({viewport,completionMode}){
     }
 
     const status=page.getByRole("status");
+    // P1 child-first: one visible instruction, extra reading guidance only on
+    // an intentional accessible Help reveal; do not delete authored prompts.
+    const help=page.locator('[data-picture-word-help="v1"]');
+    assert.equal(await help.count(),1,"English PictureWord retains native accessible Help at "+viewport.width);
+    const helpSummary=help.locator("summary");
+    assert.equal((await helpSummary.innerText()).trim(),"How to play",
+      "English Help trigger is localized");
+    assert.equal(await help.getAttribute("open"),null,
+      "English supplemental guidance must be collapsed on idle");
+    assert.equal(await help.locator("p").isVisible(),false,
+      "English helper text not initially visible");
+    await assertFullyVisible(helpSummary,viewportHeight,
+      "English first action Help is reachable at "+viewport.width);
     await assertFullyVisible(status,viewportHeight,`English idle feedback at ${viewport.width}`);
     mkdirSync(screenshotDir,{recursive:true});
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-picture-word-english-idle.png`),fullPage:false});
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"),"",
+      "English Help expands by keyboard/pointer");
+    assert.equal(await help.locator("p").isVisible(),true,
+      "English canonical instruction becomes visible on request");
+    assert((await help.locator("p").innerText()).includes("Look carefully, then choose the word that matches."),
+      "English underlying authored guidance must be preserved");
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-picture-word-english-help.png`),fullPage:false});
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"),null,
+      "English Help must re-collapse");
+    assert.equal(await help.locator("p").isVisible(),false,
+      "English no duplicate helper text after closing");
 
     const wrongLabel=await keyboardWrongChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
@@ -279,11 +306,22 @@ async function inspect({viewport,completionMode}){
   }
 }
 
+function preservePictureWordEvidence(){
+  // Later mobile-route suites clear .mobile-route-qa; keep original screenshots
+  // there for legacy QA, and archive only this family before cleanup starts.
+  mkdirSync(evidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir).filter(file=>/^\d+-picture-word-english-(?:idle|help|try|success)\.png$/.test(file));
+  assert.equal(files.length,cases.length*4,
+    "English Picture Word visual QA must capture 4 states at every width");
+  for(const file of files)copyFileSync(path.join(screenshotDir,file),path.join(evidenceDir,file));
+}
+
 async function main(){
   startServer();
   await waitForServer();
   await inspectSemanticCoverage();
   for(const item of cases)await inspect(item);
+  preservePictureWordEvidence();
   console.log(`English Picture Word Match browser QA passed ${cases.length} required Session 13 viewports plus exact five-key semantic coverage, leak-free English presentation and assessed evidence checks.`);
 }
 

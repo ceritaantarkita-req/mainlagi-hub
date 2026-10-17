@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readdirSync, copyFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -14,6 +14,7 @@ const route="/child/demo-gian/activity/bahasa-gambar-apel";
 const activityId="bahasa-gambar-apel";
 const correctLabel="Pilih kata apel";
 const screenshotDir=path.join(root,".mobile-route-qa");
+const evidenceDir=path.join(root,".vqa08-picture-word");
 const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
@@ -179,9 +180,35 @@ async function inspect(viewport){
     }
 
     const status=page.getByRole("status");
+    // P1 child-first: one visible instruction, extra reading guidance only on
+    // an intentional accessible Help reveal; do not delete authored prompts.
+    const help=page.locator('[data-picture-word-help="v1"]');
+    assert.equal(await help.count(),1,"Bahasa PictureWord retains native accessible Help at "+viewport.width);
+    const helpSummary=help.locator("summary");
+    assert.equal((await helpSummary.innerText()).trim(),"Cara main",
+      "Bahasa Help trigger is localized");
+    assert.equal(await help.getAttribute("open"),null,
+      "Bahasa supplemental guidance must be collapsed on idle");
+    assert.equal(await help.locator("p").isVisible(),false,
+      "Bahasa helper text not initially visible");
+    await assertFullyVisible(helpSummary,viewportHeight,
+      "Bahasa first action Help is reachable at "+viewport.width);
     await assertFullyVisible(status,viewportHeight,`idle picture-word feedback at ${viewport.width}`);
     mkdirSync(screenshotDir,{recursive:true});
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-picture-word-idle.png`),fullPage:false});
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"),"",
+      "Bahasa Help expands by keyboard/pointer");
+    assert.equal(await help.locator("p").isVisible(),true,
+      "Bahasa canonical instruction becomes visible on request");
+    assert((await help.locator("p").innerText()).includes("Amati objeknya lalu sentuh kata yang paling cocok."),
+      "Bahasa underlying authored guidance must be preserved");
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-picture-word-help.png`),fullPage:false});
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"),null,
+      "Bahasa Help must re-collapse");
+    assert.equal(await help.locator("p").isVisible(),false,
+      "Bahasa no duplicate helper text after closing");
 
     const wrongLabel=await keyboardWrongChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
@@ -226,11 +253,22 @@ async function inspect(viewport){
   }
 }
 
+function preservePictureWordEvidence(){
+  // Later mobile-route suites clear .mobile-route-qa; keep original screenshots
+  // there for legacy QA, and archive only this family before cleanup starts.
+  mkdirSync(evidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir).filter(file=>/^\d+-picture-word-(?:idle|help|try|success)\.png$/.test(file));
+  assert.equal(files.length,viewports.length*4,
+    "Bahasa Picture Word visual QA must capture 4 states at every width");
+  for(const file of files)copyFileSync(path.join(screenshotDir,file),path.join(evidenceDir,file));
+}
+
 async function main(){
   startServer();
   await waitForServer();
   await inspectSemanticCoverage();
   for(const viewport of viewports)await inspect(viewport);
+  preservePictureWordEvidence();
   console.log(`Picture Word Match browser QA passed ${viewports.length} required Session 13 viewports plus exact Bahasa semantic coverage with held-car fallback.`);
 }
 
