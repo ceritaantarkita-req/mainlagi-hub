@@ -204,6 +204,17 @@ jobs:
           retention-days: 14
           include-hidden-files: true
 
+      # Reading Passage QA snapshots are copied before shared mobile screenshot cleanup.
+      - name: Upload VQA-11 Reading Passage screenshot matrix
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vqa11-reading-passage-screenshots
+          path: .vqa11-reading-passage/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
       # VQA-06 AudioChoice captures live outside the standard screenshots directory,
       # which the later mobile-route runner clears before its own collection.
       - name: Upload VQA-06 audio-first QA screenshots
