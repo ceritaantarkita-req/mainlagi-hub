@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, copyFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,6 +13,7 @@ const route="/child/demo-gian/activity/bahasa-baca-lala-kucing";
 const activityId="bahasa-baca-lala-kucing";
 const correctChoice="putih";
 const screenshotDir=path.join(root,".mobile-route-qa");
+const evidenceDir=path.join(root,".vqa11-reading-passage");
 const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
 let server=null;
 let serverLog="";
@@ -178,9 +179,31 @@ async function inspect(viewport){
     await assertFullyVisible(passage,viewportHeight,`reading passage at ${viewport.width}`);
     await assertFullyVisible(question,viewportHeight,`reading question at ${viewport.width}`);
     const status=page.getByRole("status");
+    const help=page.locator('[data-reading-help="v1"]');
+    assert.equal(await help.count(),1,"native Reading Help exists");
+    const summary=help.locator("summary");
+    assert.equal((await summary.innerText()).trim(),"Cara main","Reading Help is localized");
+    assert.equal(await help.getAttribute("open"),null,"reading helper is initially closed");
+    assert.equal(await help.locator("p").isVisible(),false,"secondary copy is hidden on idle");
+    const trigger=await summary.boundingBox();
+    assert(trigger&&trigger.width>=44&&trigger.height>=44,"Help has 44px touch target");
+    await assertFullyVisible(summary,viewportHeight,"Reading help is in first viewport");
+    assert.equal(await page.locator("[data-reading-passage-question] h1").count(),1,
+      "Reading has one task heading");
     await assertFullyVisible(status,viewportHeight,`idle reading feedback at ${viewport.width}`);
     mkdirSync(screenshotDir,{recursive:true});
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-reading-passage-idle.png`),fullPage:false});
+    await summary.click();
+    assert.equal(await help.getAttribute("open"),"","Help can be opened");
+    const helpCopy=await help.locator("p").innerText();
+    assert(helpCopy.includes("Temukan jawaban yang tertulis langsung di bacaan."),
+      "original reading instruction is preserved word-for-word");
+    assert(helpCopy.includes("Jawab berdasarkan informasi yang tertulis di bacaan."),
+      "original idle tip is available on demand");
+    assert.equal(await help.locator("p").isVisible(),true,"Reading Help is visible when opened");
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-reading-passage-help.png`),fullPage:false});
+    await summary.click();
+    assert.equal(await help.getAttribute("open"),null,"Reading Help closes before keyboard choices");
 
     const wrongChoice=await keyboardWrongChoice(page);
     assert.notEqual(wrongChoice,correctChoice);
@@ -220,10 +243,20 @@ async function inspect(viewport){
   }
 }
 
+function archiveReadingEvidence(){
+  mkdirSync(evidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir)
+    .filter(file=>/^\d+-reading-passage-(?:idle|help|try|success)\.png$/.test(file));
+  assert.equal(files.length,viewports.length*4,
+    "Reading passage must produce exactly 4 images for each required width");
+  for(const file of files)copyFileSync(path.join(screenshotDir,file),path.join(evidenceDir,file));
+}
+
 async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
+  archiveReadingEvidence();
   console.log(`Reading Passage Question browser QA passed ${viewports.length} viewports with legitimate Bahasa Wave B readiness, canonical passage/question/answers, keyboard wrong-state, pointer completion, touch targets, feedback/canonical Completion visibility and assessed evidence checks.`);
 }
 

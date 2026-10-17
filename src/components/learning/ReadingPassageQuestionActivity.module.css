@@ -64,3 +64,61 @@
   .storyBook .passageCard p { font-size: 16px; line-height: 1.3; }
   .storyBook .questionCard p { font-size: 13px; line-height: 1.3; }
 }
+
+
+/* VQA-11: preserve the existing warm paper book and opacity needed
+   for reading over Garden art. Hide only redundant idle advice. */
+.scene .introCard{
+  min-height:44px;
+  padding-top:9px;
+  padding-bottom:9px;
+}
+.scene .introCard h1{
+  line-height:1.2;
+  text-wrap:balance;
+}
+.scene .statusIdle{
+  min-height:44px;
+  padding:0;
+  background:transparent;
+  border:0;
+}
+.helpDetails{width:100%;font-size:14px;line-height:1.4}
+.helpToggle{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:fit-content;
+  max-width:100%;
+  min-height:44px;
+  margin:0 auto;
+  padding:7px 16px;
+  border:1px solid rgba(57,101,98,.32);
+  border-radius:999px;
+  background:rgba(255,254,246,.94);
+  box-shadow:0 2px 8px rgba(22,64,52,.1);
+  color:#214e51;
+  font-size:14px;
+  font-weight:900;
+  list-style:none;
+  cursor:pointer;
+}
+.helpToggle::-webkit-details-marker{display:none}
+.helpToggle:focus-visible{outline:3px solid #286c71;outline-offset:3px}
+.helpText{
+  max-width:47ch;
+  margin:8px auto 0;
+  padding:11px 13px;
+  border-radius:14px;
+  background:rgba(255,253,238,.98);
+  color:#344c50;
+  font-size:14px;
+  line-height:1.45;
+  font-weight:650;
+  text-align:center;
+  overflow-wrap:break-word;
+}
+@media(max-width:520px){
+  .helpToggle{font-size:13px}
+  .helpText{font-size:13px}
+}

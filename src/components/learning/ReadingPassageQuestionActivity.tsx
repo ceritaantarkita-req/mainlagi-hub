@@ -89,7 +89,6 @@ export function ReadingPassageQuestionActivity({ childId, activityId }: { childI
           <span className={styles.introIcon} aria-hidden>📖</span>
           <div>
             <h1>Baca lalu jawab</h1>
-            <p>Temukan jawaban yang tertulis langsung di bacaan.</p>
           </div>
         </div>
 
@@ -125,7 +124,7 @@ export function ReadingPassageQuestionActivity({ childId, activityId }: { childI
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "idle" ? styles.statusIdle : ""} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
           role="status"
           aria-live="polite"
         >
@@ -133,7 +132,13 @@ export function ReadingPassageQuestionActivity({ childId, activityId }: { childI
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
               ? "💡 Belum tepat. Baca lagi kalimatnya, lalu cari informasi yang ditanyakan."
-              : "💡 Jawab berdasarkan informasi yang tertulis di bacaan."}
+              : <details className={styles.helpDetails} data-reading-help="v1">
+                  <summary className={styles.helpToggle}>Cara main</summary>
+                  <p className={styles.helpText}>
+                    <span>Temukan jawaban yang tertulis langsung di bacaan.</span>{" "}
+                    <span>💡 Jawab berdasarkan informasi yang tertulis di bacaan.</span>
+                  </p>
+                </details>}
         </div>
 
         {feedback === "good" ? <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} /> : null}
