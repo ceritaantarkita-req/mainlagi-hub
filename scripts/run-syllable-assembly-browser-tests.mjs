@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, copyFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,6 +13,7 @@ const route="/child/demo-gian/activity/bahasa-gabung-baju";
 const activityId="bahasa-gabung-baju";
 const correctLabel="Pilih kata hasil: baju";
 const screenshotDir=path.join(root,".mobile-route-qa");
+const evidenceDir=path.join(root,".vqa12-syllable-assembly");
 const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
 let server=null;
 let serverLog="";
@@ -121,7 +122,22 @@ async function inspect(viewport){
     const result=page.locator("[data-syllable-result]");
     assert.equal((await result.textContent())?.trim(),"?","assembled result stays hidden before assessment");
     assert.equal(await result.getAttribute("aria-label"),"Kata hasil masih disembunyikan");
-    assert.equal(await page.locator("[data-syllable-cue]").getByText("Baca dari kiri ke kanan: ba lalu ju.").count(),1,"board exposes only prompt-supported syllable cue");
+    const help=page.locator('[data-syllable-help="v1"]');
+    assert.equal(await help.count(),1,"one native Help disclosure retains original syllable cue");
+    const summary=help.locator("summary");
+    assert.equal((await summary.innerText()).trim(),"Cara main","localized syllable Help");
+    assert.equal(await help.getAttribute("open"),null,"syllable cue hidden until requested");
+    assert.equal(await page.locator("[data-syllable-cue]").isVisible(),false,
+      "avoid duplicated always-visible syllable cue");
+    const heading=page.getByRole("heading",{name:"Satukan suku katanya",exact:true});
+    assert.equal(await heading.count(),1,"one canonical task heading remains");
+    assert.equal(await heading.isVisible(),true,"task heading must remain visible even at 320px");
+    const headingBox=await heading.boundingBox();
+    assert(headingBox&&headingBox.width>0&&headingBox.height>=16,
+      "task heading needs readable geometry");
+    const summaryBox=await summary.boundingBox();
+    assert(summaryBox&&summaryBox.width>=44&&summaryBox.height>=44,
+      "Help keeps a minimum 44px touch target");
 
     const choices=page.locator("[data-syllable-choice]");
     assert.equal(await choices.count(),3,"syllable assembly keeps three canonical choices");
@@ -143,6 +159,17 @@ async function inspect(viewport){
     await assertFullyVisible(status,viewportHeight,`idle syllable feedback at ${viewport.width}`);
     mkdirSync(screenshotDir,{recursive:true});
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-syllable-assembly-idle.png`),fullPage:false});
+    await summary.click();
+    assert.equal(await help.getAttribute("open"),"","Help opens on request");
+    const originalCue=page.locator("[data-syllable-cue]");
+    assert.equal(await originalCue.isVisible(),true,"original cue becomes visible only through Help");
+    assert.equal((await originalCue.innerText()).includes("Baca dari kiri ke kanan: ba lalu ju."),true,
+      "authored syllable cue preserved verbatim");
+    assert((await help.locator("p").innerText()).includes("Baca dua bagian dari kiri ke kanan, lalu pilih kata yang terbentuk."),
+      "authored primary supplementary copy preserved verbatim");
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-syllable-assembly-help.png`),fullPage:false});
+    await summary.click();
+    assert.equal(await help.getAttribute("open"),null,"Help re-collapses before answer input");
 
     const wrongLabel=await keyboardWrongChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
@@ -191,10 +218,21 @@ async function inspect(viewport){
   }
 }
 
+function archiveSyllableEvidence(){
+  // Subsequent mobile browser suites clear the shared directory.
+  mkdirSync(evidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir)
+    .filter(file=>/^\d+-syllable-assembly-(?:idle|help|try|success)\.png$/.test(file));
+  assert.equal(files.length,viewports.length*4,
+    "Syllable must capture all four states at all required widths");
+  for(const file of files)copyFileSync(path.join(screenshotDir,file),path.join(evidenceDir,file));
+}
+
 async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
+  archiveSyllableEvidence();
   console.log(`Syllable-assembly browser QA passed ${viewports.length} viewports with canonical Bahasa Wave A readiness, keyboard wrong-state, pointer completion, masked result, feedback/Completion visibility and assessed evidence checks.`);
 }
 
