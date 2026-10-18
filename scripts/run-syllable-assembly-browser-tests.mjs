@@ -126,7 +126,7 @@ async function inspect(viewport){
       const cells=Array.from(board.children);
       const boardRect=board.getBoundingClientRect();
       return {
-        text:board.textContent?.replace(/\\s+/g," ").trim(),
+        text:board.textContent?.replace(/\s+/g," ").trim(),
         boardBackground:getComputedStyle(board).backgroundColor,
         items:cells.map(node=>{
           const c=getComputedStyle(node);
@@ -150,7 +150,7 @@ async function inspect(viewport){
       assert.equal(item.border,0,"syllables and ? must not have tiny inner box borders");
       assert.equal(item.radius,0,"syllables and ? must not be pill-shaped");
       assert.equal(item.image,"none","individual syllables have no decorated background");
-      assert.match(item.background,/^(?:transparent|rgba\\(0,\\s*0,\\s*0,\\s*0\\))$/,
+      assert.match(item.background,/^(?:transparent|rgba\(0,\s*0,\s*0,\s*0\))$/,
         "individual syllables need transparent background");
       assert.equal(item.shadow,"none","syllables must not have independent cards/shadows");
     }
