@@ -122,6 +122,38 @@ async function inspect(viewport){
     const result=page.locator("[data-syllable-result]");
     assert.equal((await result.textContent())?.trim(),"?","assembled result stays hidden before assessment");
     assert.equal(await result.getAttribute("aria-label"),"Kata hasil masih disembunyikan");
+    const boardVisual=await page.locator("[data-syllable-board]").evaluate(board=>{
+      const cells=Array.from(board.children);
+      const boardRect=board.getBoundingClientRect();
+      return {
+        text:board.textContent?.replace(/\\s+/g," ").trim(),
+        boardBackground:getComputedStyle(board).backgroundColor,
+        items:cells.map(node=>{
+          const c=getComputedStyle(node);
+          const b=node.getBoundingClientRect();
+          return {text:node.textContent?.trim(),font:parseFloat(c.fontSize),
+            border:parseFloat(c.borderTopWidth),radius:parseFloat(c.borderTopLeftRadius),
+            background:c.backgroundColor,image:c.backgroundImage,shadow:c.boxShadow,
+            x:b.x,y:b.y,width:b.width,height:b.height,
+            withinBoard:b.left>=boardRect.left-1&&b.right<=boardRect.right+1};
+        })
+      };
+    });
+    assert.deepEqual(boardVisual.items.map(item=>item.text),["ba","+","ju","=","?"],
+      "one readable ba + ju = ? equation must keep all five original elements");
+    assert.equal(boardVisual.items.length,5,"equation has exactly two syllables, two operators, masked result");
+    assert(boardVisual.items.every(item=>item.withinBoard),"all equation glyphs fit the single board");
+    assert(boardVisual.items.every((item,i,a)=>i===0||item.x>=a[i-1].x+a[i-1].width-1),
+      "equation elements may not overlap horizontally");
+    for(const item of [boardVisual.items[0],boardVisual.items[2],boardVisual.items[4]]){
+      assert(item.font>=30,`syllable/result text should be >=30px at ${viewport.width}px`);
+      assert.equal(item.border,0,"syllables and ? must not have tiny inner box borders");
+      assert.equal(item.radius,0,"syllables and ? must not be pill-shaped");
+      assert.equal(item.image,"none","individual syllables have no decorated background");
+      assert.match(item.background,/^(?:transparent|rgba\\(0,\\s*0,\\s*0,\\s*0\\))$/,
+        "individual syllables need transparent background");
+      assert.equal(item.shadow,"none","syllables must not have independent cards/shadows");
+    }
     const help=page.locator('[data-syllable-help="v1"]');
     assert.equal(await help.count(),1,"one native Help disclosure retains original syllable cue");
     const summary=help.locator("summary");
@@ -145,6 +177,16 @@ async function inspect(viewport){
       "Pilih kata hasil: baju","Pilih kata hasil: buku","Pilih kata hasil: bola"
     ]));
     assert.equal(await completed(page),false,"idle syllable assembly cannot complete activity");
+    const answerTypography=await choices.evaluateAll(items=>items.map(node=>({
+      label:node.textContent?.trim(),
+      font:parseFloat(getComputedStyle(node).fontSize),
+      color:getComputedStyle(node).color,
+      height:node.getBoundingClientRect().height
+    })));
+    assert(answerTypography.every(item=>item.font>=21),
+      `answer text must be at least 21px at ${viewport.width}px: ${JSON.stringify(answerTypography)}`);
+    assert(answerTypography.every(item=>item.height>=64),
+      `answer touch cards must remain >=64px for children at ${viewport.width}px`);
 
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
     const viewportHeight=await page.evaluate(()=>window.innerHeight);
@@ -183,6 +225,8 @@ async function inspect(viewport){
     await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"correct assembled word completes canonical activity");
     assert.equal((await result.textContent())?.trim(),"baju","success may reveal canonical assembled word");
+    assert.equal(await result.evaluate(node=>parseFloat(getComputedStyle(node).borderTopWidth)),0,
+      "completed baju also remains plain text without its own inner box");
     await assertFullyVisible(status,viewportHeight,`success syllable feedback at ${viewport.width}`);
     const completion=page.locator('[data-canonical-completion="v1"][data-activity-completion]');
     await completion.waitFor({state:"visible",timeout:3000});
