@@ -163,7 +163,7 @@ async function inspect(viewport){
     const viewportHeight=await page.evaluate(()=>window.innerHeight);
     const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
     assert(scrollWidth<=viewportWidth+1,`phrase-scene overflows horizontally at ${viewport.width}`);
-    await assertFullyVisible(choices,viewportHeight,`all three labeled scene choices at ${viewport.width}`);
+    for(const choice of await choices.all()) await assertFullyVisible(choice,viewportHeight,`labeled scene choice at ${viewport.width}`);
     for(const box of await choices.evaluateAll(items=>items.map(node=>{const rect=node.getBoundingClientRect();return{width:rect.width,height:rect.height,left:rect.left,right:rect.right};}))){
       assert(box.width>=44&&box.height>=44,"phrase-scene choices keep touch target");
       assert(box.left>=-1&&box.right<=viewportWidth+1,"phrase-scene choices remain inside viewport");
