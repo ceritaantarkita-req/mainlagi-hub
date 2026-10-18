@@ -385,3 +385,88 @@
   .scene .promptIcon{display:none}
   .scene .promptCard h1{font-size:16px}
 }
+
+
+/* VQA-12F: Child-first syllable legibility.
+   One high-contrast board, no boxes around individual syllables/operators.
+   Preserve the semantic ba + ju = ? elements and mask until assessed success. */
+.scene .assemblyCard{
+  min-height:118px;
+  gap:clamp(8px,1.6vw,16px);
+  padding:14px 18px;
+  border:1px solid rgba(72,90,102,.24);
+  background:rgba(255,254,247,.97);
+  box-shadow:0 7px 18px rgba(29,60,51,.10);
+}
+.scene .syllablePiece,
+.scene .resultPiece{
+  display:inline-grid;
+  place-items:center;
+  flex:0 1 auto;
+  min-width:0;
+  min-height:56px;
+  padding:0;
+  border:0;
+  border-radius:0;
+  background:transparent;
+  box-shadow:none;
+  color:#173b57;
+  font-size:clamp(30px,8vw,42px);
+  font-weight:950;
+  line-height:1.12;
+  letter-spacing:0;
+  white-space:nowrap;
+}
+.scene .resultPiece{color:#6550a2}
+.scene .resultGood{
+  color:#287145;
+  font-size:clamp(25px,7vw,38px);
+}
+.scene .operator{
+  color:#365666;
+  opacity:1;
+  font-size:clamp(24px,6vw,32px);
+  line-height:1;
+}
+.scene .choiceButton{
+  min-height:74px;
+  padding:12px 8px;
+  color:#193b55;
+  font-size:clamp(21px,5.5vw,27px);
+  font-weight:950;
+  line-height:1.14;
+  letter-spacing:0;
+  border-color:#b8d0c1;
+  background:#fffef9;
+}
+@media(max-width:560px){
+  .scene .assemblyCard{
+    min-height:100px;
+    gap:9px;
+    padding:10px 10px;
+  }
+  .scene .choiceButton{
+    min-height:70px;
+    font-size:clamp(21px,5.5vw,24px);
+    padding:10px 5px;
+  }
+}
+@media(max-width:360px){
+  .scene .assemblyCard{
+    min-height:94px;
+    gap:6px;
+    padding:9px 7px;
+  }
+  .scene .syllablePiece,
+  .scene .resultPiece{
+    min-height:50px;
+    font-size:31px;
+  }
+  .scene .resultGood{font-size:26px}
+  .scene .operator{font-size:26px}
+  .scene .choiceButton{
+    min-height:68px;
+    font-size:22px;
+    padding:9px 3px;
+  }
+}
