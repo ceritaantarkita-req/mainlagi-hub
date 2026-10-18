@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, copyFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,6 +13,7 @@ const route="/child/demo-gian/activity/english-phrase-small-cat";
 const activityId="english-phrase-small-cat";
 const correctLabel="Pilih jawaban A SMALL CAT";
 const screenshotDir=path.join(root,".mobile-route-qa");
+const evidenceDir=path.join(root,".vqa13-phrase-completion");
 const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
 let server=null;
 let serverLog="";
@@ -155,8 +156,54 @@ async function inspect(viewport){
     await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
     assert.equal(await completed(page),true,"correct phrase-scene choice completes canonical activity");
     await assertFullyVisible(status,viewportHeight,`success phrase-scene feedback at ${viewport.width}`);
-    const completion=page.locator("[data-activity-completion]");
-    await assertFullyVisible(completion,viewportHeight,`phrase-scene success CTA at ${viewport.width}`)
+    const completion=page.locator('[data-activity-completion][data-canonical-completion="v1"]');
+    await completion.waitFor({state:"visible",timeout:3000});
+    // A filtered ancestor establishes the containing block of descendants with
+    // position:fixed. The old sceneDone saturation filter used to shrink/clip
+    // the canonical dialog at 320px even though the dialog itself was fixed.
+    const modalGeometry=await page.evaluate(()=>{
+      const overlay=document.querySelector('[data-activity-completion][data-canonical-completion="v1"]');
+      const scene=document.querySelector("[data-phrase-scene-match]");
+      const card=overlay?.firstElementChild;
+      if(!overlay||!scene||!card) return null;
+      const rect=overlay.getBoundingClientRect();
+      const cardRect=card.getBoundingClientRect();
+      return {
+        position:getComputedStyle(overlay).position,
+        sceneFilter:getComputedStyle(scene).filter,
+        left:rect.left,top:rect.top,right:rect.right,bottom:rect.bottom,
+        width:window.innerWidth,height:window.innerHeight,
+        cardLeft:cardRect.left,cardTop:cardRect.top,
+        cardRight:cardRect.right,cardBottom:cardRect.bottom
+      };
+    });
+    assert(modalGeometry,"canonical completion overlay and card must render");
+    assert.equal(modalGeometry.position,"fixed","canonical overlay uses viewport-fixed positioning");
+    assert.equal(modalGeometry.sceneFilter,"none","scene must not trap fixed overlay behind CSS filter");
+    assert(Math.abs(modalGeometry.left)<=1&&Math.abs(modalGeometry.top)<=1,
+      `completion backdrop must start at viewport origin at ${viewport.width}: ${JSON.stringify(modalGeometry)}`);
+    assert(Math.abs(modalGeometry.right-modalGeometry.width)<=1&&Math.abs(modalGeometry.bottom-modalGeometry.height)<=1,
+      `completion backdrop must cover entire viewport at ${viewport.width}: ${JSON.stringify(modalGeometry)}`);
+    assert(modalGeometry.cardLeft>=-1&&modalGeometry.cardRight<=modalGeometry.width+1,
+      "canonical completion card stays within viewport width");
+    assert(modalGeometry.cardTop>=-1&&modalGeometry.cardBottom<=modalGeometry.height+1,
+      "canonical completion card stays within viewport height");
+    const heading=completion.getByRole("heading",{name:"Excellent!",exact:true});
+    await assertFullyVisible(heading,viewportHeight,`phrase-scene completion heading at ${viewport.width}`);
+    assert.equal(await completion.getAttribute("data-completion-stars"),"3",
+      "canonical completion keeps three stars");
+    const actions=completion.locator("[data-completion-action]");
+    assert.deepEqual(await actions.evaluateAll(nodes=>nodes.map(n=>n.getAttribute("data-completion-action"))),
+      ["back","again","next","share"],"canonical completion must keep Back/Again/Next/Share");
+    for(const action of await actions.all()){
+      const geometry=await action.boundingBox();
+      assert(geometry&&geometry.width>=44&&geometry.height>=44,
+        `completion action must be tappable at ${viewport.width}`);
+      assert(geometry.x>=-1&&geometry.x+geometry.width<=viewportWidth+1,
+        `completion action must not clip horizontally at ${viewport.width}`);
+      assert(geometry.y>=-1&&geometry.y+geometry.height<=viewportHeight+1,
+        `completion action must not clip vertically at ${viewport.width}`);
+    }
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -176,6 +223,11 @@ async function inspect(viewport){
     assert.equal(state.accuracy,0.5);
 
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-phrase-scene-success.png`),fullPage:false});
+    await completion.locator('[data-completion-action="again"]').click();
+    await completion.waitFor({state:"detached",timeout:2000});
+    assert.equal(await choices.count(),3,"Again restores three original visual choices");
+    assert.equal(await choices.first().isEnabled(),true,"Again re-enables original answer choices");
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-phrase-scene-again.png`),fullPage:false});
     assert.deepEqual(pageErrors,[],`page errors at ${viewport.width}: ${pageErrors.join(" | ")}`);
     assert.deepEqual(consoleErrors,[],`console errors at ${viewport.width}: ${consoleErrors.join(" | ")}`);
     await context.close();
@@ -184,10 +236,22 @@ async function inspect(viewport){
   }
 }
 
+function archivePhraseEvidence(){
+  // Another route test resets the shared screenshot directory; retain exactly
+  // the four VQA-13 states per viewport as immutable CI visual evidence.
+  mkdirSync(evidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir)
+    .filter(file=>/^\d+-phrase-scene-(?:idle|try|success|again)\.png$/.test(file));
+  assert.equal(files.length,viewports.length*4,
+    "Phrase Scene must capture four genuine screenshot states for each width");
+  for(const file of files)copyFileSync(path.join(screenshotDir,file),path.join(evidenceDir,file));
+}
+
 async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
+  archivePhraseEvidence();
   console.log(`Pattern 41 browser QA passed ${viewports.length} viewports with English readiness, deterministic phrase scenes, keyboard retry, pointer completion, touch targets and assessed evidence checks.`);
 }
 
