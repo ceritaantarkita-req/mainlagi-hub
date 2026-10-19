@@ -135,9 +135,7 @@ export function PhraseSceneMatchActivity({ childId, activityId }: { childId: str
         data-phrase-scene-match
       >
         <div className={styles.intro}>
-          <span className={styles.badge}>English phrases</span>
-          <h1>Cocokkan frasa dengan scene</h1>
-          <p data-phrase-scene-prompt>{activity.prompt}</p>
+          <h2 className={styles.primaryQuestion} data-phrase-scene-prompt>{activity.prompt}</h2>
         </div>
 
         <div className={styles.choiceGrid} role="group" aria-label="Pilih scene yang cocok dengan frasa">
