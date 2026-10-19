@@ -143,6 +143,18 @@ async function inspect(viewport){
     await waitForBoard(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept canonical Logic foundation prerequisites at ${viewport.width}`);
 
+    // Child-first copy: one question, no competing long instruction or duplicate page title.
+    assert.equal(await page.getByRole("heading",{name:"Mana yang beda?"}).count(),1,
+      "odd-one-out has one short, readable instruction");
+    assert.equal(await page.getByRole("heading",{level:1}).count(),1,
+      "the frame must not render a second competing activity heading");
+    assert.equal(await page.getByText("2 mirip • 1 beda").count(),0,
+      "the visual first-action screen removes the extra hint badge");
+    assert.equal(await page.getByText("Bandingkan tiga kartu.",{exact:false}).count(),0,
+      "the visual first-action screen removes verbose explanation");
+    assert.equal(await page.locator("[data-odd-one-out] [role='status']").innerText(),"",
+      "no initial status copy competes with the three choice cards");
+
     const choices=page.locator("[data-odd-one-out-choice]");
     assert.equal(await choices.count(),3,"representative odd-one-out keeps canonical trio");
     const labels=await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")));
@@ -188,14 +200,24 @@ async function inspect(viewport){
 
     const wrongLabel=await chooseWrongWithKeyboard(page);
     assert.notEqual(wrongLabel,correctLabel);
-    await page.getByRole("status").filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    const tryStatus=page.getByRole("status").filter({hasText:"Belum tepat"});
+    await tryStatus.waitFor({state:"visible",timeout:2000});
+    assert.equal(await tryStatus.innerText(),"Belum tepat. Coba lagi!",
+      "wrong feedback stays brief and child-friendly");
     assert.equal(await completed(page),false,"wrong outsider must not complete canonical activity");
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-odd-one-out-try.png`),fullPage:false});
 
     await page.getByRole("button",{name:correctLabel}).click();
-    await page.getByRole("status").filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    const goodStatus=page.getByRole("status").filter({hasText:"Tepat"});
+    await goodStatus.waitFor({state:"visible",timeout:2000});
+    assert.equal(await goodStatus.innerText(),"⭐ Tepat! Hebat!",
+      "success feedback stays brief before canonical three-star completion");
     assert.equal(await completed(page),true,"correct outsider completes canonical activity");
-    assert.equal(await page.locator("[data-odd-one-out-summary]").count(),1,"success reveals common-pair summary");
+    assert.equal(await page.locator("[data-odd-one-out-summary]").count(),1,
+      "success retains a screen-reader-accessible explanation");
+    assert.equal(await page.locator("[data-odd-one-out-summary]").innerText(),
+      "Mobil berbeda karena dua pilihan lainnya adalah hewan.",
+      "the pedagogical reason remains available for assistive technology");
 
     const completion=page.locator('[data-canonical-completion="v1"][data-activity-completion]');
     await completion.waitFor({state:"visible",timeout:3000});
