@@ -307,3 +307,96 @@
     font-size:clamp(38px,10vw,44px);
   }
 }
+
+
+/* VQA-17: make the actual three picture choices the first-action hero.
+   Keep the canonical task title and original common-trait clue always legible.
+   Only extra authored instructions are deferred into native Help below choices. */
+.scene .promptCard{
+  min-height:50px;
+  gap:10px;
+  padding:8px 13px;
+  border:1px solid rgba(76,103,82,.22);
+  border-radius:17px;
+  background:rgba(255,254,247,.96);
+  box-shadow:none;
+}
+.scene .promptIcon{
+  width:35px;
+  height:35px;
+  border-radius:11px;
+  font-size:21px;
+}
+.scene .promptCard h1{
+  margin:0;
+  line-height:1.18;
+  text-wrap:balance;
+}
+.scene .clueCard{
+  gap:4px;
+  min-height:62px;
+  padding:9px 12px;
+  border-radius:17px;
+  background:rgba(252,255,250,.96);
+  box-shadow:none;
+}
+.scene .clueCard strong{
+  font-size:clamp(16px,3.5vw,21px);
+  line-height:1.23;
+}
+.scene .clueBadge{
+  padding:2px 9px;
+  font-size:12px;
+}
+.scene .statusIdle{
+  min-height:44px;
+  padding:0;
+  border:0;
+  background:transparent;
+  box-shadow:none;
+}
+.helpDetails{width:100%;font-size:14px;line-height:1.4}
+.helpToggle{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  min-height:44px;
+  width:fit-content;
+  max-width:100%;
+  margin:0 auto;
+  padding:7px 16px;
+  border:1px solid rgba(57,101,98,.38);
+  border-radius:999px;
+  background:rgba(255,254,246,.96);
+  color:#214e51;
+  box-shadow:0 2px 8px rgba(22,64,52,.12);
+  font-size:14px;
+  font-weight:900;
+  list-style:none;
+  cursor:pointer;
+}
+.helpToggle::-webkit-details-marker{display:none}
+.helpToggle:focus-visible{outline:3px solid #286c71;outline-offset:3px}
+.helpBody{
+  max-width:50ch;
+  margin:8px auto 0;
+  padding:10px 12px;
+  border-radius:16px;
+  background:rgba(255,253,238,.97);
+  color:#294b58;
+  text-align:center;
+  font-size:14px;
+  font-weight:650;
+  line-height:1.4;
+}
+.helpBody p{margin:0 0 7px;overflow-wrap:break-word}
+.helpBody p:last-child{margin-bottom:0}
+@media(max-width:560px){
+  .scene{gap:8px}
+  .scene .promptCard{min-height:46px;padding:7px 10px}
+  .scene .promptIcon{width:32px;height:32px;font-size:19px}
+  .scene .clueCard{min-height:58px;padding:7px 10px}
+  .scene .clueCard strong{font-size:16px}
+  .helpToggle{font-size:13px}
+  .helpBody{font-size:13px;line-height:1.35}
+}
