@@ -122,6 +122,34 @@ async function inspect(viewport){
     const choices=page.locator("[data-phrase-scene-choice]");
     assert.equal(await choices.count(),3,"phrase-scene keeps three canonical choices");
     assert.deepEqual(await choices.evaluateAll(items=>items.map(node=>node.textContent?.trim()??"")),["🐱A SMALL CAT","🐶A BIG DOG","🐱🐱TWO CATS"],"scene buttons keep canonical labels and order");
+    const labels=page.locator('[data-phrase-scene-choice] > span:last-child');
+    assert.deepEqual((await labels.allTextContents()).map(s=>s.trim()),
+      ["A SMALL CAT","A BIG DOG","TWO CATS"],
+      "visual scene labels remain complete, canonical and in original order");
+    const labelMeasurements=await choices.evaluateAll(nodes=>nodes.map(button=>{
+      const label=button.lastElementChild;
+      const r=label?.getBoundingClientRect();
+      const b=button.getBoundingClientRect();
+      return {
+        font:label?parseFloat(getComputedStyle(label).fontSize):0,
+        labelLeft:r?.left??0,labelRight:r?.right??0,labelTop:r?.top??0,labelBottom:r?.bottom??0,
+        buttonLeft:b.left,buttonRight:b.right,buttonTop:b.top,buttonBottom:b.bottom,
+        labelScrollWidth:label?.scrollWidth??0,labelClientWidth:label?.clientWidth??0,
+        labelScrollHeight:label?.scrollHeight??0,labelClientHeight:label?.clientHeight??0
+      };
+    }));
+    for(const label of labelMeasurements){
+      assert(label.font>=17,
+        `early reader phrase-choice labels must stay >=17px at ${viewport.width}px: ${JSON.stringify(label)}`);
+      assert(label.labelLeft>=label.buttonLeft-1&&label.labelRight<=label.buttonRight+1,
+        "label must fit within its picture choice horizontally");
+      assert(label.labelTop>=label.buttonTop-1&&label.labelBottom<=label.buttonBottom+1,
+        "label must fit within its picture choice vertically");
+      assert(label.labelScrollWidth<=label.labelClientWidth+2,
+        "phrase label must not hide its original text through horizontal overflow");
+      assert(label.labelScrollHeight<=label.labelClientHeight+2,
+        "phrase label must not hide its original text through vertical clipping");
+    }
 
     const visuals=page.locator("[data-phrase-scene-visual]");
     assert.deepEqual(await visuals.evaluateAll(items=>items.map(node=>({noun:node.getAttribute("data-scene-noun"),quantity:node.getAttribute("data-scene-quantity"),size:node.getAttribute("data-scene-size")}))),[
@@ -135,6 +163,7 @@ async function inspect(viewport){
     const viewportHeight=await page.evaluate(()=>window.innerHeight);
     const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
     assert(scrollWidth<=viewportWidth+1,`phrase-scene overflows horizontally at ${viewport.width}`);
+    for(const choice of await choices.all()) await assertFullyVisible(choice,viewportHeight,`labeled scene choice at ${viewport.width}`);
     for(const box of await choices.evaluateAll(items=>items.map(node=>{const rect=node.getBoundingClientRect();return{width:rect.width,height:rect.height,left:rect.left,right:rect.right};}))){
       assert(box.width>=44&&box.height>=44,"phrase-scene choices keep touch target");
       assert(box.left>=-1&&box.right<=viewportWidth+1,"phrase-scene choices remain inside viewport");
