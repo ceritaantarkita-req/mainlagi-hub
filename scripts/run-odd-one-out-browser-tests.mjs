@@ -209,7 +209,6 @@ async function inspect(viewport){
     assert.equal(await page.getByRole("link",{name:"Pilih permainan lain"}).count(),0,"legacy odd-one-out success CTA is removed");
 
     const completionBox=await completion.first().boundingBox();
-    const viewportHeight=await page.evaluate(()=>window.innerHeight);
     assert(completionBox,"odd-one-out canonical completion must render");
     assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=viewportHeight+1,`odd-one-out completion must remain inside viewport height at ${viewport.width}`);
 
