@@ -220,10 +220,12 @@ async function inspect(viewport){
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-odd-one-out-try.png`),fullPage:false});
 
     await page.getByRole("button",{name:correctLabel}).click();
-    const goodStatus=page.getByRole("status").filter({hasText:"Tepat"});
-    await goodStatus.waitFor({state:"visible",timeout:2000});
-    assert.equal(await goodStatus.innerText(),"⭐ Tepat! Hebat!",
-      "success feedback stays brief before canonical three-star completion");
+    const goodStatus=page.locator("[data-odd-one-out] [role='status']");
+    await page.waitForFunction(()=>document.querySelector("[data-odd-one-out] [role='status']")?.textContent?.includes("Tepat!"),undefined,{timeout:2000});
+    assert.equal((await goodStatus.textContent())?.trim(),"⭐ Tepat! Hebat!",
+      "success announcement remains available to assistive technology");
+    assert.notEqual(await goodStatus.evaluate(element=>getComputedStyle(element).clip),"auto",
+      "success announcement should not repeat visibly behind the three-star dialog");
     assert.equal(await completed(page),true,"correct outsider completes canonical activity");
     assert.equal(await page.locator("[data-odd-one-out-summary]").count(),1,
       "success retains a screen-reader-accessible explanation");
