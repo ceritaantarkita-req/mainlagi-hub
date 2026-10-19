@@ -118,7 +118,41 @@ async function inspect(viewport){
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept legitimate English Wave C readiness at ${viewport.width}`);
 
-    assert.equal(await page.locator("[data-phrase-scene-prompt]").textContent(),"Which phrase means a small cat?","canonical prompt remains byte-for-byte visible");
+    const question=page.locator("[data-phrase-scene-prompt]");
+    assert.equal(await question.textContent(),"Which phrase means a small cat?",
+      "canonical English instructional question remains byte-for-byte visible");
+    assert.equal(await question.evaluate(node=>node.tagName),"H2",
+      "semantic single question follows Garden's existing activity h1");
+    const intro=page.locator("[data-phrase-scene-match] > div:first-child");
+    assert.equal(await intro.locator("h1").count(),0,
+      "do not duplicate a second gameplay h1 over Garden's activity title");
+    assert.equal(await intro.locator("span").count(),0,
+      "obsolete English phrases category badge no longer occupies first playfield");
+    assert.equal(await page.getByText("Cocokkan frasa dengan scene",{exact:true}).count(),0,
+      "remove the redundant Indonesian instruction from English-first question");
+    const questionVisual=await question.evaluate(node=>{
+      const text=node.getBoundingClientRect();
+      const panel=node.parentElement?.getBoundingClientRect();
+      const grid=node.closest("section")?.querySelector('[role="group"]')?.getBoundingClientRect();
+      const style=getComputedStyle(node);
+      const backing=getComputedStyle(node.parentElement);
+      return {font:parseFloat(style.fontSize),textX:text.x,textRight:text.right,textTop:text.top,
+        textBottom:text.bottom,panelLeft:panel?.left,panelRight:panel?.right,
+        panelTop:panel?.top,panelBottom:panel?.bottom,
+        gridTop:grid?.top,background:backing.backgroundImage,backgroundColor:backing.backgroundColor};
+    });
+    assert(questionVisual.font>=20,"Phrase question should remain >=20px, including 320px");
+    assert(questionVisual.textX>=questionVisual.panelLeft-1 &&
+      questionVisual.textRight<=questionVisual.panelRight+1,
+      "English question must fit its contrast backing horizontally");
+    assert(questionVisual.textTop>=questionVisual.panelTop-1 &&
+      questionVisual.textBottom<=questionVisual.panelBottom+1,
+      "English question must fit its contrast backing vertically");
+    assert(questionVisual.panelBottom<=questionVisual.gridTop+1,
+      "question panel must not overlap the illustrated scene choice cards");
+    assert(questionVisual.background!=="none" ||
+      !/^(?:transparent|rgba\\(0,\\s*0,\\s*0,\\s*0\\))$/.test(questionVisual.backgroundColor),
+      "canonical question remains legible over decorated Garden art");
     const choices=page.locator("[data-phrase-scene-choice]");
     assert.equal(await choices.count(),3,"phrase-scene keeps three canonical choices");
     assert.deepEqual(await choices.evaluateAll(items=>items.map(node=>node.textContent?.trim()??"")),["🐱A SMALL CAT","🐶A BIG DOG","🐱🐱TWO CATS"],"scene buttons keep canonical labels and order");
@@ -161,6 +195,7 @@ async function inspect(viewport){
 
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
     const viewportHeight=await page.evaluate(()=>window.innerHeight);
+    await assertFullyVisible(question,viewportHeight,`first-action canonical question at ${viewport.width}`);
     const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
     assert(scrollWidth<=viewportWidth+1,`phrase-scene overflows horizontally at ${viewport.width}`);
     for(const choice of await choices.all()) await assertFullyVisible(choice,viewportHeight,`labeled scene choice at ${viewport.width}`);
