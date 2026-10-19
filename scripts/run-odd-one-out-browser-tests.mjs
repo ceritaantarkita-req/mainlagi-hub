@@ -157,6 +157,18 @@ async function inspect(viewport){
 
     const choices=page.locator("[data-odd-one-out-choice]");
     assert.equal(await choices.count(),3,"representative odd-one-out keeps canonical trio");
+    const question=page.getByRole("heading",{name:"Mana yang beda?"});
+    const [questionBox,firstChoiceBox]=await Promise.all([question.boundingBox(),choices.first().boundingBox()]);
+    assert(questionBox&&firstChoiceBox&&questionBox.y>=0&&questionBox.y+questionBox.height<=firstChoiceBox.y,
+      `the main question must be visible above the choice cards at ${viewport.width}px`);
+    const questionStyle=await question.evaluate(element=>({
+      color:getComputedStyle(element).color,
+      shadow:getComputedStyle(element).textShadow
+    }));
+    assert.equal(questionStyle.color,"rgb(255, 254, 250)",
+      "main question must remain high-contrast on the dark scene");
+    assert.notEqual(questionStyle.shadow,"none",
+      "main question needs a readable shadow on illustrated scenery");
     const labels=await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")));
     assert.deepEqual(new Set(labels),new Set([
       "Pilih yang berbeda: Anjing",
