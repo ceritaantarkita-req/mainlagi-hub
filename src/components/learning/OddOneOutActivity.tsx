@@ -115,7 +115,7 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? `${styles.statusGood} ${styles.srOnly}` : ""}`}
           role="status"
           aria-live="polite"
         >
