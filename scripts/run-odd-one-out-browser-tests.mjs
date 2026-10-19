@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, copyFileSync, readdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,6 +13,7 @@ const route="/child/demo-gian/activity/logic-odd-category-animal-vehicle";
 const activityId="logic-odd-category-animal-vehicle";
 const correctLabel="Pilih yang berbeda: Mobil";
 const screenshotDir=path.join(root,".mobile-route-qa");
+const evidenceDir=path.join(root,".vqa16-odd-one-out");
 const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
 let server=null;
 let serverLog="";
@@ -151,12 +152,35 @@ async function inspect(viewport){
       "Pilih yang berbeda: Mobil"
     ]));
 
+    const readableLabels=await choices.locator('[class*="choiceLabel"]').evaluateAll(items=>items.map(node=>{
+      const style=getComputedStyle(node);
+      const rect=node.getBoundingClientRect();
+      const card=node.closest("[data-odd-one-out-choice]").getBoundingClientRect();
+      return {text:node.textContent?.trim(),font:parseFloat(style.fontSize),height:rect.height,
+        insideCard:rect.left>=card.left-1&&rect.right<=card.right+1&&rect.bottom<=card.bottom+1,
+        noHorizontalClip:node.scrollWidth<=node.clientWidth+1};
+    }));
+    assert.deepEqual(readableLabels.map(x=>x.text),["Anjing","Kucing","Mobil"],
+      "three canonical item labels remain intact and in original order");
+    assert(readableLabels.every(x=>x.font>=18),
+      `Odd One Out labels must be >=18px at ${viewport.width}: ${JSON.stringify(readableLabels)}`);
+    assert(readableLabels.every(x=>x.insideCard&&x.noHorizontalClip),
+      `Odd One Out item names may not clip: ${JSON.stringify(readableLabels)}`);
+    if(viewport.width<=560){
+      const icons=await choices.locator('[class*="choiceIcon"]').evaluateAll(items=>
+        items.map(node=>parseFloat(getComputedStyle(node).fontSize)));
+      assert(icons.every(x=>x>=38),`three image icons >=38px on narrow mobile: ${JSON.stringify(icons)}`);
+    }
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
+    const viewportHeight=await page.evaluate(()=>window.innerHeight);
     const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
     assert(scrollWidth<=viewportWidth+1,`odd-one-out overflows horizontally at ${viewport.width}`);
-    for(const box of await choices.evaluateAll(nodes=>nodes.map(node=>{const rect=node.getBoundingClientRect();return{width:rect.width,height:rect.height,left:rect.left,right:rect.right};}))){
+    for(const box of await choices.evaluateAll(nodes=>nodes.map(node=>{const rect=node.getBoundingClientRect();return{width:rect.width,height:rect.height,left:rect.left,right:rect.right,top:rect.top,bottom:rect.bottom};}))){
       assert(box.width>=44&&box.height>=44,"odd-one-out cards keep touch targets");
       assert(box.left>=-1&&box.right<=viewportWidth+1,"odd-one-out cards remain inside viewport");
+      assert(box.top>=-1&&box.bottom<=viewportHeight+1,
+        `all three children can act without scrolling at ${viewport.width}px`);
+
     }
 
     mkdirSync(screenshotDir,{recursive:true});
@@ -185,7 +209,6 @@ async function inspect(viewport){
     assert.equal(await page.getByRole("link",{name:"Pilih permainan lain"}).count(),0,"legacy odd-one-out success CTA is removed");
 
     const completionBox=await completion.first().boundingBox();
-    const viewportHeight=await page.evaluate(()=>window.innerHeight);
     assert(completionBox,"odd-one-out canonical completion must render");
     assert(completionBox.y>=-1&&completionBox.y+completionBox.height<=viewportHeight+1,`odd-one-out completion must remain inside viewport height at ${viewport.width}`);
 
@@ -224,10 +247,21 @@ async function inspect(viewport){
   }
 }
 
+function archiveOddEvidence(){
+  // Keep our own genuine screenshot gate: later mobile runners may wipe .mobile-route-qa.
+  mkdirSync(evidenceDir,{recursive:true});
+  const filenames=readdirSync(screenshotDir)
+    .filter(name=>/^\d+-odd-one-out-(?:idle|try|success)\.png$/.test(name));
+  assert.equal(filenames.length,viewports.length*3,
+    "Odd One Out must preserve idle/wrong/success at all three viewport widths");
+  for(const name of filenames)copyFileSync(path.join(screenshotDir,name),path.join(evidenceDir,name));
+}
+
 async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
+  archiveOddEvidence();
   console.log(`Odd-one-out browser QA passed ${viewports.length} viewports with canonical Logic foundation progression, keyboard wrong-state, pointer completion, canonical Completion, trio layout and assessed evidence checks.`);
 }
 
