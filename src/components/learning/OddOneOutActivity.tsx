@@ -137,6 +137,7 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
           childId={childId}
           activity={activity}
           onTryAgain={restart}
+          concise
         />
       ) : null}
     </GardenActivityFrame>
