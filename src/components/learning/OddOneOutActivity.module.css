@@ -1,309 +1,147 @@
+/* Child-first Odd One Out: one question, three large answers, minimal copy. */
 .scene {
   width: min(920px, 100%);
   margin: 0 auto;
   display: grid;
-  gap: 18px;
-  padding: 4px 0 18px;
+  gap: clamp(12px, 2.6vw, 22px);
+  padding: 4px 0 12px;
 }
-
-.promptCard,
-.clueCard,
-.status,
-.pairSummary {
-  border-radius: 22px;
-  border: 1px solid rgba(76, 103, 82, 0.18);
-  background: rgba(255, 255, 255, 0.92);
-  box-shadow: 0 12px 30px rgba(64, 83, 68, 0.09);
-}
-
 .promptCard {
   display: flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 18px;
-}
-
-.promptCard h1 {
-  margin: 0 0 4px;
-  font-size: clamp(1.25rem, 3vw, 1.85rem);
-}
-
-.promptCard p,
-.clueCard p {
-  margin: 0;
-  line-height: 1.45;
-}
-
-.promptIcon {
-  width: 54px;
-  height: 54px;
-  display: grid;
-  place-items: center;
-  border-radius: 18px;
-  background: rgba(253, 211, 97, 0.24);
-  font-size: 1.8rem;
-  flex: 0 0 auto;
-}
-
-.clueCard {
-  display: grid;
-  gap: 7px;
-  padding: 14px 18px;
+  justify-content: center;
+  gap: 12px;
   text-align: center;
 }
-
-.clueBadge,
-.resultBadge {
-  justify-self: center;
-  border-radius: 999px;
-  padding: 5px 10px;
-  font-weight: 800;
-  font-size: 0.82rem;
+.promptCard h1 {
+  margin: 0;
+  color: #243b55;
+  font-size: clamp(1.65rem, 4vw, 2.4rem);
+  font-weight: 900;
+  line-height: 1.16;
 }
-
-.clueBadge {
-  background: rgba(100, 139, 109, 0.12);
-  color: #3e6648;
+.promptIcon {
+  display: grid;
+  place-items: center;
+  font-size: clamp(1.65rem, 4vw, 2.35rem);
 }
-
 .trio {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 14px;
-  position: relative;
+  gap: clamp(8px, 2vw, 18px);
 }
-
-.trio::before {
-  content: "";
-  position: absolute;
-  left: 9%;
-  right: 9%;
-  top: 50%;
-  height: 3px;
-  border-radius: 999px;
-  background: rgba(84, 120, 93, 0.12);
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
 .choiceCard {
   position: relative;
-  z-index: 1;
-  min-height: 170px;
-  padding: 20px 12px 16px;
+  min-width: 0;
+  min-height: 190px;
+  padding: 22px 8px 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 12px;
   border-radius: 28px;
-  border: 2px solid rgba(73, 104, 79, 0.18);
-  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(247, 251, 247, 0.98));
-  box-shadow: 0 14px 28px rgba(54, 76, 60, 0.11);
-  color: inherit;
+  border: 3px solid rgba(73, 104, 79, 0.18);
+  background: linear-gradient(180deg, #ffffff, #f4faff);
+  box-shadow: 0 12px 24px rgba(54, 76, 60, 0.12);
+  color: #243b55;
   cursor: pointer;
   transition: transform 140ms ease, border-color 140ms ease, box-shadow 140ms ease;
 }
-
-.choiceCard:hover:not(:disabled),
-.choiceCard:focus-visible {
+.choiceCard:hover:not(:disabled), .choiceCard:focus-visible {
   transform: translateY(-4px);
-  border-color: rgba(70, 121, 83, 0.6);
-  box-shadow: 0 17px 30px rgba(54, 76, 60, 0.16);
-  outline: none;
+  border-color: #458aef;
+  box-shadow: 0 15px 28px rgba(54, 76, 60, 0.17);
+  outline-offset: 3px;
 }
-
-.choiceCard:disabled {
-  cursor: default;
+.choiceCard:focus-visible { outline: 3px solid #2257bd; }
+.choiceCard:disabled { cursor: default; }
+.choiceIcon {
+  display: grid;
+  place-items: center;
+  min-height: 76px;
+  max-width: 100%;
+  font-size: clamp(3.4rem, 8vw, 5.4rem);
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
-
-.indexBadge {
+.choiceLabel {
+  max-width: 100%;
+  font-size: clamp(18px, 2.7vw, 23px);
+  line-height: 1.2;
+  font-weight: 900;
+  text-align: center;
+  overflow-wrap: normal;
+}
+.selected { border-color: #458aef; }
+.wrong {
+  border-color: #dc7a66;
+  background: #fff2eb;
+  animation: nudge 220ms ease-in-out;
+}
+.correct {
+  border-color: #59a76b;
+  background: #eaf8ed;
+}
+.resultBadge {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 8px;
+  right: 10px;
+  display: grid;
+  place-items: center;
   width: 28px;
   height: 28px;
-  display: grid;
-  place-items: center;
   border-radius: 50%;
-  background: rgba(72, 105, 78, 0.1);
-  font-size: 0.8rem;
-  font-weight: 800;
+  background: #59a76b;
+  color: white;
+  font-weight: 900;
 }
-
-.choiceIcon {
-  min-height: 58px;
-  display: grid;
-  place-items: center;
-  font-size: clamp(2.2rem, 7vw, 4rem);
-  line-height: 1.1;
-  letter-spacing: 0.04em;
-  overflow-wrap: anywhere;
-}
-
-.choiceLabel {
-  font-weight: 800;
+.status {
+  min-height: 0;
   text-align: center;
+  font-size: clamp(1rem, 2.8vw, 1.2rem);
+  font-weight: 900;
   line-height: 1.3;
 }
-
-.selected {
-  border-color: rgba(60, 103, 70, 0.72);
+.status:empty { display: none; }
+.statusTry { color: #a44c3a; }
+.statusGood { color: #267841; }
+.pairSummary { position: absolute; }
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
-
-.wrong {
-  border-color: #d97863;
-  background: linear-gradient(180deg, #fff9f7, #fff1ed);
+.sceneDone { gap: 8px; }
+.sceneDone .promptCard { display: none; }
+@keyframes nudge {
+  0%,100% { transform: translateX(0); }
+  35% { transform: translateX(-5px); }
+  70% { transform: translateX(5px); }
 }
-
-.correct {
-  border-color: #56a36a;
-  background: linear-gradient(180deg, #fbfffb, #eaf8ed);
-  transform: translateY(-5px);
-}
-
-.resultBadge {
-  background: #e0f4e5;
-  color: #2e7040;
-}
-
-.status {
-  min-height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 12px 16px;
-  text-align: center;
-  font-weight: 700;
-  line-height: 1.4;
-}
-
-.statusTry {
-  border-color: rgba(208, 119, 91, 0.35);
-  background: #fff8f4;
-}
-
-.statusGood {
-  border-color: rgba(71, 151, 91, 0.35);
-  background: #f1fbf3;
-}
-
-.pairSummary {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 11px 16px;
-  text-align: center;
-}
-
 @media (max-width: 560px) {
-  .scene {
-    gap: 12px;
-    padding-bottom: 10px;
-  }
-
-  .promptCard {
-    gap: 10px;
-    padding: 12px 13px;
-  }
-
-  .promptIcon {
-    width: 46px;
-    height: 46px;
-    border-radius: 15px;
-    font-size: 1.5rem;
-  }
-
-  .promptCard h1 {
-    font-size: 1.2rem;
-  }
-
-  .promptCard p,
-  .clueCard p {
-    font-size: 0.9rem;
-  }
-
-  .clueCard {
-    padding: 11px 12px;
-  }
-
-  .trio {
-    gap: 7px;
-  }
-
+  .scene { gap: 14px; padding-bottom: 8px; }
+  .promptCard { gap: 8px; }
+  .promptCard h1 { font-size: clamp(1.4rem, 6vw, 1.75rem); }
+  .trio { gap: 7px; }
   .choiceCard {
-    min-height: 132px;
-    padding: 18px 7px 11px;
+    min-height: 152px;
     border-radius: 20px;
-    gap: 7px;
+    padding: 16px 4px 12px;
+    gap: 9px;
   }
-
-  .indexBadge {
-    top: 7px;
-    left: 7px;
-    width: 24px;
-    height: 24px;
-  }
-
-  .choiceIcon {
-    min-height: 44px;
-    font-size: clamp(1.65rem, 10vw, 2.5rem);
-  }
-
-  .choiceLabel {
-    font-size: 0.78rem;
-  }
-
-  .status {
-    min-height: 52px;
-    padding: 10px 12px;
-    font-size: 0.9rem;
-  }
-
-  .sceneDone {
-    gap: 8px;
-  }
-
-  .sceneDone .promptCard {
-    display: none;
-  }
-
-  .sceneDone .clueCard p {
-    display: none;
-  }
-
-  .pairSummary {
-    padding: 8px 10px;
-    font-size: 0.85rem;
-  }
+  .choiceIcon { min-height: 55px; font-size: clamp(38px, 10vw, 48px); }
+  .choiceLabel { font-size: clamp(18px, 4.6vw, 20px); }
+  .status { font-size: 1rem; }
 }
-
 @media (prefers-reduced-motion: reduce) {
-  .choiceCard {
-    transition: none;
-  }
-}
-
-
-/* VQA-16: children must be able to read the actual choice names, not just
-   the emoji. Three canonical item cards and Logic's instruction remain intact. */
-.scene .choiceLabel {
-  font-size:clamp(18px,2.7vw,22px);
-  line-height:1.22;
-  font-weight:900;
-  color:#243b55;
-  overflow-wrap:normal;
-}
-@media(max-width:560px){
-  .scene .choiceCard{
-    min-height:146px;
-    padding:20px 6px 13px;
-    gap:8px;
-  }
-  .scene .choiceIcon{
-    min-height:50px;
-    font-size:clamp(38px,10vw,44px);
-  }
+  .choiceCard { transition: none; }
+  .wrong { animation: none; }
 }
