@@ -107,7 +107,6 @@
 .status:empty { display: none; }
 .statusTry { color: #a44c3a; }
 .statusGood { color: #267841; }
-.pairSummary { position: absolute; }
 .srOnly {
   position: absolute;
   width: 1px;
