@@ -150,9 +150,8 @@ async function inspect(viewport){
       "English question must fit its contrast backing vertically");
     assert(questionVisual.panelBottom<=questionVisual.gridTop+1,
       "question panel must not overlap the illustrated scene choice cards");
-    assert(questionVisual.background!=="none" ||
-      !/^(?:transparent|rgba\\(0,\\s*0,\\s*0,\\s*0\\))$/.test(questionVisual.backgroundColor),
-      "canonical question remains legible over decorated Garden art");
+    assert.match(questionVisual.background,/linear-gradient/,
+      "canonical question retains opaque/light contrast backing over Garden art");
     const choices=page.locator("[data-phrase-scene-choice]");
     assert.equal(await choices.count(),3,"phrase-scene keeps three canonical choices");
     assert.deepEqual(await choices.evaluateAll(items=>items.map(node=>node.textContent?.trim()??"")),["🐱A SMALL CAT","🐶A BIG DOG","🐱🐱TWO CATS"],"scene buttons keep canonical labels and order");
