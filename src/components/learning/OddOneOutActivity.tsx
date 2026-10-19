@@ -89,14 +89,12 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
           <span className={styles.promptIcon} aria-hidden>🔎</span>
           <div>
             <h1>Cari yang beda</h1>
-            <p>Bandingkan tiga kartu. Dua punya ciri yang sama, satu berbeda.</p>
           </div>
         </div>
 
         <div className={styles.clueCard} aria-label="Petunjuk kesamaan">
           <span className={styles.clueBadge}>2 mirip • 1 beda</span>
           <strong>{config.commonTrait}</strong>
-          <p>{config.promptHint}</p>
         </div>
 
         <div className={styles.trio} role="group" aria-label="Tiga pilihan: cari yang berbeda">
@@ -126,7 +124,7 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "idle" ? styles.statusIdle : ""} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
           role="status"
           aria-live="polite"
         >
@@ -134,7 +132,14 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
               ? `💡 Belum tepat. Ingat: ${config.commonTrait.toLowerCase()}. Coba cari satu yang tidak cocok.`
-              : "💡 Lihat ketiganya sebagai satu kelompok, lalu pilih satu kartu yang berbeda."}
+              : <details className={styles.helpDetails} data-odd-one-out-help="v1">
+                  <summary className={styles.helpToggle}>Cara main</summary>
+                  <div className={styles.helpBody}>
+                    <p>Bandingkan tiga kartu. Dua punya ciri yang sama, satu berbeda.</p>
+                    <p>{config.promptHint}</p>
+                    <p>💡 Lihat ketiganya sebagai satu kelompok, lalu pilih satu kartu yang berbeda.</p>
+                  </div>
+                </details>}
         </div>
 
         {feedback === "good" ? (
