@@ -223,6 +223,10 @@ async function inspect(viewport){
     await completion.waitFor({state:"visible",timeout:3000});
     assert.equal(await completion.getAttribute("data-completion-context"),"belajar","odd-one-out success uses canonical Belajar completion");
     assert.equal(await completion.getAttribute("data-completion-stars"),"3","odd-one-out completion keeps three-star contract");
+    assert.equal(await completion.getByRole("heading",{name:"Hebat!"}).count(),1,
+      "odd-one-out uses a short completion heading");
+    assert.equal(await completion.getByText("Permainan selesai. Mau lanjut ke mana?").count(),0,
+      "odd-one-out removes the redundant completion sentence");
     assert.deepEqual(
       await completion.locator("[data-completion-action]").evaluateAll(nodes=>nodes.map(node=>node.textContent?.trim())),
       ["Back","Again","Next","Share"],
