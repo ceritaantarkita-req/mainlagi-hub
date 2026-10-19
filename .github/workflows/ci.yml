@@ -237,6 +237,17 @@ jobs:
           retention-days: 14
           include-hidden-files: true
 
+      # VQA-16 separate original Odd One Out mobile screenshots before shared QA cleanup.
+      - name: Upload VQA-16 Odd One Out label screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vqa16-odd-one-out-label-screenshots
+          path: .vqa16-odd-one-out/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
       # VQA-06 AudioChoice captures live outside the standard screenshots directory,
       # which the later mobile-route runner clears before its own collection.
       - name: Upload VQA-06 audio-first QA screenshots
