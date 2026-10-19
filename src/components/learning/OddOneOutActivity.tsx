@@ -75,7 +75,6 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration="Mana yang beda? Pilih satu gambar yang berbeda."
       lang="id-ID"
       spacious
@@ -107,7 +106,6 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
                 onClick={() => choose(choice)}
                 disabled={feedback === "good"}
               >
-
                 <span className={styles.choiceIcon} aria-hidden>{visual.icon}</span>
                 <span className={styles.choiceLabel}>{visual.label}</span>
                 {correct ? <span className={styles.resultBadge} aria-hidden>✓</span> : null}
@@ -129,9 +127,7 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
         </div>
 
         {feedback === "good" ? (
-          <div className={styles.pairSummary} data-odd-one-out-summary>
-            <span className={styles.srOnly}>{config.successText}</span>
-          </div>
+          <span className={styles.srOnly} data-odd-one-out-summary>{config.successText}</span>
         ) : null}
 
       </section>
