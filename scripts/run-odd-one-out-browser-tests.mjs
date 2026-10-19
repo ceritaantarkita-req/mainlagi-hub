@@ -14,6 +14,7 @@ const activityId="logic-odd-category-animal-vehicle";
 const correctLabel="Pilih yang berbeda: Mobil";
 const screenshotDir=path.join(root,".mobile-route-qa");
 const evidenceDir=path.join(root,".vqa16-odd-one-out");
+const firstActionEvidenceDir=path.join(root,".vqa17-odd-one-out");
 const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
 let server=null;
 let serverLog="";
@@ -143,6 +144,26 @@ async function inspect(viewport){
     await waitForBoard(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept canonical Logic foundation prerequisites at ${viewport.width}`);
 
+    const heading=page.getByRole("heading",{name:"Cari yang beda",exact:true});
+    assert.equal(await heading.count(),1,"Odd One Out has one visible main task heading");
+    assert.equal(await heading.isVisible(),true,"task heading stays visible even on 320px");
+    const clue=page.locator('[data-odd-one-out] [aria-label="Petunjuk kesamaan"]');
+    assert.equal(await clue.count(),1,"canonical Logic common-trait cue remains accessible");
+    assert.equal(await clue.locator("strong").innerText(),"Dua pilihan sama-sama hewan",
+      "authored common-trait clue remains visible before any choice");
+    assert.equal(await clue.locator("strong").isVisible(),true,
+      "main Logic clue must never be hidden behind Help");
+    const help=page.locator('[data-odd-one-out-help="v1"]');
+    assert.equal(await help.count(),1,"one native optional Logic help exists");
+    const helpSummary=help.locator("summary");
+    assert.equal((await helpSummary.innerText()).trim(),"Cara main","localized Help label");
+    assert.equal(await help.getAttribute("open"),null,"Help starts collapsed");
+    assert.equal(await help.locator("p").count(),3,"all three original advice strings remain authored");
+    assert.equal(await help.locator("p").first().isVisible(),false,
+      "supplemental clue is opt-in, not always-visible");
+    const touch=await helpSummary.boundingBox();
+    assert(touch&&touch.width>=44&&touch.height>=44,
+      "Help touch target >=44px at all test widths");
     const choices=page.locator("[data-odd-one-out-choice]");
     assert.equal(await choices.count(),3,"representative odd-one-out keeps canonical trio");
     const labels=await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")));
@@ -185,6 +206,21 @@ async function inspect(viewport){
 
     mkdirSync(screenshotDir,{recursive:true});
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-odd-one-out-idle.png`),fullPage:false});
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"),"","native Help expands on demand");
+    const advice=await help.locator("p").allTextContents();
+    assert.deepEqual(advice.map(item=>item.trim()),[
+      "Bandingkan tiga kartu. Dua punya ciri yang sama, satu berbeda.",
+      "Bandingkan jenis setiap gambar. Cari satu yang bukan hewan.",
+      "💡 Lihat ketiganya sebagai satu kelompok, lalu pilih satu kartu yang berbeda."
+    ],"all original authored Logic support remains available verbatim");
+    const helpBox=await help.locator('[class*="helpBody"]').boundingBox();
+    assert(helpBox&&helpBox.y>=-1&&helpBox.y+helpBox.height<=viewportHeight+1,
+      `expanded Help text must remain fully in first viewport at ${viewport.width}`);
+    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-odd-one-out-help.png`),fullPage:false});
+    await helpSummary.click();
+    assert.equal(await help.getAttribute("open"),null,"Help closes before keyboard attempt");
+    assert.equal(await completed(page),false,"opening Help must not complete Logic task");
 
     const wrongLabel=await chooseWrongWithKeyboard(page);
     assert.notEqual(wrongLabel,correctLabel);
@@ -257,11 +293,22 @@ function archiveOddEvidence(){
   for(const name of filenames)copyFileSync(path.join(screenshotDir,name),path.join(evidenceDir,name));
 }
 
+function archiveOddFirstActionEvidence(){
+  // Copy immediately before later browser runners reset the shared QA directory.
+  mkdirSync(firstActionEvidenceDir,{recursive:true});
+  const files=readdirSync(screenshotDir).filter(name=>
+    /^\d+-odd-one-out-(?:idle|help|try|success)\.png$/.test(name));
+  assert.equal(files.length,viewports.length*4,
+    "Odd One Out must capture all four states per viewport for VQA-17");
+  for(const file of files)copyFileSync(path.join(screenshotDir,file),path.join(firstActionEvidenceDir,file));
+}
+
 async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
   archiveOddEvidence();
+  archiveOddFirstActionEvidence();
   console.log(`Odd-one-out browser QA passed ${viewports.length} viewports with canonical Logic foundation progression, keyboard wrong-state, pointer completion, canonical Completion, trio layout and assessed evidence checks.`);
 }
 
