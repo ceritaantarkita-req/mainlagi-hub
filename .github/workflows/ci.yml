@@ -66,6 +66,18 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
           include-hidden-files: true
+      # Observational only: counts and paths are review candidates, NOT UX pass/fail.
+      - name: Audit child visual source inventory
+        run: npm run qa:child-visual-system
+      - name: Upload child visual source inventory
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: child-visual-source-inventory
+          path: .qa/child-visual/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
       - name: Audit gameplay distribution
         run: npm run qa:gameplay-distribution
       - name: Upload gameplay-distribution audit
