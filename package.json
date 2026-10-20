@@ -74,6 +74,7 @@
     "qa:local:flow": "npm run build && node scripts/run-local-product-flow-check.mjs",
     "qa:local:playroom": "npm run build && node scripts/run-local-playroom-check.mjs",
     "qa:activity-quality": "node scripts/audit-learning-activity-quality.mjs --strict-structural",
+    "qa:child-visual-system": "node scripts/report-child-visual-system.mjs",
     "qa:gameplay-distribution": "node scripts/audit-gameplay-distribution.mjs",
     "test:ui:coloring-art": "node scripts/run-coloring-art-tests.mjs",
     "test:learning:core": "node scripts/run-learning-tests.mjs",
