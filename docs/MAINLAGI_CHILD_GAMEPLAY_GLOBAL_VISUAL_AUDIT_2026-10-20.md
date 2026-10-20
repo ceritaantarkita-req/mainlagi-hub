@@ -100,3 +100,14 @@ Start with **VSG-01**: inventory the current child-facing heading, primary quest
 - Cloudflare `/api/health` was not reachable through available public web/terminal access in this audit; merged SHA **does not mean live verified**.
 - Most reviewed 52-family images came from 14 October. Newer #529 artifact `12185959648` exists, but full current-head 52-image visual acceptance is not claimed here.
 - No real physical iOS Safari test performed. No 900/900 *human* visual approval claim.
+
+## 9. Reproducible source inventory tooling (this audit branch)
+
+This wave adds `npm run qa:child-visual-system`, implemented in `scripts/report-child-visual-system.mjs` and called by the Ubuntu quality gate. Its artifact `child-visual-source-inventory` contains:
+
+- `.qa/child-visual/source-inventory.json`: current source owner paths, Garden owners, JSX heading counts, a conservative duplicate-heading *review flag*, source data-selectors, typography declarations and media-query counts.
+- `.qa/child-visual/source-inventory.md`: human-readable shortlist of source owners for screenshot review.
+
+The scan is **read-only to source** and doesn't alter DOM, CSS, learning logic, answers, masteries or content; only files under ignored `.qa/` are generated. It does **not** OCR screenshots, declare a visual defect automatically, fail CI on the number of cards, or claim that all 47 patterns have been inspected visually. Use the report to choose and prioritize subsequent **actual Playwright screenshot and interaction QA** on fresh builds.
+
+Acceptance for this audit PR: run the new source-inventory command successfully in the Ubuntu job, upload the generated artifact, keep the other CI gates green, and merge documentation/tooling only. VSG-01 runtime changes are a **separate, scoped PR** after review.
