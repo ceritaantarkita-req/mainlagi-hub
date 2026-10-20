@@ -151,32 +151,44 @@ async function inspect(viewport){
     assert(response&&response.status()<400,`material-lab bad HTTP at ${viewport.width}`);
     await waitForLab(page);
     await assertLearningVisualContainment(page,"[data-material-lab]",`material-lab visual containment at ${viewport.width}`);
-    // Visual audit: content can fit the viewport yet break "Laboratorium"
-    // into "Laboratoriu" + "m" at 320px. Test the word-level glyph geometry.
-    const labHeading = await page.locator('[data-material-lab] h1').first().evaluate((heading) => {
-      const text = heading.firstChild;
-      if (!text || text.nodeType !== Node.TEXT_NODE) return null;
-      const word = "Laboratorium";
-      if (!text.textContent?.startsWith(word)) return null;
-      const range = document.createRange();
-      range.setStart(text, 0);
-      range.setEnd(text, word.length);
-      const wordRects = Array.from(range.getClientRects()).filter((rect) => rect.width > 0);
-      const cardBox = heading.closest('[class*="promptCard"]')?.getBoundingClientRect();
-      return {
-        wordRectCount: wordRects.length,
-        wordRight: wordRects[0]?.right ?? 0,
-        cardRight: cardBox?.right ?? 0,
-        fontPx: parseFloat(getComputedStyle(heading).fontSize)
-      };
+    // VSG-02: one visible child-first instruction, all extra guidance behind Help.
+    const primary=page.locator("[data-material-lab-primary-instruction]");
+    assert.equal(await page.locator('[data-material-lab][data-child-visual-hierarchy="material-lab-vsg02"]').count(),1,
+      "Material Lab opts in to existing child visual hierarchy");
+    assert.equal(await page.getByRole("heading",{level:1}).count(),1,
+      "the full Garden activity title must not compete with the first action");
+    assert.equal((await primary.innerText()).trim(),"Pilih sifat, lalu uji!",
+      "short first instruction retains the real two-step choose/test mechanic");
+    assert.equal(await page.getByRole("heading",{name:"Laboratorium bahan"}).count(),0,
+      "remove duplicated Lab context title, not teaching content");
+    assert.equal(await page.locator("[data-material-lab-help]").count(),0,
+      "secondary guidance must be closed initially");
+    assert.equal((await page.locator('[data-material-lab] [role="status"]').textContent())?.trim(),"",
+      "no redundant idle instruction below the test board");
+
+    const question=await primary.evaluate(element=>{
+      const style=getComputedStyle(element),rect=element.getBoundingClientRect();
+      const screen=document.documentElement.clientWidth;
+      const word=element.firstChild,text=word?.textContent??"";
+      if(!word||word.nodeType!==Node.TEXT_NODE||!text.startsWith("Pilih")) return null;
+      const range=document.createRange();
+      range.setStart(word,0);range.setEnd(word,5);
+      return {size:parseFloat(style.fontSize),color:style.color,break:style.wordBreak,
+        left:rect.left,right:rect.right,width:rect.width,wordFragments:range.getClientRects().length,screen};
     });
-    assert.ok(labHeading, `material-lab heading missing at ${viewport.width}px`);
-    assert.equal(labHeading.wordRectCount, 1,
-      `"Laboratorium" must not split inside a word at ${viewport.width}px: ${JSON.stringify(labHeading)}`);
-    assert.ok(labHeading.wordRight <= labHeading.cardRight + 1,
-      `material-lab heading escapes prompt card at ${viewport.width}px: ${JSON.stringify(labHeading)}`);
-    assert.ok(labHeading.fontPx >= 16 && labHeading.fontPx <= 34,
-      `material-lab nested title inherited generic 38/110px spacious scaling at ${viewport.width}px: ${JSON.stringify(labHeading)}`);
+    assert(question&&question.size>=23&&question.size<=38,
+      `Material Lab main question must use child semantic type scale at ${viewport.width}px: ${JSON.stringify(question)}`);
+    assert.equal(question.wordFragments,1,"Pilih must remain a single word");
+    assert(question.left>=-1&&question.right<=question.screen+1,
+      "main instruction stays inside viewport");
+    assert.notEqual(question.break,"break-all",
+      "never fracture Indonesian instruction words");
+
+    await page.getByRole("button",{name:"Cara main"}).click();
+    assert.match(await page.locator("[data-material-lab-help]").innerText(),/Pilih sifat bahan yang paling cocok, lalu uji pilihanmu/);
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
+    assert.equal(await page.locator("[data-material-lab-help]").count(),0,
+      "on-demand instructions close again without changing selection");
     assert.equal(await page.locator('[data-activity-frame="garden"] [data-character-safe-content]').evaluate(
       (element) => Array.from(element.classList).some((name) => /spacious/i.test(name))
     ), false, `material-lab must use compact Garden presentation at ${viewport.width}px`);
@@ -214,7 +226,10 @@ async function inspect(viewport){
     assert.notEqual(wrongLabel,correctLabel);
     assert.equal(await completed(page),false,"selecting a material sample alone must not complete");
     await testButton.click();
-    await page.getByRole("status").filter({hasText:"Hasil uji belum cocok"}).waitFor({state:"visible",timeout:2000});
+    const wrongStatus=page.getByRole("status").filter({hasText:"Belum cocok"});
+    await wrongStatus.waitFor({state:"visible",timeout:2000});
+    assert.equal(await wrongStatus.innerText(),"Belum cocok. Coba sifat lain!",
+      "wrong feedback is concise, not an additional paragraph");
     assert.equal(await completed(page),false,"wrong material test must not complete");
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-material-lab-try.png`),fullPage:false});
 
@@ -225,6 +240,10 @@ async function inspect(viewport){
 
     const completion=page.locator("[data-activity-completion]");
     await completion.waitFor({state:"visible",timeout:2000});
+    assert.equal(await completion.getByRole("heading",{name:"Hebat!"}).count(),1,
+      "Material Lab uses the canonical concise three-star completion");
+    assert.equal(await completion.getByText("Permainan selesai. Mau lanjut ke mana?").count(),0,
+      "no redundant completion sentence");
     const completionBox=await completion.boundingBox();
     const completionViewportHeight=await page.evaluate(()=>window.innerHeight);
     assert(completionBox,"material-lab canonical Completion must render");
