@@ -14,6 +14,10 @@
   text-align: center;
 }
 .promptCard h1 {
+  /* The shared role normally spans a grid. Inside this icon+title flex
+     heading, keep intrinsic width so the question remains visually centered. */
+  width: auto;
+  flex: 0 1 auto;
   margin: 0;
   color: #fffefa;
   text-shadow: 0 3px 0 #284987, 0 6px 14px rgba(8, 28, 73, 0.68);
