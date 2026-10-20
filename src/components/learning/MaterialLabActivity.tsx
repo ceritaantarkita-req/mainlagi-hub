@@ -119,7 +119,7 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
           >{helpOpen ? "×" : "?"}</button>
         </div>
         {helpOpen && hierarchy.onDemandHelp ? (
-          <p className={visual.assistance} data-material-lab-help>{hierarchy.onDemandHelp}</p>
+          <p className={`${visual.assistance} ${styles.helpCopy}`} data-material-lab-help>{hierarchy.onDemandHelp}</p>
         ) : null}
 
         <div className={styles.labBench} role="group" aria-label="Benda dan tujuan pengujian bahan">
