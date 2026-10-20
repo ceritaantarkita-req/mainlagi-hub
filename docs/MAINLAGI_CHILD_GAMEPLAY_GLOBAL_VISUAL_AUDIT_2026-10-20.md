@@ -46,7 +46,7 @@ Counts from the 19 October gameplay-distribution report:
 | 5 | `coloring_canvas` | 100 | Workspace and palette visibility, touch accuracy, on-demand help | Preserve creative canvas, illustration geometry |
 | 6 | `drawing_canvas` | 100 | Canvas, guidance, Finish/replay and Stage catalog; mobile stroke/touch QA | Preserve drawing geometry/strokes and separate creative viewport |
 | 7 | `picture_word_match` | 23 | Large meaningful image, correct labels, bilingual helper placement | Do not hide image/answer context or collapse pedagogical text |
-| 8 | All remaining Logic, Science, Math, reading, syllable, ordering and tracing mechanics | 145 (residual) | Audit each *active pattern* with at least one representative before shared CSS migration | Preserve unique rule/sequence/diagram/reasoning content |
+| 8 | All remaining Logic, Science, Math, reading, syllable, ordering and tracing mechanics | 245 (residual) | Audit each *active pattern* with at least one representative before shared CSS migration | Preserve unique rule/sequence/diagram/reasoning content |
 
 **Total: 900.** The counts are a **review-order heuristic**, not a quality score or permission to reshape the mechanic. The 52 screenshot names are *samples*, not 52 unique active pattern identifiers.
 
