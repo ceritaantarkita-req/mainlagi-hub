@@ -2,7 +2,7 @@
 
 Date: 20 October 2026
 Base: `main@3127a50438c6638cab39b472411357b8d0ebd276`, after VSG-00 audit PR #530 merged.
-Status: **IMPLEMENTED ON REVIEW BRANCH — QA/PR CI AND LIVE VERIFICATION PENDING**.
+Status: **PR CI 7/7 PASS / 9 FINAL SCREENSHOTS REVIEWED / MERGE & EXACT-SHA LIVE CHECK PENDING**.
 
 ## Why this narrow wave
 
@@ -20,10 +20,10 @@ No new design tokens, media assets, DB schema, runtime routes, answer/curriculum
 
 ## Acceptance checklist
 
-- [ ] Exact-head GitHub CI: Ubuntu, Windows, build, secret scan, dependency, Postgres staging, Chromium mobile matrix all green.
-- [ ] Original VQA-16 screenshot artifact from **this exact PR SHA**, idle/wrong/success at 320/390/768 manually inspected for question contrast, trio text fit, tap size and overlap.
-- [ ] Wrong input does not complete; correct produces one genuine assessed attempt. Again resets without duplicate evidence.
-- [ ] No regression to ordinary Choice / Sorting visuals or their distinct gameplay mechanics.
+- [x] Exact-head GitHub CI: Ubuntu, Windows, build, secret scan, dependency, Postgres staging, Chromium mobile matrix all green.
+- [x] Original VQA-16 screenshot artifact from **this exact PR SHA**, idle/wrong/success at 320/390/768 manually inspected for question contrast, trio text fit, tap size and overlap.
+- [x] Wrong input does not complete; correct produces one genuine assessed attempt. Again resets without duplicate evidence.
+- [x] CI regression coverage for Choice / Sorting and distinct gameplay mechanics passed; dedicated real-device visual review remains separate.
 - [ ] Merge only after QA and visual review, then verify merged-main Cloudflare exact release SHA separately. Physical Safari sign-off remains owner-dependent.
 
 ## Forward rollout
@@ -31,3 +31,12 @@ No new design tokens, media assets, DB schema, runtime routes, answer/curriculum
 Continue **one family per reviewed, short-lived PR**, prioritized by distribution and current evidence. Next is inspect high-coverage Choice and Matching first-action/Help behavior at 320/390/768/1280 rather than applying one CSS rule to audio-first, Symbol Hunt, reading, coloring or Drawing. Those mechanics need separate adapters, not cosmetic forced grids.
 
 See `docs/MAINLAGI_CHILD_GAMEPLAY_GLOBAL_VISUAL_AUDIT_2026-10-20.md` and GitHub issue #501 for the shared 47-pattern roadmap.
+
+## Verified PR checkpoint (20 October)
+
+- Exact PR head before this docs-only checklist update: `b9aeb44124675c8fdfe62a1c66bd869dca063cac`.
+- [PR CI run #2687](https://github.com/ceritaantarkita-req/mainlagi-hub/actions/runs/39426249574): **7/7 required jobs PASS** (Cloudflare smoke skipped by PR design).
+- [Final VQA16 screenshot artifact](https://github.com/ceritaantarkita-req/mainlagi-hub/actions/runs/39426249574/artifacts/12267210370): all nine actual Chromium screenshots manually reviewed at 320/390/768, idle/wrong/success. One short question, all three full cards/labels and footer characters visible; wrong feedback and three-star completion actions retained. No screenshot-visible clipping, duplicated headline, or overflowing modal was observed.
+- Contract/assertion QA protects title contrast and size, touch targets, no horizontal overflow, keyboard selection, assessment and completion. Human iOS Safari acceptance still open.
+
+**Release boundary:** updating this document creates a new docs-only head commit requiring at least a fresh exact-head CI check before merge. Production Cloudflare verification must target the merged main SHA, not this PR SHA.
