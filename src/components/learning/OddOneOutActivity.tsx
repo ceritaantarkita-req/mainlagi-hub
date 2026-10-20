@@ -6,9 +6,11 @@ import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isOddOneOutActivity } from "@/lib/learning/gameplayPresentation";
 import { oddOneOutConfig } from "@/lib/learning/oddOneOutConfig";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./OddOneOutActivity.module.css";
+import visual from "./ChildVisualHierarchy.module.css";
 
 export function OddOneOutActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -25,6 +27,14 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
   }, []);
 
   if (!activity || !config || !isOddOneOutActivity(activity) || !activity.correctChoice) return null;
+
+  // Adopt the existing visual-first instruction contract without rewriting
+  // the source activity title, answer labels, narration or assessment.
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: "Mana yang beda?"
+  });
 
   const choose = (choice: string) => {
     if (feedback === "good") return;
@@ -83,10 +93,12 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-odd-one-out
+        data-child-visual-hierarchy="odd-one-out-vsg1"
+        aria-label={hierarchy.contextTitle}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🔎</span>
-          <h1>Mana yang beda?</h1>
+          <h1 className={visual.primaryInstruction} data-odd-one-out-primary-instruction>{hierarchy.primaryInstruction}</h1>
         </div>
 
         <div className={styles.trio} role="group" aria-label="Tiga pilihan: cari yang berbeda">
