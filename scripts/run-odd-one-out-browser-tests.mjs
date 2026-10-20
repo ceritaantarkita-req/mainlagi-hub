@@ -143,6 +143,13 @@ async function inspect(viewport){
     await waitForBoard(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept canonical Logic foundation prerequisites at ${viewport.width}`);
 
+    // VSG-01: the third gameplay family uses the same opt-in semantic roles
+    // as ordinary tap-choice and sorting; not a new generic renderer.
+    assert.equal(await page.locator('[data-odd-one-out][data-child-visual-hierarchy="odd-one-out-vsg1"]').count(),1,
+      "Odd One Out opts in to existing child visual hierarchy");
+    assert.equal(await page.locator("[data-odd-one-out-primary-instruction]").innerText(),"Mana yang beda?",
+      "the single visible question remains exactly the approved short copy");
+
     // Child-first copy: one question, no competing long instruction or duplicate page title.
     assert.equal(await page.getByRole("heading",{name:"Mana yang beda?"}).count(),1,
       "odd-one-out has one short, readable instruction");
@@ -169,6 +176,13 @@ async function inspect(viewport){
       "main question must remain high-contrast on the dark scene");
     assert.notEqual(questionStyle.shadow,"none",
       "main question needs a readable shadow on illustrated scenery");
+    const typography=await question.evaluate(element=>{
+      const style=getComputedStyle(element);
+      return {size:parseFloat(style.fontSize),break:style.wordBreak,hyphens:style.hyphens};
+    });
+    assert(typography.size>=23&&typography.size<=38,
+      `child semantic question size remains within approved 23–38px at ${viewport.width}px: ${JSON.stringify(typography)}`);
+    assert.notEqual(typography.break,"break-all","question must never break ordinary words arbitrarily");
     const labels=await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")));
     assert.deepEqual(new Set(labels),new Set([
       "Pilih yang berbeda: Anjing",
