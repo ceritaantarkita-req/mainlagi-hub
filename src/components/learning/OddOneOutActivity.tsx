@@ -75,8 +75,7 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
-      narration={activity.prompt ?? activity.title}
+      narration="Mana yang beda? Pilih satu gambar yang berbeda."
       lang="id-ID"
       spacious
     >
@@ -87,20 +86,11 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🔎</span>
-          <div>
-            <h1>Cari yang beda</h1>
-            <p>Bandingkan tiga kartu. Dua punya ciri yang sama, satu berbeda.</p>
-          </div>
-        </div>
-
-        <div className={styles.clueCard} aria-label="Petunjuk kesamaan">
-          <span className={styles.clueBadge}>2 mirip • 1 beda</span>
-          <strong>{config.commonTrait}</strong>
-          <p>{config.promptHint}</p>
+          <h1>Mana yang beda?</h1>
         </div>
 
         <div className={styles.trio} role="group" aria-label="Tiga pilihan: cari yang berbeda">
-          {(activity.choices ?? []).map((choice, index) => {
+          {(activity.choices ?? []).map((choice) => {
             const visual = config.choiceVisuals[choice];
             const active = selected === choice;
             const correct = feedback === "good" && choice === activity.correctChoice;
@@ -116,33 +106,28 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
                 onClick={() => choose(choice)}
                 disabled={feedback === "good"}
               >
-                <span className={styles.indexBadge} aria-hidden>{index + 1}</span>
                 <span className={styles.choiceIcon} aria-hidden>{visual.icon}</span>
                 <span className={styles.choiceLabel}>{visual.label}</span>
-                {correct ? <span className={styles.resultBadge}>Yang beda ✓</span> : null}
+                {correct ? <span className={styles.resultBadge} aria-hidden>✓</span> : null}
               </button>
             );
           })}
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? `${styles.statusGood} ${styles.srOnly}` : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
-            ? `⭐ Tepat! ${config.successText}`
+            ? "⭐ Tepat! Hebat!"
             : feedback === "try"
-              ? `💡 Belum tepat. Ingat: ${config.commonTrait.toLowerCase()}. Coba cari satu yang tidak cocok.`
-              : "💡 Lihat ketiganya sebagai satu kelompok, lalu pilih satu kartu yang berbeda."}
+              ? "Belum tepat. Coba lagi!"
+              : ""}
         </div>
 
         {feedback === "good" ? (
-          <div className={styles.pairSummary} data-odd-one-out-summary>
-            <span aria-hidden>🤝</span>
-            <strong>Dua yang lain cocok:</strong>
-            <span>{config.commonTrait}</span>
-          </div>
+          <span className={styles.srOnly} data-odd-one-out-summary>{config.successText}</span>
         ) : null}
 
       </section>
@@ -152,6 +137,7 @@ export function OddOneOutActivity({ childId, activityId }: { childId: string; ac
           childId={childId}
           activity={activity}
           onTryAgain={restart}
+          concise
         />
       ) : null}
     </GardenActivityFrame>

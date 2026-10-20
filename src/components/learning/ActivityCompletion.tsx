@@ -17,11 +17,13 @@ function deterministicPraise(activityId: string) {
 export function ActivityCompletion({
   childId,
   activity,
-  onTryAgain
+  onTryAgain,
+  concise = false
 }: {
   childId: string;
   activity: LearningActivity;
   onTryAgain?: () => void;
+  concise?: boolean;
 }) {
   const router = useRouter();
   const [shareOpen, setShareOpen] = useState(false);
@@ -55,8 +57,8 @@ export function ActivityCompletion({
         data-activity-completion
         context="belajar"
         surface="overlay"
-        praise={praise}
-        message="Permainan selesai. Mau lanjut ke mana?"
+        praise={concise ? "Hebat!" : praise}
+        message={concise ? undefined : "Permainan selesai. Mau lanjut ke mana?"}
         back={{ onClick: goBack }}
         again={{ onClick: retry }}
         next={{ href: nextHref, ariaLabel: "Next" }}

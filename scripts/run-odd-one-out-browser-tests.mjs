@@ -143,8 +143,32 @@ async function inspect(viewport){
     await waitForBoard(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept canonical Logic foundation prerequisites at ${viewport.width}`);
 
+    // Child-first copy: one question, no competing long instruction or duplicate page title.
+    assert.equal(await page.getByRole("heading",{name:"Mana yang beda?"}).count(),1,
+      "odd-one-out has one short, readable instruction");
+    assert.equal(await page.getByRole("heading",{level:1}).count(),1,
+      "the frame must not render a second competing activity heading");
+    assert.equal(await page.getByText("2 mirip • 1 beda").count(),0,
+      "the visual first-action screen removes the extra hint badge");
+    assert.equal(await page.getByText("Bandingkan tiga kartu.",{exact:false}).count(),0,
+      "the visual first-action screen removes verbose explanation");
+    assert.equal(await page.locator("[data-odd-one-out] [role='status']").innerText(),"",
+      "no initial status copy competes with the three choice cards");
+
     const choices=page.locator("[data-odd-one-out-choice]");
     assert.equal(await choices.count(),3,"representative odd-one-out keeps canonical trio");
+    const question=page.getByRole("heading",{name:"Mana yang beda?"});
+    const [questionBox,firstChoiceBox]=await Promise.all([question.boundingBox(),choices.first().boundingBox()]);
+    assert(questionBox&&firstChoiceBox&&questionBox.y>=0&&questionBox.y+questionBox.height<=firstChoiceBox.y,
+      `the main question must be visible above the choice cards at ${viewport.width}px`);
+    const questionStyle=await question.evaluate(element=>({
+      color:getComputedStyle(element).color,
+      shadow:getComputedStyle(element).textShadow
+    }));
+    assert.equal(questionStyle.color,"rgb(255, 254, 250)",
+      "main question must remain high-contrast on the dark scene");
+    assert.notEqual(questionStyle.shadow,"none",
+      "main question needs a readable shadow on illustrated scenery");
     const labels=await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")));
     assert.deepEqual(new Set(labels),new Set([
       "Pilih yang berbeda: Anjing",
@@ -188,19 +212,35 @@ async function inspect(viewport){
 
     const wrongLabel=await chooseWrongWithKeyboard(page);
     assert.notEqual(wrongLabel,correctLabel);
-    await page.getByRole("status").filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    const tryStatus=page.getByRole("status").filter({hasText:"Belum tepat"});
+    await tryStatus.waitFor({state:"visible",timeout:2000});
+    assert.equal(await tryStatus.innerText(),"Belum tepat. Coba lagi!",
+      "wrong feedback stays brief and child-friendly");
     assert.equal(await completed(page),false,"wrong outsider must not complete canonical activity");
     await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-odd-one-out-try.png`),fullPage:false});
 
     await page.getByRole("button",{name:correctLabel}).click();
-    await page.getByRole("status").filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    const goodStatus=page.locator("[data-odd-one-out] [role='status']");
+    await page.waitForFunction(()=>document.querySelector("[data-odd-one-out] [role='status']")?.textContent?.includes("Tepat!"),undefined,{timeout:2000});
+    assert.equal((await goodStatus.textContent())?.trim(),"⭐ Tepat! Hebat!",
+      "success announcement remains available to assistive technology");
+    assert.notEqual(await goodStatus.evaluate(element=>getComputedStyle(element).clip),"auto",
+      "success announcement should not repeat visibly behind the three-star dialog");
     assert.equal(await completed(page),true,"correct outsider completes canonical activity");
-    assert.equal(await page.locator("[data-odd-one-out-summary]").count(),1,"success reveals common-pair summary");
+    assert.equal(await page.locator("[data-odd-one-out-summary]").count(),1,
+      "success retains a screen-reader-accessible explanation");
+    assert.equal(await page.locator("[data-odd-one-out-summary]").innerText(),
+      "Mobil berbeda karena dua pilihan lainnya adalah hewan.",
+      "the pedagogical reason remains available for assistive technology");
 
     const completion=page.locator('[data-canonical-completion="v1"][data-activity-completion]');
     await completion.waitFor({state:"visible",timeout:3000});
     assert.equal(await completion.getAttribute("data-completion-context"),"belajar","odd-one-out success uses canonical Belajar completion");
     assert.equal(await completion.getAttribute("data-completion-stars"),"3","odd-one-out completion keeps three-star contract");
+    assert.equal(await completion.getByRole("heading",{name:"Hebat!"}).count(),1,
+      "odd-one-out uses a short completion heading");
+    assert.equal(await completion.getByText("Permainan selesai. Mau lanjut ke mana?").count(),0,
+      "odd-one-out removes the redundant completion sentence");
     assert.deepEqual(
       await completion.locator("[data-completion-action]").evaluateAll(nodes=>nodes.map(node=>node.textContent?.trim())),
       ["Back","Again","Next","Share"],
