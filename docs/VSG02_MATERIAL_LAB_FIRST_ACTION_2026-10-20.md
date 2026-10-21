@@ -33,3 +33,7 @@ No changes to the 900 activity catalog, 47 pattern classification, answer order/
 Next family after this pilot is chosen from fresh screenshots and source inventory, not a bulk search-and-replace of 47 components.
 
 Reference: `docs/MAINLAGI_CHILD_GAMEPLAY_GLOBAL_VISUAL_AUDIT_2026-10-20.md`; `docs/VSG01_ODD_ONE_OUT_SHARED_VISUAL_ROLES_2026-10-20.md`; issue #501.
+
+## CI screenshot acceptance evidence (added 21 October)
+
+The canonical Chromium suite already captures 5 viewports × idle/try/success (320, 390, 430, 768, 1280), but the default `mobile-route-qa-screenshots` archive is ~220 MB and cumbersome to review. To make visual sign-off reproducible, the exact same original PNGs are copied into ignored `.vsg02-material-lab/` at capture time and uploaded separately as `vsg02-material-lab-screenshots` (15 original screenshots, never rendered mockups). No runtime or scoring changes. Review this artifact from the **last PR commit**, and leave PR unmerged until appearance, clipping, first action, and completion are reviewed; Cloudflare exact-SHA verification remains a separate post-merge requirement.
