@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { copyFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -14,6 +14,15 @@ const route="/child/demo-gian/activity/science-material-raincoat-waterproof";
 const activityId="science-material-raincoat-waterproof";
 const correctLabel="Pilih sifat: Tidak mudah ditembus air";
 const screenshotDir=path.join(root,".mobile-route-qa");
+const evidenceDir=path.join(root,".vsg02-material-lab");
+async function captureMaterialState(page,width,state){
+  const filename=`${width}-material-lab-${state}.png`;
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const source=path.join(screenshotDir,filename);
+  await page.screenshot({path:source,fullPage:false});
+  copyFileSync(source,path.join(evidenceDir,filename));
+}
 const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
@@ -219,8 +228,7 @@ async function inspect(viewport){
     const testBox=await testButton.boundingBox();
     assert(testBox&&testBox.width>=44&&testBox.height>=44,"material-lab test button keeps touch target");
 
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-material-lab-idle.png`),fullPage:false});
+    await captureMaterialState(page,viewport.width,"idle");
 
     const wrongLabel=await chooseWrongWithKeyboard(page);
     assert.notEqual(wrongLabel,correctLabel);
@@ -231,7 +239,7 @@ async function inspect(viewport){
     assert.equal(await wrongStatus.innerText(),"Belum cocok. Coba sifat lain!",
       "wrong feedback is concise, not an additional paragraph");
     assert.equal(await completed(page),false,"wrong material test must not complete");
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-material-lab-try.png`),fullPage:false});
+    await captureMaterialState(page,viewport.width,"try");
 
     await page.getByRole("button",{name:correctLabel}).click();
     assert.equal(await completed(page),false,"correct sample selection still requires explicit test action");
@@ -266,7 +274,7 @@ async function inspect(viewport){
     assert.equal(state.attempt.retryCount,1);
     assert.equal(state.attempt.accuracy,.5);
 
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-material-lab-success.png`),fullPage:false});
+    await captureMaterialState(page,viewport.width,"success");
     await page.evaluate(()=>{window.__si06fReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:2000});
