@@ -193,6 +193,18 @@ jobs:
           if-no-files-found: error
           retention-days: 14
           include-hidden-files: true
+      # One-question Investigation Board evidence: five viewport widths x
+      # idle/wrong/success, preserved independently of other mobile captures.
+      - name: Upload VSG-03 Investigation Board screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsg03-investigation-board-screenshots
+          path: .vsg03-investigation-board/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
       # 30 canonical idle/try/success captures + 10 on-demand Help states,
       # isolated from hundreds of unrelated mobile QA images for visual approval.
       - name: Upload VQA-08 Picture Word visual evidence
