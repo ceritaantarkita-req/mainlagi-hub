@@ -7,9 +7,11 @@ import { LearningVisualToken } from "./LearningVisualToken";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isMaterialLabActivity } from "@/lib/learning/gameplayPresentation";
 import { materialLabConfig } from "@/lib/learning/materialLabConfig";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./MaterialLabActivity.module.css";
+import visual from "./ChildVisualHierarchy.module.css";
 
 export function MaterialLabActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -19,6 +21,7 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
   const incorrectRef = useRef(0);
   const retryRef = useRef(0);
   const [selected, setSelected] = useState<string | null>(null);
+  const [helpOpen, setHelpOpen] = useState(false);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
 
   useEffect(() => {
@@ -26,6 +29,13 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
   }, []);
 
   if (!activity || !config || !isMaterialLabActivity(activity) || !activity.correctChoice) return null;
+
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: "Pilih sifat, lalu uji!",
+    supportingHint: "Pilih sifat bahan yang paling cocok, lalu uji pilihanmu."
+  });
 
   const testSelection = () => {
     if (!selected || feedback === "good") return;
@@ -73,6 +83,7 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
     retryRef.current = 0;
     setSelected(null);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   const selectChoice = (choice: string) => {
@@ -86,7 +97,6 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
     >
@@ -94,14 +104,23 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-material-lab
+        data-child-visual-hierarchy="material-lab-vsg02"
+        aria-label={hierarchy.contextTitle}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🧪</span>
-          <div>
-            <h1>Laboratorium bahan</h1>
-            <p>Pilih sifat bahan yang paling cocok, lalu uji pilihanmu.</p>
-          </div>
+          <h1 className={visual.primaryInstruction} data-material-lab-primary-instruction>{hierarchy.primaryInstruction}</h1>
+          <button
+            type="button"
+            className={styles.helpButton}
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen((value) => !value)}
+          >{helpOpen ? "×" : "?"}</button>
         </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={`${visual.assistance} ${styles.helpCopy}`} data-material-lab-help>{hierarchy.onDemandHelp}</p>
+        ) : null}
 
         <div className={styles.labBench} role="group" aria-label="Benda dan tujuan pengujian bahan">
           <div className={styles.objectCard}>
@@ -147,7 +166,7 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
           <div className={styles.selectedSample}>
             <span className={styles.cardTag}>Sampel</span>
             <LearningVisualToken className={styles.selectedIcon}>{selectedVisual?.icon ?? "❔"}</LearningVisualToken>
-            <strong>{selectedVisual?.sampleLabel ?? "Pilih sifat dulu"}</strong>
+            <strong data-material-lab-selected-label>{selectedVisual?.sampleLabel ?? "Pilih sifat dulu"}</strong>
           </div>
           <button
             type="button"
@@ -161,21 +180,21 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? "💡 Hasil uji belum cocok dengan tujuan benda. Pilih sifat lain lalu uji lagi."
+              ? "Belum cocok. Coba sifat lain!"
               : selected
-                ? "🔬 Sampel siap. Tekan tombol uji untuk melihat apakah sifat ini cocok."
-                : "💡 Pilih satu sifat bahan yang paling sesuai dengan tujuan benda."}
+                ? `🔬 Sekarang ${config.testLabel.toLowerCase()}!`
+                : ""}
         </div>
 
         {feedback === "good" ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>

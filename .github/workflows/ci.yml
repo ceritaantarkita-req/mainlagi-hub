@@ -182,6 +182,17 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
           include-hidden-files: true
+      # Isolated VSG-02 visual evidence: 5 viewport sizes × 3 states.
+      # Preserve before unrelated tests clean the shared mobile QA directory.
+      - name: Upload VSG-02 Material Lab screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsg02-material-lab-screenshots
+          path: .vsg02-material-lab/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
       # 30 canonical idle/try/success captures + 10 on-demand Help states,
       # isolated from hundreds of unrelated mobile QA images for visual approval.
       - name: Upload VQA-08 Picture Word visual evidence
