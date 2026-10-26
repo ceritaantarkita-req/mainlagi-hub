@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { copyFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,7 +13,15 @@ const route="/child/demo-gian/activity/science-investigate-plant-light";
 const activityId="science-investigate-plant-light";
 const correctLabel="Pilih jawaban: Pertumbuhan tanaman";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const evidenceDir=path.join(root,".vsg03-investigation-board");
+function captureEvidence(page,width,state){
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const filename=`${width}-investigation-board-${state}.png`;
+  const source=path.join(screenshotDir,filename);
+  return page.screenshot({path:source,fullPage:false}).then(()=>copyFileSync(source,path.join(evidenceDir,filename)));
+}
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
 let server=null;
 let serverLog="";
 
@@ -113,6 +121,21 @@ async function inspect(viewport){
 
     const scene=page.locator("[data-investigation-board]");
     assert.equal(await scene.getAttribute("data-investigation-mode"),"observe");
+    assert.equal(await scene.getAttribute("data-child-visual-hierarchy"),"investigation-vsg03",
+      "use the existing child instruction hierarchy without a second game engine");
+    assert.equal(await page.getByRole("heading",{level:1}).count(),1,
+      "only one primary question can compete for attention");
+    assert.equal((await page.locator("[data-investigation-primary-instruction]").innerText()).trim(),
+      "Apa yang perlu diamati?","question must describe the first investigation action");
+    assert.equal(await page.locator("[data-investigation-help]").count(),0,
+      "secondary explanation must not appear on idle");
+    assert.equal((await scene.locator('[role="status"]').textContent())?.trim(),"",
+      "idle feedback must not duplicate the question");
+    await page.getByRole("button",{name:"Cara main"}).click();
+    assert.match(await page.locator("[data-investigation-help]").innerText(),
+      /Baca bukti yang tersedia, lalu gunakan langkah sains yang tepat/);
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
+    assert.equal(await page.locator("[data-investigation-help]").count(),0);
     assert.equal(await page.locator("[data-investigation-step='observe'][aria-current='step']").count(),1,"representative activity highlights observe step");
     // VQA04: four canonical process labels share one continuous ribbon;
     // the scenario and task panels are not nested inside another white card.
@@ -145,6 +168,13 @@ async function inspect(viewport){
     assert.equal(await page.getByText("Tanaman A: air sama + mendapat cahaya").count(),1);
     assert.equal(await page.getByText("Tanaman B: air sama + tanpa cahaya").count(),1);
     assert.equal(await page.getByText("Yang perlu dibandingkan").count(),1);
+    if(viewport.width===320){
+      assert(await page.getByText("Pilih hasil yang benar-benar menunjukkan pengaruh cahaya.").isVisible(),
+        "essential focus hint cannot disappear on small mobile");
+      const question=await page.locator("[data-investigation-primary-instruction]").boundingBox();
+      assert(question&&question.y>=0&&question.y+question.height<=viewport.height,
+        "first-action question must be visible on narrow mobile");
+    }
 
     const choices=page.locator("[data-investigation-choice]");
     assert.equal(await choices.count(),3,"investigation board keeps three canonical choices");
@@ -164,22 +194,23 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"investigation-board choices remain inside viewport");
     }
 
-    const status=page.getByRole("status");
-    await assertFullyVisible(status,viewportHeight,`idle investigation feedback at ${viewport.width}`);
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-investigation-board-idle.png`),fullPage:false});
+    const status=scene.locator(':scope > [role="status"]');
+    await captureEvidence(page,viewport.width,"idle");
 
     const wrongLabel=await chooseWrongWithKeyboard(page);
     assert.notEqual(wrongLabel,correctLabel);
     await status.filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await status.innerText()).trim(),"Belum tepat. Coba lagi!",
+      "wrong-state feedback stays short and clear");
     assert.equal(await completed(page),false,"wrong investigation answer cannot complete activity");
     await assertFullyVisible(status,viewportHeight,`retry investigation feedback at ${viewport.width}`);
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-investigation-board-try.png`),fullPage:false});
+    await captureEvidence(page,viewport.width,"try");
 
     await page.getByRole("button",{name:correctLabel}).click();
-    await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector('[data-investigation-board] [role="status"]')?.textContent?.includes("Tepat!"),undefined,{timeout:2000});
     assert.equal(await completed(page),true,"correct investigation answer completes canonical activity");
-    await assertFullyVisible(status,viewportHeight,`success investigation feedback at ${viewport.width}`);
+    assert.notEqual(await status.evaluate(el=>getComputedStyle(el).clip),"auto",
+      "success announcement must not repeat visibly behind the completion dialog");
     const completion=page.locator("[data-activity-completion]");
     await completion.waitFor({state:"visible",timeout:2000});
     const completionBox=await completion.boundingBox();
@@ -205,7 +236,7 @@ async function inspect(viewport){
     assert.equal(state.retryCount,1);
     assert.equal(state.accuracy,0.5);
 
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-investigation-board-success.png`),fullPage:false});
+    await captureEvidence(page,viewport.width,"success");
     await page.evaluate(()=>{window.__si06fReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:2000});
