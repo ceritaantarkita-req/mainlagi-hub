@@ -5,10 +5,12 @@ import { ActivityCompletion } from "./ActivityCompletion";
 import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { causeEffectConfig } from "@/lib/learning/causeEffectConfig";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { isCauseEffectActivity } from "@/lib/learning/gameplayPresentation";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./CauseEffectActivity.module.css";
+import visual from "./ChildVisualHierarchy.module.css";
 
 export function CauseEffectActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -19,12 +21,22 @@ export function CauseEffectActivity({ childId, activityId }: { childId: string; 
   const retryRef = useRef(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.causeEffectReady = "true";
   }, []);
 
   if (!activity || !config || !isCauseEffectActivity(activity) || !activity.correctChoice) return null;
+
+  // One actionable first question; the canonical science cue stays behind
+  // on-demand Help and narration. Never hide the causal evidence board.
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: "Apa yang terjadi?",
+    supportingHint: config.cue
+  });
 
   const choose = (choice: string) => {
     if (feedback === "good") return;
@@ -73,6 +85,7 @@ export function CauseEffectActivity({ childId, activityId }: { childId: string; 
     retryRef.current = 0;
     setSelected(null);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   const selectedIcon = selected ? config.choiceVisuals[selected] ?? "✨" : null;
@@ -80,7 +93,6 @@ export function CauseEffectActivity({ childId, activityId }: { childId: string; 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
       spacious
@@ -89,14 +101,23 @@ export function CauseEffectActivity({ childId, activityId }: { childId: string; 
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-cause-effect
+        data-child-visual-hierarchy="cause-effect-vsg04"
+        aria-label={hierarchy.contextTitle}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🔎</span>
-          <div>
-            <h1>Lihat sebab dan hasilnya</h1>
-            <p>{config.cue}</p>
-          </div>
+          <h1 className={visual.primaryInstruction} data-cause-effect-primary-instruction>{hierarchy.primaryInstruction}</h1>
+          <button
+            type="button"
+            className={styles.helpButton}
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen((value) => !value)}
+          >{helpOpen ? "×" : "?"}</button>
         </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={visual.assistance} data-cause-effect-help>{hierarchy.onDemandHelp}</p>
+        ) : null}
 
         <div className={styles.flow} role="group" aria-label="Urutan sebab dan akibat">
           <div className={styles.phaseCard} data-cause-start>
@@ -153,19 +174,19 @@ export function CauseEffectActivity({ childId, activityId }: { childId: string; 
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? "💡 Belum tepat. Perhatikan keadaan awal dan kondisi yang terjadi."
-              : "💡 Pilih hasil yang paling masuk akal dari kondisi di atas."}
+              ? "Belum tepat. Coba lagi!"
+              : ""}
         </div>
 
         {feedback === "good" ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>
