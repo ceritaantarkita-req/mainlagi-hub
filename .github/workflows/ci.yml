@@ -502,5 +502,15 @@ jobs:
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add package.json package-lock.json
           git diff --cached --quiet && exit 0
-          git commit -m 'security: patch October 2026 production dependency advisories'
+          git commit -m 'security: stage verified dependency manifests'
+          verified_manifest_commit=$(git rev-parse HEAD)
+          # PR jobs check out a synthetic merge SHA, not the current head.
+          # Replay ONLY the two verified manifests on the latest remote branch.
+          # Never force-push or overwrite another contributor's commit.
+          git fetch origin agent/p0-production-deps-20261026
+          git switch -C verified-deps FETCH_HEAD
+          git checkout "$verified_manifest_commit" -- package.json package-lock.json
+          git add package.json package-lock.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'security: patch October 2026 production dependencies'
           git push origin HEAD:agent/p0-production-deps-20261026
