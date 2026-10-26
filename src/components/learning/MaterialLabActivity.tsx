@@ -166,7 +166,7 @@ export function MaterialLabActivity({ childId, activityId }: { childId: string; 
           <div className={styles.selectedSample}>
             <span className={styles.cardTag}>Sampel</span>
             <LearningVisualToken className={styles.selectedIcon}>{selectedVisual?.icon ?? "❔"}</LearningVisualToken>
-            <strong>{selectedVisual?.sampleLabel ?? "Pilih sifat dulu"}</strong>
+            <strong data-material-lab-selected-label>{selectedVisual?.sampleLabel ?? "Pilih sifat dulu"}</strong>
           </div>
           <button
             type="button"
