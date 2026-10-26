@@ -184,7 +184,7 @@ async function inspect(viewport){
     const wrongLabel=await keyboardWrongFinalChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
     const wrongStatus=scene.locator(':scope > [role="status"]');
-    await wrongStatus.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
     assert.equal((await wrongStatus.textContent())?.trim(),"Belum tepat. Coba lagi!");
 
     assert.equal(await completed(page),false,"wrong final result cannot complete activity");
