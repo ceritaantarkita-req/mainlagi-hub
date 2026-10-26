@@ -64,7 +64,7 @@ async function inspect(viewport){
     assert.equal(await help.getAttribute("aria-expanded"),"false");
     assert.equal(await page.locator("[data-cause-effect-help]").count(),0,
       "full canonical science cue stays closed until requested");
-    assert.equal((await scene.locator('[role="status"]').textContent())?.trim(),"",
+    assert.equal((await scene.locator(':scope > [role="status"]').textContent())?.trim(),"",
       "no second instructional status panel at idle");
     await help.click();
     assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true",
@@ -87,7 +87,7 @@ async function inspect(viewport){
 
     const afterWrong=await page.evaluate(({activityId:id})=>{const progress=JSON.parse(localStorage.getItem("mainlagi-learning-progress-v1")??"{}");return(progress["demo-gian"]?.completedActivityIds??[]).includes(id);},{activityId});assert.equal(afterWrong,false,"wrong cause-effect answer must not complete");await captureEvidence(page,`${viewport.width}-cause-effect-try.png`);
     await page.getByRole("button",{name:correctLabel}).click();await page.waitForFunction(()=>document.querySelector("[data-cause-effect] [role='status']")?.textContent?.includes("Tepat!"),undefined,{timeout:2000});
-    assert.match((await scene.locator('[role="status"]').textContent()) ?? "",/Es menerima panas lalu mencair menjadi air/,
+    assert.match((await scene.locator(':scope > [role="status"]').textContent()) ?? "",/Es menerima panas lalu mencair menjadi air/,
       "screen-reader success reason keeps canonical science feedback");
 
     const completion=page.locator("[data-activity-completion]");
