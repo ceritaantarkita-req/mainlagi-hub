@@ -228,6 +228,31 @@ async function inspect(viewport){
     const testBox=await testButton.boundingBox();
     assert(testBox&&testBox.width>=44&&testBox.height>=44,"material-lab test button keeps touch target");
 
+    // The 320px screenshot caught a visual defect not covered by mere containment:
+    // test-board columns squeezed the idle label to one character per line.
+    // Require word-preserving layout and a stacked explicit Test button.
+    if(viewport.width===320){
+      const selectedLabel=page.locator("[data-material-lab-selected-label]");
+      const sampleLayout=await selectedLabel.evaluate(el=>{
+        const label=el.getBoundingClientRect();
+        const button=el.closest('[class*="testBench"]')?.querySelector("[data-material-lab-test]")?.getBoundingClientRect();
+        const node=el.firstChild;
+        if(!node||node.nodeType!==Node.TEXT_NODE||!button)return null;
+        const word=node.textContent?.trim().split(/\\s+/)[0]??"";
+        const r=document.createRange();
+        r.setStart(node,0);
+        r.setEnd(node,word.length);
+        const fragments=[...r.getClientRects()];
+        return {text:el.textContent?.trim(),width:label.width,firstWord:word,fragments:fragments.length,
+          buttonBelow:button.top>=label.bottom,wordBreak:getComputedStyle(el).wordBreak};
+      });
+      assert(sampleLayout&&sampleLayout.text==="Pilih sifat dulu",
+        "idle selected-sample guidance stays intact on 320px");
+      assert(sampleLayout.width>=90&&sampleLayout.fragments===1&&sampleLayout.buttonBelow,
+        `320px test workbench must not stack letters vertically: ${JSON.stringify(sampleLayout)}`);
+      assert.notEqual(sampleLayout.wordBreak,"break-all","selected label must keep whole words");
+    }
+
     await captureMaterialState(page,viewport.width,"idle");
 
     const wrongLabel=await chooseWrongWithKeyboard(page);
