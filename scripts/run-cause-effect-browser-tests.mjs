@@ -67,7 +67,8 @@ async function inspect(viewport){
     assert.equal((await scene.locator('[role="status"]').textContent())?.trim(),"",
       "no second instructional status panel at idle");
     await help.click();
-    assert.equal(await help.getAttribute("aria-expanded"),"true");
+    assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true",
+      "the same Help button changes accessible name after opening");
     assert.equal(await page.locator("[data-cause-effect-help]").innerText(),
       "Apa hasil yang paling masuk akal setelah es menerima panas?",
       "science cue remains intact and accessible on demand");
