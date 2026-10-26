@@ -15,6 +15,7 @@ dist/
 .audio-test-dist/
 .mobile-route-qa/
 .vsg02-material-lab/
+.vsg03-investigation-board/
 .qa/
 .qa-playroom/
 .env
