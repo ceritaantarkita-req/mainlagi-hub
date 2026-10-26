@@ -6,9 +6,11 @@ import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isInvestigationBoardActivity } from "@/lib/learning/gameplayPresentation";
 import { investigationBoardConfig } from "@/lib/learning/investigationBoardConfig";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./InvestigationBoardActivity.module.css";
+import visual from "./ChildVisualHierarchy.module.css";
 
 const PROCESS_STEPS = [
   ["observe", "Amati"],
@@ -16,6 +18,15 @@ const PROCESS_STEPS = [
   ["predict", "Prediksi"],
   ["conclude", "Simpulkan"]
 ] as const;
+
+// Questions vary by investigation stage; keep the actual scientific scenario,
+// focus labels, supporting evidence and three canonical answers untouched.
+const FIRST_ACTION = {
+  observe: "Apa yang perlu diamati?",
+  control: "Apa yang harus sama?",
+  predict: "Apa yang akan terjadi?",
+  conclude: "Apa kesimpulannya?"
+} as const;
 
 export function InvestigationBoardActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -26,12 +37,20 @@ export function InvestigationBoardActivity({ childId, activityId }: { childId: s
   const retryRef = useRef(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.investigationBoardReady = "true";
   }, []);
 
   if (!activity || !config || !isInvestigationBoardActivity(activity) || !activity.correctChoice) return null;
+
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: FIRST_ACTION[config.mode],
+    supportingHint: "Baca bukti yang tersedia, lalu gunakan langkah sains yang tepat."
+  });
 
   const choose = (choice: string) => {
     if (feedback === "good") return;
@@ -78,29 +97,37 @@ export function InvestigationBoardActivity({ childId, activityId }: { childId: s
     retryRef.current = 0;
     setSelected(null);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
-      spacious
     >
       <section
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-investigation-board
         data-investigation-mode={config.mode}
+        data-child-visual-hierarchy="investigation-vsg03"
+        aria-label={hierarchy.contextTitle}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🔎</span>
-          <div>
-            <h1>Papan penyelidikan</h1>
-            <p>Baca bukti yang tersedia, lalu gunakan langkah sains yang tepat.</p>
-          </div>
+          <h1 className={visual.primaryInstruction} data-investigation-primary-instruction>{hierarchy.primaryInstruction}</h1>
+          <button
+            type="button"
+            className={styles.helpButton}
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen((value) => !value)}
+          >{helpOpen ? "×" : "?"}</button>
         </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={visual.assistance} data-investigation-help>{hierarchy.onDemandHelp}</p>
+        ) : null}
 
         <div className={styles.processRail} role="list" aria-label="Langkah penyelidikan sains">
           {PROCESS_STEPS.map(([mode, label]) => (
@@ -155,19 +182,19 @@ export function InvestigationBoardActivity({ childId, activityId }: { childId: s
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? `💡 Belum tepat. Fokus pada langkah “${config.modeLabel}” dan bukti yang benar-benar relevan.`
-              : `💡 Langkah aktif: ${config.modeLabel}. Pilih jawaban yang paling didukung situasi di papan.`}
+              ? "Belum tepat. Coba lagi!"
+              : ""}
         </div>
 
         {feedback === "good" ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>
