@@ -238,7 +238,7 @@ async function inspect(viewport){
         const button=el.closest('[class*="testBench"]')?.querySelector("[data-material-lab-test]")?.getBoundingClientRect();
         const node=el.firstChild;
         if(!node||node.nodeType!==Node.TEXT_NODE||!button)return null;
-        const word=node.textContent?.trim().split(/\\s+/)[0]??"";
+        const word=node.textContent?.trim().split(/\s+/)[0]??"";
         const r=document.createRange();
         r.setStart(node,0);
         r.setEnd(node,word.length);
