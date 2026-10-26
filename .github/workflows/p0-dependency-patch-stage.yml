@@ -1,4 +1,4 @@
-name: P0 dependency patch staging (temporary)
+name: P0 dependency patch staging (temporary, review-only)
 on:
   push:
     branches:
