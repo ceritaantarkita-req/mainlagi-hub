@@ -449,3 +449,57 @@ jobs:
           echo "Production did not serve the expected commit/configuration within the smoke-test window."
           echo "Last health response: $health_body"
           exit 1
+
+  # Temporary security staging job; runs ONLY on this isolated P0 remediation PR.
+  # It will be deleted before merging to main.
+  security-dependency-patch-staging:
+    if: github.event_name == 'pull_request' && github.head_ref == 'agent/p0-production-deps-20261026'
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Resolve patched direct and transitive dependencies
+        shell: bash
+        run: |
+          node <<'NODE'
+          const fs=require('node:fs'),file='package.json',p=JSON.parse(fs.readFileSync(file,'utf8'));
+          p.dependencies.next='16.4.3';
+          p.dependencies['sanitize-html']='2.18.1';
+          p.dependencies['@opennextjs/cloudflare']='^1.20.12';
+          p.overrides['undici']='7.30.1';
+          p.overrides['body-parser']='2.4.0';
+          fs.writeFileSync(file,JSON.stringify(p,null,2)+'\n');
+          NODE
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+          npm ci --no-audit --no-fund
+      - name: Enforce production audit threshold
+        run: npm audit --omit=dev --audit-level=moderate
+      - name: Verify Next and OpenNext Cloudflare builds
+        run: npm run build && npm run build:cloudflare
+      - name: Upload verified dependency manifests
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: verified-p0-dependency-manifests
+          path: |
+            package.json
+            package-lock.json
+          if-no-files-found: error
+          retention-days: 7
+      - name: Commit only after audit and builds passed
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add package.json package-lock.json
+          git diff --cached --quiet && exit 0
+          git commit -m 'security: patch October 2026 production dependency advisories'
+          git push origin HEAD:agent/p0-production-deps-20261026
