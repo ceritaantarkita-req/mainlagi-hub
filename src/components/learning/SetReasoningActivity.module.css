@@ -339,8 +339,10 @@
 }
 
 @media (max-width: 340px) {
+  /* VSG-06: never hide the only actionable question on a 320px phone. */
   .promptCard {
-    display: none;
+    display: flex;
+    padding: 8px 9px;
   }
 
   .scene {
@@ -360,4 +362,67 @@
   .choiceButton {
     transition: none;
   }
+}
+
+
+/* VSG-06: reuse child semantic typography, retaining the two-rule board and
+   target content even when the initial explanation is tucked into Help. */
+.promptCard { min-width: 0; gap: 10px; }
+.promptCard h1 {
+  flex: 1 1 auto;
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  margin: 0;
+  color: #193b55;
+  font-size: clamp(21px, var(--ml-child-question-size, clamp(23px, 3.4vw, 38px)), 32px);
+  font-weight: 950;
+  line-height: 1.16;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+.helpButton {
+  flex: 0 0 auto;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 2px solid rgba(70, 85, 125, .26);
+  border-radius: 50%;
+  background: #fffdf0;
+  color: #193b55;
+  font: inherit;
+  font-weight: 900;
+  font-size: 22px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+.helpButton:focus-visible { outline: 3px solid #155f86; outline-offset: 3px; }
+.scene .status:empty { display: none; }
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.choiceButton { touch-action: manipulation; }
+.choiceButton strong {
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+@media (max-width: 560px) {
+  .promptCard h1 { font-size: clamp(20px, 4.8vw, 25px); }
+}
+@media (max-width: 340px) {
+  .promptCard h1 { font-size: 20px; }
+  .promptIcon { width: 42px; height: 42px; }
+  .ruleBoard { gap: 5px; padding: 7px; }
+  .choiceButton { min-height: 72px; }
 }
