@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,7 +13,15 @@ const route="/child/demo-gian/activity/logic-set-both-red-round";
 const activityId="logic-set-both-red-round";
 const correctLabel="Pilih jawaban: lingkaran merah";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const evidenceDir=path.join(root,".vsg06-set-reasoning");
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
+async function capture(page,filename){
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const data=await page.screenshot({fullPage:true});
+  writeFileSync(path.join(screenshotDir,filename),data);
+  writeFileSync(path.join(evidenceDir,filename),data);
+}
 let server=null;
 let serverLog="";
 
@@ -116,6 +124,30 @@ async function inspect(viewport){
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept canonical Logic Wave C readiness at ${viewport.width}`);
 
+    const scene=page.locator('[data-set-reasoning][data-child-visual-hierarchy="set-reasoning-vsg06"]');
+    assert.equal(await scene.count(),1,"Set Reasoning uses existing child visual hierarchy");
+    const question=scene.getByRole("heading",{level:1,name:"Mana yang cocok?"});
+    assert.equal(await question.count(),1,"exactly one main question");
+    const questionInfo=await question.evaluate(element=>{
+      const rect=element.getBoundingClientRect();
+      return {display:getComputedStyle(element).display,visible:rect.width>0&&rect.height>0,top:rect.top,bottom:rect.bottom};
+    });
+    assert(questionInfo.display!=="none"&&questionInfo.visible&&questionInfo.top>=0&&questionInfo.bottom<=viewport.height+1,
+      `main question must remain visible without scroll even at ${viewport.width}px: ${JSON.stringify(questionInfo)}`);
+    assert.equal(await page.getByText("Cari pilihan yang cocok",{exact:true}).count(),0,
+      "remove duplicate legacy heading");
+    assert.equal((await scene.locator(':scope > [role="status"]').textContent())?.trim(),"",
+      "idle copy must not compete with two visible rules");
+    const help=page.getByRole("button",{name:"Cara main"});
+    assert.equal(await help.getAttribute("aria-expanded"),"false");
+    assert.equal(await page.locator("[data-set-reasoning-help]").count(),0);
+    await help.click();
+    assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
+    assert.equal(await page.locator("[data-set-reasoning-help]").innerText(),
+      "Baca dua aturan, lalu pilih jawaban yang memenuhi keduanya.");
+    await capture(page,`${viewport.width}-set-reasoning-help.png`);
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
+    assert.equal(await page.locator("[data-set-reasoning-help]").count(),0);
     const choices=page.locator("[data-set-reasoning-choice]");
     assert.equal(await choices.count(),3,"set reasoning keeps three canonical choices");
     assert.deepEqual(new Set(await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")))),new Set([
@@ -138,23 +170,23 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"set-reasoning choices remain inside viewport");
     }
 
-    const status=page.getByRole("status");
-    await assertFullyVisible(status,viewportHeight,`idle set-reasoning feedback at ${viewport.width}`);
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-set-reasoning-idle.png`),fullPage:false});
+    const status=scene.locator(':scope > [role="status"]');
+    await capture(page,`${viewport.width}-set-reasoning-idle.png`);
 
     const wrongLabel=await keyboardWrongChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
-    await status.filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await status.textContent())?.trim(),"Belum tepat. Coba lagi!");
     assert.equal(await completed(page),false,"wrong set member cannot complete activity");
-    await assertFullyVisible(status,viewportHeight,`retry set-reasoning feedback at ${viewport.width}`);
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-set-reasoning-try.png`),fullPage:false});
+    await capture(page,`${viewport.width}-set-reasoning-try.png`);
 
     await page.getByRole("button",{name:correctLabel}).click();
-    await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector("[data-set-reasoning] > [role='status']")?.textContent?.includes("Tepat!"),
+      undefined,{timeout:2000});
+    assert.match((await status.textContent())??"",/Lingkaran merah memenuhi dua aturan/,
+      "source pedagogical success reason must remain available to screen readers");
     assert.equal(await completed(page),true,"correct set member completes canonical activity");
-    await assertFullyVisible(status,viewportHeight,`success set-reasoning feedback at ${viewport.width}`);
-
+ 
     const completion=page.locator("[data-activity-completion]");
     await completion.waitFor({state:"visible",timeout:2000});
     const completionBox=await completion.boundingBox();
@@ -180,7 +212,9 @@ async function inspect(viewport){
     assert.equal(state.retryCount,1);
     assert.equal(state.accuracy,0.5);
 
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-set-reasoning-success.png`),fullPage:false});
+    assert.equal(await completion.getByText("Hebat!",{exact:true}).count(),1,
+      "canonical concise completion keeps the simple title");
+    await capture(page,`${viewport.width}-set-reasoning-success.png`);
     await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:2000});
@@ -202,7 +236,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Set-reasoning legacy browser QA passed ${viewports.length} viewports with neutral two-rule copy, keyboard wrong-state, pointer completion, feedback/canonical Completion visibility and unchanged assessed evidence.`);
+  console.log(`VSG-06 Set Reasoning QA passed ${viewports.length} viewports × idle/help/try/success, visible 320px question, two source rules, keyboard, evidence and concise Completion.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
