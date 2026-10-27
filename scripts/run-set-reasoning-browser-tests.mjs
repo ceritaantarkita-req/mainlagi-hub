@@ -102,12 +102,6 @@ async function keyboardWrongChoice(page){
   throw new Error("Keyboard navigation did not reach a wrong set-reasoning choice");
 }
 
-async function assertFullyVisible(locator,viewportHeight,label){
-  const box=await locator.boundingBox();
-  assert(box,`${label} must render`);
-  assert(box.y>=-1&&box.y+box.height<=viewportHeight+1,`${label} must remain fully visible in viewport`);
-}
-
 async function inspect(viewport){
   const browser=await chromium.launch({headless:true});
   try{
@@ -161,7 +155,6 @@ async function inspect(viewport){
     assert.equal(await completed(page),false,"idle set-reasoning board cannot complete activity");
 
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
-    const viewportHeight=await page.evaluate(()=>window.innerHeight);
     const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
     assert(scrollWidth<=viewportWidth+1,`set-reasoning board overflows horizontally at ${viewport.width}`);
     for(const box of await choices.evaluateAll(nodes=>nodes.map(node=>{const rect=node.getBoundingClientRect();return{width:rect.width,height:rect.height,left:rect.left,right:rect.right};}))){
