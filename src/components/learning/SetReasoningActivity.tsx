@@ -7,8 +7,10 @@ import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isSetReasoningActivity } from "@/lib/learning/gameplayPresentation";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { setReasoningConfig } from "@/lib/learning/setReasoningConfig";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./SetReasoningActivity.module.css";
+import visualStyles from "./ChildVisualHierarchy.module.css";
 
 export function SetReasoningActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -19,12 +21,22 @@ export function SetReasoningActivity({ childId, activityId }: { childId: string;
   const retryRef = useRef(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.setReasoningReady = "true";
   }, []);
 
   if (!activity || !config || !isSetReasoningActivity(activity) || !activity.correctChoice) return null;
+
+  // Set rules, the operation, and the target are essential visible task data.
+  // Only the supplementary instruction moves behind user-requested Help.
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: "Mana yang cocok?",
+    supportingHint: "Baca dua aturan, lalu pilih jawaban yang memenuhi keduanya."
+  });
 
   const choose = (choice: string) => {
     if (feedback === "good") return;
@@ -70,12 +82,12 @@ export function SetReasoningActivity({ childId, activityId }: { childId: string;
     retryRef.current = 0;
     setSelected(null);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
       spacious
@@ -84,14 +96,25 @@ export function SetReasoningActivity({ childId, activityId }: { childId: string;
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-set-reasoning
+        data-child-visual-hierarchy="set-reasoning-vsg06"
+        aria-label={hierarchy.contextTitle}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🧩</span>
-          <div>
-            <h1>Cari pilihan yang cocok</h1>
-            <p>Baca dua aturan, lalu pilih jawaban yang memenuhi keduanya.</p>
-          </div>
+          <h1 className={visualStyles.primaryInstruction} data-set-reasoning-primary-instruction>
+            {hierarchy.primaryInstruction}
+          </h1>
+          <button
+            type="button"
+            className={styles.helpButton}
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen(open => !open)}
+          >{helpOpen ? "×" : "?"}</button>
         </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={visualStyles.assistance} data-set-reasoning-help>{hierarchy.onDemandHelp}</p>
+        ) : null}
 
         <div className={styles.ruleBoard} role="group" aria-label="Dua aturan">
           {config.rules.map((rule, index) => (
@@ -140,19 +163,19 @@ export function SetReasoningActivity({ childId, activityId }: { childId: string;
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? "💡 Belum tepat. Cek lagi apakah pilihanmu cocok dengan kedua aturan."
-              : "💡 Gunakan kedua aturan. Satu pilihan harus memenuhi semuanya sekaligus."}
+              ? "Belum tepat. Coba lagi!"
+              : ""}
         </div>
 
         {feedback === "good" ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>
