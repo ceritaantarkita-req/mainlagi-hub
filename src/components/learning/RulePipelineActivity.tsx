@@ -6,9 +6,11 @@ import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isRulePipelineActivity } from "@/lib/learning/gameplayPresentation";
 import { rulePipelineConfig } from "@/lib/learning/rulePipelineConfig";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./RulePipelineActivity.module.css";
+import visualStyles from "./ChildVisualHierarchy.module.css";
 
 export function RulePipelineActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -20,12 +22,23 @@ export function RulePipelineActivity({ childId, activityId }: { childId: string;
   const [stepOneApplied, setStepOneApplied] = useState(false);
   const [selected, setSelected] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.rulePipelineReady = "true";
   }, []);
 
   if (!activity || !config || !isRulePipelineActivity(activity) || !activity.correctChoice) return null;
+
+  // A two-step mechanic needs a step-aware question: before running Rule 1,
+  // children must not be prompted to pick the still-locked final answer.
+  // Both canonical rule texts remain visible in the evidence board.
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: stepOneApplied ? "Apa hasil akhirnya?" : "Coba aturan pertama!",
+    supportingHint: "Ikuti aturan pertama, lihat hasil sementara, lalu gunakan aturan kedua."
+  });
 
   const chooseResult = (choice: string) => {
     if (!stepOneApplied || feedback === "good") return;
@@ -72,12 +85,12 @@ export function RulePipelineActivity({ childId, activityId }: { childId: string;
     setStepOneApplied(false);
     setSelected(null);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
       spacious
@@ -86,11 +99,23 @@ export function RulePipelineActivity({ childId, activityId }: { childId: string;
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-rule-pipeline
+        data-child-visual-hierarchy="rule-pipeline-vsg05"
+        aria-label={hierarchy.contextTitle}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🧠</span>
-          <div><h1>Jalankan dua aturan</h1><p>Ikuti aturan pertama, lihat hasil sementara, lalu gunakan aturan kedua.</p></div>
+          <h1 className={visualStyles.primaryInstruction} data-rule-pipeline-primary-instruction>{hierarchy.primaryInstruction}</h1>
+          <button
+            className={styles.helpButton}
+            type="button"
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen(value => !value)}
+          >{helpOpen ? "×" : "?"}</button>
         </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={visualStyles.assistance} data-rule-pipeline-help>{hierarchy.onDemandHelp}</p>
+        ) : null}
 
         <div className={styles.pipeline} role="group" aria-label="Alur dua aturan">
           <div className={styles.stateCard} data-rule-pipeline-start>
@@ -130,7 +155,7 @@ export function RulePipelineActivity({ childId, activityId }: { childId: string;
         </div>
 
         <div className={styles.choiceArea} role="group" aria-label="Pilih hasil akhir">
-          <span className={styles.choiceHeading}>Hasil akhirnya apa?</span>
+          <span className={styles.choiceHeading}>Pilihan hasil</span>
           <div className={styles.choiceGrid}>
             {(activity.choices ?? []).map((choice) => {
               const visual = config.choiceVisuals[choice];
@@ -155,21 +180,19 @@ export function RulePipelineActivity({ childId, activityId }: { childId: string;
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? "💡 Belum tepat. Mulai dari hasil sementara, lalu pakai aturan 2 sekali lagi."
-              : stepOneApplied
-                ? "✨ Hasil sementara sudah terlihat. Sekarang gunakan aturan 2 dan pilih hasil akhir."
-                : "💡 Jalankan aturan 1 dulu agar hasil sementara terlihat."}
+              ? "Belum tepat. Coba lagi!"
+              : ""}
         </div>
 
         {feedback === "good" ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>

@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,7 +13,15 @@ const route="/child/demo-gian/activity/logic-compose-red-circle-to-star";
 const activityId="logic-compose-red-circle-to-star";
 const correctLabel="Pilih hasil akhir: bintang ★";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const evidenceDir=path.join(root,".vsg05-rule-pipeline");
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
+async function captureEvidence(page, filename){
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const image=await page.screenshot({fullPage:true});
+  writeFileSync(path.join(screenshotDir,filename),image);
+  writeFileSync(path.join(evidenceDir,filename),image);
+}
 let server=null;
 let serverLog="";
 
@@ -122,6 +130,26 @@ async function inspect(viewport){
     await waitForPipeline(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept seeded Logic Wave C readiness at ${viewport.width}`);
 
+    const scene=page.locator('[data-rule-pipeline][data-child-visual-hierarchy="rule-pipeline-vsg05"]');
+    assert.equal(await scene.count(),1,"Rule Pipeline opts into child visual hierarchy");
+    assert.equal(await scene.getByRole("heading",{level:1,name:"Coba aturan pertama!"}).count(),1,
+      "one visible actionable first instruction");
+    assert.equal(await page.getByRole("heading",{level:1}).count(),1,
+      "no duplicate large title from Garden frame");
+    assert.equal(await page.getByText("Jalankan dua aturan",{exact:true}).count(),0,
+      "remove legacy redundant heading");
+    assert.equal((await scene.locator(':scope > [role="status"]').textContent())?.trim(),"",
+      "no duplicate status instructions at idle");
+    const help=page.getByRole("button",{name:"Cara main"});
+    assert.equal(await help.getAttribute("aria-expanded"),"false");
+    assert.equal(await page.locator("[data-rule-pipeline-help]").count(),0);
+    await help.click();
+    assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
+    assert.equal(await page.locator("[data-rule-pipeline-help]").innerText(),
+      "Ikuti aturan pertama, lihat hasil sementara, lalu gunakan aturan kedua.",
+      "original step-by-step guidance remains accessible");
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
+    assert.equal(await page.locator("[data-rule-pipeline-help]").count(),0);
     const choices=page.locator("[data-rule-pipeline-choice]");
     assert.equal(await choices.count(),3,"rule pipeline keeps three canonical final choices");
     assert.deepEqual(new Set(await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")))),new Set([
@@ -141,24 +169,34 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"rule-pipeline controls remain inside viewport");
     }
 
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-rule-pipeline-idle.png`),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-rule-pipeline-idle.png`);
 
     await keyboardRunStepOne(page);
-    await page.getByRole("status").filter({hasText:"hasil sementara"}).waitFor({state:"visible",timeout:2000});
+    await page.getByRole("heading",{level:1,name:"Apa hasil akhirnya?"}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await scene.locator(':scope > [role="status"]').textContent())?.trim(),"",
+      "completed step is announced by the intermediate evidence, not extra text");
+
     assert.equal(await choices.evaluateAll(nodes=>nodes.every(node=>!node.disabled)),true,"final choices unlock only after rule 1");
     assert.equal(await page.locator("[data-rule-pipeline-intermediate]").textContent().then(text=>text?.includes("Lingkaran")),true,"canonical intermediate state becomes visible");
     assert.equal(await completed(page),false,"running rule 1 alone cannot complete activity");
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-rule-pipeline-intermediate.png`),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-rule-pipeline-intermediate.png`);
 
     const wrongLabel=await keyboardWrongFinalChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
-    await page.getByRole("status").filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    const wrongStatus=scene.locator(':scope > [role="status"]');
+    await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await wrongStatus.textContent())?.trim(),"Belum tepat. Coba lagi!");
+
     assert.equal(await completed(page),false,"wrong final result cannot complete activity");
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-rule-pipeline-try.png`),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-rule-pipeline-try.png`);
 
     await page.getByRole("button",{name:correctLabel}).click();
-    await page.getByRole("status").filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector("[data-rule-pipeline] > [role='status']")?.textContent?.includes("Tepat!"),
+      undefined,{timeout:2000});
+    assert.match((await scene.locator(':scope > [role="status"]').textContent())??"",
+      /Dua aturan dijalankan berurutan: merah → lingkaran → bintang/,
+      "canonical learning explanation remains screen-reader accessible");
+
     assert.equal(await completed(page),true,"correct final result completes canonical activity");
 
     const completion=page.locator("[data-activity-completion]");
@@ -186,7 +224,9 @@ async function inspect(viewport){
     assert.equal(state.retryCount,1);
     assert.equal(state.accuracy,0.5);
 
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-rule-pipeline-success.png`),fullPage:false});
+    assert.equal(await completion.getByText("Hebat!",{exact:true}).count(),1,
+      "concise three-star completion retains short heading");
+    await captureEvidence(page,`${viewport.width}-rule-pipeline-success.png`);
     await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:2000});
@@ -208,7 +248,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Rule-pipeline browser QA passed ${viewports.length} viewports with legitimate Logic Wave C progression, keyboard step execution and wrong-state, pointer completion, false-completion guards, layout, canonical Completion + local Again and assessed evidence checks.`);
+  console.log(`VSG-05 Rule Pipeline browser QA passed ${viewports.length} viewports x 4 states with step-aware single-question, on-demand help, keyboard step/run, wrong/correct, evidence and canonical completion.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
