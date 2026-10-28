@@ -112,7 +112,7 @@ export function RelativeOrderTrackActivity({ childId, activityId }: { childId: s
           >{helpOpen ? "×" : "?"}</button>
         </div>
         {helpOpen && hierarchy.onDemandHelp ? (
-          <p className={visualStyles.assistance} data-relative-order-help>{hierarchy.onDemandHelp}</p>
+          <p className={`${visualStyles.assistance} ${styles.helpPanel}`} data-relative-order-help>{hierarchy.onDemandHelp}</p>
         ) : null}
 
         <div className={styles.relationCard} data-relative-order-relation>
