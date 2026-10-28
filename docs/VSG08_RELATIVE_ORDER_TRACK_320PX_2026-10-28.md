@@ -1,7 +1,7 @@
 # VSG-08 — Relative Order Track 320px first-action fix
 
 **Date:** 28 October 2026
-**Base:** VSG-07 PR #541 head `cad02dba6898dc4aeec18ffde722e5db2a3f2306` (stacked branch, **not** merged-main approval).
+**Base:** `main@d5abe2301cbe76f69447c660d4e7032f966429d2` after VSG-07 PR #541 merged.
 **Status:** REVIEW-ONLY IMPLEMENTATION — dependent on PR #541 acceptance and merge.
 
 ## Source-confirmed defect
