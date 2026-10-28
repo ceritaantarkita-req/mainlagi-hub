@@ -418,7 +418,7 @@
 
 /* A disclosure over the illustrated scene must have a readable surface.
    Preserve the globally shared help typography while providing local contrast. */
-.helpPanel {
+.helpPanel.helpPanel {
   width: 100%;
   margin: 0;
   padding: 10px 14px;
