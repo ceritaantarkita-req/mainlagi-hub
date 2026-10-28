@@ -129,8 +129,20 @@ async function inspect(viewport){
     assert.equal(await page.locator("[data-relative-order-help]").count(),0);
     await help.click();
     assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
-    assert.equal(await page.locator("[data-relative-order-help]").innerText(),
+    const helpPanel=page.locator("[data-relative-order-help]");
+    assert.equal(await helpPanel.innerText(),
       "Gunakan posisi yang terlihat. Isi slot bertanda tanya sesuai petunjuk.");
+    const helpStyle=await helpPanel.evaluate(el=>{
+      const style=getComputedStyle(el);
+      const rect=el.getBoundingClientRect();
+      return {background:style.backgroundColor,color:style.color,x:rect.x,right:rect.right,height:rect.height};
+    });
+    assert.equal(helpStyle.background,"rgb(255, 253, 244)",
+      "optional help must use an opaque light panel instead of dark text on scene art");
+    assert.equal(helpStyle.color,"rgb(25, 59, 85)",
+      "help must retain legible ink on its solid background");
+    assert(helpStyle.height>=30&&helpStyle.x>=-1&&helpStyle.right<=viewport.width+1,
+      `help panel must stay inside ${viewport.width}px viewport`);
     await captureEvidence(page,`${viewport.width}-relative-order-track-help.png`);
     await page.getByRole("button",{name:"Tutup bantuan"}).click();
 
