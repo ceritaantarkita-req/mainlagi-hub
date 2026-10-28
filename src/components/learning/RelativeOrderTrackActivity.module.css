@@ -415,3 +415,22 @@
   .promptIcon { width: 38px; height: 38px; }
   .choiceButton { min-height: 70px; }
 }
+
+/* A disclosure over the illustrated scene must have a readable surface.
+   Preserve the globally shared help typography while providing local contrast. */
+.helpPanel {
+  width: 100%;
+  margin: 0;
+  padding: 10px 14px;
+  border: 1px solid rgba(64, 93, 118, .23);
+  border-radius: 16px;
+  background: #fffdf4;
+  color: #193b55;
+  text-align: center;
+  box-shadow: 0 8px 18px rgba(26, 49, 77, .12);
+  overflow-wrap: break-word;
+  word-break: normal;
+}
+@media (max-width: 340px) {
+  .helpPanel { padding: 8px 10px; font-size: 14px; line-height: 1.3; }
+}
