@@ -6,9 +6,11 @@ import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isRelativeOrderTrackActivity } from "@/lib/learning/gameplayPresentation";
 import { relativeOrderTrackConfig } from "@/lib/learning/relativeOrderTrackConfig";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./RelativeOrderTrackActivity.module.css";
+import visualStyles from "./ChildVisualHierarchy.module.css";
 
 export function RelativeOrderTrackActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -19,12 +21,22 @@ export function RelativeOrderTrackActivity({ childId, activityId }: { childId: s
   const retryRef = useRef(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.relativeOrderTrackReady = "true";
   }, []);
 
   if (!activity || !config || !isRelativeOrderTrackActivity(activity) || !activity.correctChoice) return null;
+
+  // The missing position is never revealed before assessment; the original
+  // relation and cue remain visible learning material under the question.
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: "Apa isi tanda tanya?",
+    supportingHint: "Gunakan posisi yang terlihat. Isi slot bertanda tanya sesuai petunjuk."
+  });
 
   const choose = (choice: string) => {
     if (feedback === "good") return;
@@ -71,12 +83,12 @@ export function RelativeOrderTrackActivity({ childId, activityId }: { childId: s
     retryRef.current = 0;
     setSelected(null);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
       spacious
@@ -85,14 +97,23 @@ export function RelativeOrderTrackActivity({ childId, activityId }: { childId: s
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-relative-order-track
+        data-child-visual-hierarchy="relative-order-vsg08"
+        aria-label={hierarchy.contextTitle}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🛤️</span>
-          <div>
-            <h1>Ikuti jalur urutannya</h1>
-            <p>Gunakan posisi yang terlihat. Slot yang ditanya sengaja disembunyikan sampai kamu memilih.</p>
-          </div>
+          <h1 className={visualStyles.primaryInstruction} data-relative-order-primary-instruction>{hierarchy.primaryInstruction}</h1>
+          <button
+            type="button"
+            className={styles.helpButton}
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen(value => !value)}
+          >{helpOpen ? "×" : "?"}</button>
         </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={visualStyles.assistance} data-relative-order-help>{hierarchy.onDemandHelp}</p>
+        ) : null}
 
         <div className={styles.relationCard} data-relative-order-relation>
           <span>Petunjuk posisi</span>
@@ -142,19 +163,19 @@ export function RelativeOrderTrackActivity({ childId, activityId }: { childId: s
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? `💡 Belum tepat. ${config.cue}`
-              : `💡 ${config.cue}`}
+              ? "Belum tepat. Coba lagi!"
+              : ""}
         </div>
 
         {feedback === "good" ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>
