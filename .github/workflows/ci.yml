@@ -240,6 +240,17 @@ jobs:
           retention-days: 14
           include-hidden-files: true
 
+      # VSG-07: 5 viewport Transitive Chain original question + two premises.
+      - name: Upload VSG-07 Transitive Chain screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsg07-transitive-chain-screenshots
+          path: .vsg07-transitive-chain/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
       # 30 canonical idle/try/success captures + 10 on-demand Help states,
       # isolated from hundreds of unrelated mobile QA images for visual approval.
       - name: Upload VQA-08 Picture Word visual evidence

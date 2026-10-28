@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,7 +13,15 @@ const route="/child/demo-gian/activity/logic-transitive-height-abc";
 const activityId="logic-transitive-height-abc";
 const correctLabel="Pilih kesimpulan: A";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const evidenceDir=path.join(root,".vsg07-transitive-chain");
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
+async function captureEvidence(page,name){
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const shot=await page.screenshot({fullPage:true});
+  writeFileSync(path.join(screenshotDir,name),shot);
+  writeFileSync(path.join(evidenceDir,name),shot);
+}
 let server=null;
 let serverLog="";
 
@@ -110,6 +118,27 @@ async function inspect(viewport){
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept canonical Logic Wave C readiness at ${viewport.width}`);
 
+    const scene=page.locator('[data-transitive-chain][data-child-visual-hierarchy="transitive-chain-vsg07"]');
+    assert.equal(await scene.count(),1,"Transitive Chain opts into canonical child visual hierarchy");
+    const question=scene.getByRole("heading",{level:1,name:"Siapa paling tinggi?"});
+    assert.equal(await question.count(),1,"one canonical question replaces repeated heading and question card");
+    const questionBox=await question.boundingBox();
+    assert(questionBox&&questionBox.y>=0&&questionBox.y+questionBox.height<=viewport.height&&
+      questionBox.x>=0&&questionBox.x+questionBox.width<=viewport.width+1,
+      `canonical first question visible at ${viewport.width}px`);
+    assert.equal(await page.getByText("Sambungkan dua petunjuk",{exact:true}).count(),0);
+    assert.equal((await scene.locator(':scope > [role="status"]').textContent())?.trim(),"",
+      "no secondary idle instruction panel");
+    const help=page.getByRole("button",{name:"Cara main"});
+    assert.equal(await help.getAttribute("aria-expanded"),"false");
+    assert.equal(await page.locator("[data-transitive-help]").count(),0);
+    await help.click();
+    assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
+    assert.equal(await page.locator("[data-transitive-help]").innerText(),
+      "Baca dua hubungan berurutan, lalu tarik kesimpulan yang benar.");
+    await captureEvidence(page,`${viewport.width}-transitive-chain-help.png`);
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
+
     const choices=page.locator("[data-transitive-chain-choice]");
     assert.equal(await choices.count(),3,"transitive chain keeps three canonical choices");
     assert.deepEqual(new Set(await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")))),new Set([
@@ -127,17 +156,21 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"transitive-chain choices remain inside viewport");
     }
 
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-transitive-chain-idle.png`),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-transitive-chain-idle.png`);
 
     const wrongLabel=await keyboardWrongChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
-    await page.getByRole("status").filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await scene.locator(':scope > [role="status"]').textContent())?.trim(),"Belum tepat. Coba lagi!");
     assert.equal(await completed(page),false,"wrong conclusion cannot complete activity");
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-transitive-chain-try.png`),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-transitive-chain-try.png`);
 
     await page.getByRole("button",{name:correctLabel}).click();
-    await page.getByRole("status").filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector("[data-transitive-chain] > [role='status']")?.textContent?.includes("Tepat!"),
+      undefined,{timeout:2000});
+    assert.match((await scene.locator(':scope > [role="status"]').textContent())??"",
+      /A lebih tinggi dari B, dan B lebih tinggi dari C/,
+      "canonical logic explanation remains available to assistive technology");
     assert.equal(await completed(page),true,"correct conclusion completes canonical activity");
 
     const completion=page.locator("[data-activity-completion]");
@@ -165,7 +198,9 @@ async function inspect(viewport){
     assert.equal(state.retryCount,1);
     assert.equal(state.accuracy,0.5);
 
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-transitive-chain-success.png`),fullPage:false});
+    assert.equal(await completion.getByText("Hebat!",{exact:true}).count(),1,
+      "concise completion retains canonical three-star navigation");
+    await captureEvidence(page,`${viewport.width}-transitive-chain-success.png`);
     await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:2000});
@@ -187,7 +222,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Transitive-chain browser QA passed ${viewports.length} viewports with canonical Logic Wave C progression, keyboard wrong-state, pointer completion, two-premise chain layout, canonical Completion + local Again and assessed evidence checks.`);
+  console.log(`VSG-07 Transitive Chain QA passed ${viewports.length} viewports × idle/help/wrong/success with three nodes, two premises, one question, keyboard/replay and unchanged assessment.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
