@@ -229,6 +229,17 @@ jobs:
           retention-days: 14
           include-hidden-files: true
 
+      # VSG-06: five viewport Set Reasoning idle/help/wrong/success states.
+      - name: Upload VSG-06 Set Reasoning screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsg06-set-reasoning-screenshots
+          path: .vsg06-set-reasoning/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
       # 30 canonical idle/try/success captures + 10 on-demand Help states,
       # isolated from hundreds of unrelated mobile QA images for visual approval.
       - name: Upload VQA-08 Picture Word visual evidence

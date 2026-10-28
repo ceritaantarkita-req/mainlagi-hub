@@ -126,8 +126,22 @@ async function inspect(viewport){
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route,"progression guard must accept Wave C prerequisites at "+viewport.width);
 
-    assert.equal(await page.getByText("Cari pilihan yang cocok",{exact:true}).count(),1);
-    assert.equal(await page.getByText("Baca dua aturan, lalu pilih jawaban yang memenuhi keduanya.").count(),1);
+    const scene=page.locator('[data-set-reasoning][data-child-visual-hierarchy="set-reasoning-vsg06"]');
+    assert.equal(await scene.count(),1);
+    assert.equal(await scene.getByRole("heading",{level:1,name:"Mana yang cocok?"}).count(),1,
+      "reused base-stage set reasoning receives the same visible primary question");
+    assert.equal(await page.getByText("Cari pilihan yang cocok",{exact:true}).count(),0);
+    const headingBox=await scene.getByRole("heading",{name:"Mana yang cocok?"}).boundingBox();
+    assert(headingBox&&headingBox.y>=0&&headingBox.y+headingBox.height<=viewport.height,
+      "primary question must be visible, including at 320px");
+    const help=page.getByRole("button",{name:"Cara main"});
+    assert.equal(await help.getAttribute("aria-expanded"),"false");
+    assert.equal(await page.locator("[data-set-reasoning-help]").count(),0);
+    await help.click();
+    assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
+    assert.equal(await page.locator("[data-set-reasoning-help]").innerText(),
+      "Baca dua aturan, lalu pilih jawaban yang memenuhi keduanya.");
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
 
     const rules=page.locator("[data-set-rule]");
     assert.equal(await rules.count(),2);
@@ -155,27 +169,31 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"reused set-reasoning choices stay in viewport");
     }
 
-    const status=page.getByRole("status");
-    await assertFullyVisible(status,viewportHeight,"idle reused set-reasoning feedback at "+viewport.width);
+    const status=scene.locator(':scope > [role="status"]');
+    assert.equal((await status.textContent())?.trim(),"","no redundant idle instruction");
     mkdirSync(screenshotDir,{recursive:true});
     await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-set-reasoning-reuse-idle.png"),fullPage:false});
 
     const wrong=await keyboardWrongChoice(page);
     assert.notEqual(wrong,correctLabel);
-    await status.filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await status.textContent())?.trim(),"Belum tepat. Coba lagi!");
     assert.equal(await completed(page),false,"wrong reused set-reasoning answer cannot complete");
     assert.deepEqual(await choices.evaluateAll(nodes=>nodes.map(node=>node.disabled)),[false,false,false],"wrong answer keeps choices retryable");
-    await assertFullyVisible(status,viewportHeight,"retry reused set-reasoning feedback at "+viewport.width);
+
     await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-set-reasoning-reuse-try.png"),fullPage:false});
 
     const correct=page.getByRole("button",{name:correctLabel,exact:true});
     if(viewport.width===390)await correct.tap();else await correct.click();
-    await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector("[data-set-reasoning] > [role='status']")?.textContent?.includes("Tepat!"),undefined,{timeout:2000});
+    assert.match((await status.textContent())??"",/cocok dengan dua syarat/,
+      "reused canonical reasoning success stays announced for assistive tech");
     assert.equal(await completed(page),true,"correct reused set reasoning completes canonical activity");
 
     const completion=page.locator("[data-activity-completion]");
     await completion.waitFor({state:"visible",timeout:2000});
     await assertFullyVisible(completion,viewportHeight,"reused set-reasoning canonical Completion at "+viewport.width);
+    assert.equal(await completion.getByText("Hebat!",{exact:true}).count(),1);
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
