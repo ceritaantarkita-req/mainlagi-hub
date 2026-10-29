@@ -657,6 +657,7 @@
   font-size: .95rem;
   font-weight: 900;
 }
+.closeButton:focus-visible { outline: 3px solid #237baf; outline-offset: 3px; }
 .activityDisclosure summary:focus-visible { outline: 3px solid #237baf; outline-offset: 3px; }
 .activityList a:focus-visible, .resume button:focus-visible, .continueButton:focus-visible {
   outline: 3px solid #237baf;
