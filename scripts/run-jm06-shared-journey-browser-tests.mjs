@@ -112,13 +112,30 @@ async function inspectSubject(page,subject,title,stageIds){
   assert.equal(await browse.locator("li").count(),100,subject+" exact 100 activities");
   assert.equal(await page.locator('[data-mainlagi-jm02-header="v1"]').count(),1,subject+" JM-02 header owner");
   assert.equal(await page.locator("[data-stage-detail-open]").count(),0,subject+" no detail initially");
-  await nodes.first().click();
+  const opener=nodes.first();
+  await opener.click();
   const dialog=page.getByRole("dialog");
   await dialog.waitFor({state:"visible",timeout:3000});
   assert.equal(await dialog.locator("[data-stage-text-activity-list] img").count(),0,subject+" detail is text-only");
   assert.equal(await dialog.locator("[data-stage-continue]").count(),1,subject+" Continue exists");
+  const close=dialog.getByRole("button",{name:"Tutup detail stage"});
+  await page.waitForFunction(()=>
+    document.activeElement?.getAttribute("aria-label")==="Tutup detail stage",
+    undefined,{timeout:3000});
+  assert.equal(await close.evaluate(el=>el===document.activeElement),true,subject+" dialog receives keyboard focus");
+  await page.keyboard.press("Shift+Tab");
+  assert.equal(await dialog.locator("[data-stage-continue]").evaluate(el=>el===document.activeElement),true,
+    subject+" Shift+Tab wraps to last available dialog action, not background controls");
+  await page.keyboard.press("Tab");
+  assert.equal(await close.evaluate(el=>el===document.activeElement),true,
+    subject+" Tab wraps from final action to close button");
   await page.keyboard.press("Escape");
   await dialog.waitFor({state:"hidden",timeout:3000});
+  await page.waitForFunction(()=>
+    document.activeElement?.hasAttribute("data-journey-stage"),
+    undefined,{timeout:3000});
+  assert.equal(await opener.evaluate(el=>el===document.activeElement),true,
+    subject+" closing returns focus to the exact selected Stage");
   await noOverflow(page,subject);
 }
 async function verifyDrawingStageSharedCatalog(browser) {
