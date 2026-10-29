@@ -57,6 +57,29 @@
   hyphens: none;
 }
 
+/* Opt-in surface only for on-demand Cara main text over illustrated scenes.
+   Keep the plain .assistance type role for teaching content on existing cards. */
+.assistance.assistancePanel {
+  box-sizing: border-box;
+  width: min(100%, 54ch);
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 11px 15px;
+  border: 2px solid #dae2d7;
+  border-radius: 16px;
+  background: #fffdf4;
+  color: #193b55;
+  box-shadow: 0 6px 16px rgba(19, 43, 66, 0.12);
+  line-height: 1.38;
+  text-align: center;
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: none;
+}
+@media (max-width: 359px) {
+  .assistance.assistancePanel { padding: 9px 11px; }
+}
+
 /* A gameplay scene may provide its own essential board; this container
    introduces no extra rounded cream box, border, veil, or shadow. */
 .playfield {
