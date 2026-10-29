@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { assertReadableHelpPanel } from "./assert-child-help-contrast.mjs";
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -148,6 +149,7 @@ async function inspect(viewport){
     assert.equal(await page.locator("[data-rule-pipeline-help]").innerText(),
       "Ikuti aturan pertama, lihat hasil sementara, lalu gunakan aturan kedua.",
       "original step-by-step guidance remains accessible");
+    await assertReadableHelpPanel(page,"[data-rule-pipeline-help]",viewport.width,"rule-pipeline");
     await page.getByRole("button",{name:"Tutup bantuan"}).click();
     assert.equal(await page.locator("[data-rule-pipeline-help]").count(),0);
     const choices=page.locator("[data-rule-pipeline-choice]");
