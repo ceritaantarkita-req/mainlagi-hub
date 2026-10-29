@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,7 +13,15 @@ const route="/child/demo-gian/activity/logic-order-first-after-start";
 const activityId="logic-order-first-after-start";
 const correctLabel="Pilih posisi: C";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const evidenceDir=path.join(root,".vsg08-relative-order");
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
+async function captureEvidence(page,name){
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const shot=await page.screenshot({fullPage:true});
+  writeFileSync(path.join(screenshotDir,name),shot);
+  writeFileSync(path.join(evidenceDir,name),shot);
+}
 let server=null;
 let serverLog="";
 
@@ -88,12 +96,6 @@ async function keyboardWrongChoice(page){
   throw new Error("Keyboard navigation did not reach a wrong relative-order choice");
 }
 
-async function assertFullyVisible(locator,viewportHeight,label){
-  const box=await locator.boundingBox();
-  assert(box,`${label} must render`);
-  assert(box.y>=-1&&box.y+box.height<=viewportHeight+1,`${label} must remain fully visible in viewport`);
-}
-
 async function inspect(viewport){
   const browser=await chromium.launch({headless:true});
   try{
@@ -109,6 +111,40 @@ async function inspect(viewport){
     assert(response&&response.status()<400,`relative-order-track bad HTTP at ${viewport.width}`);
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept canonical Logic Wave B readiness at ${viewport.width}`);
+
+    const scene=page.locator('[data-relative-order-track][data-child-visual-hierarchy="relative-order-vsg08"]');
+    assert.equal(await scene.count(),1,"Relative Order opts into the shared child first-action system");
+    const question=scene.getByRole("heading",{level:1,name:"Apa isi tanda tanya?"});
+    assert.equal(await question.count(),1,"one visible child-first question");
+    const qbox=await question.boundingBox();
+    assert(qbox&&qbox.y>=0&&qbox.y+qbox.height<=viewport.height&&
+      qbox.x>=0&&qbox.x+qbox.width<=viewport.width+1,
+      `primary question must be visible at ${viewport.width}px, including 320px`);
+    assert.equal(await page.getByText("Ikuti jalur urutannya",{exact:true}).count(),0);
+    assert.equal((await scene.locator(':scope > [role="status"]').textContent())?.trim(),"",
+      "no duplicated instruction strip at idle");
+
+    const help=page.getByRole("button",{name:"Cara main"});
+    assert.equal(await help.getAttribute("aria-expanded"),"false");
+    assert.equal(await page.locator("[data-relative-order-help]").count(),0);
+    await help.click();
+    assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
+    const helpPanel=page.locator("[data-relative-order-help]");
+    assert.equal(await helpPanel.innerText(),
+      "Gunakan posisi yang terlihat. Isi slot bertanda tanya sesuai petunjuk.");
+    const helpStyle=await helpPanel.evaluate(el=>{
+      const style=getComputedStyle(el);
+      const rect=el.getBoundingClientRect();
+      return {background:style.backgroundColor,color:style.color,x:rect.x,right:rect.right,height:rect.height};
+    });
+    assert.equal(helpStyle.background,"rgb(255, 253, 244)",
+      "optional help must use an opaque light panel instead of dark text on scene art");
+    assert.equal(helpStyle.color,"rgb(25, 59, 85)",
+      "help must retain legible ink on its solid background");
+    assert(helpStyle.height>=30&&helpStyle.x>=-1&&helpStyle.right<=viewport.width+1,
+      `help panel must stay inside ${viewport.width}px viewport`);
+    await captureEvidence(page,`${viewport.width}-relative-order-track-help.png`);
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
 
     const nodes=page.locator("[data-relative-order-node]");
     assert.equal(await nodes.count(),4,"representative track keeps four canonical positions");
@@ -126,7 +162,6 @@ async function inspect(viewport){
     assert.equal(await completed(page),false,"idle relative-order track cannot complete activity");
 
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
-    const viewportHeight=await page.evaluate(()=>window.innerHeight);
     const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
     assert(scrollWidth<=viewportWidth+1,`relative-order track overflows horizontally at ${viewport.width}`);
     for(const box of await choices.evaluateAll(items=>items.map(node=>{const rect=node.getBoundingClientRect();return{width:rect.width,height:rect.height,left:rect.left,right:rect.right};}))){
@@ -134,22 +169,22 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"relative-order choices remain inside viewport");
     }
 
-    const status=page.getByRole("status");
-    await assertFullyVisible(status,viewportHeight,`idle relative-order feedback at ${viewport.width}`);
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-relative-order-track-idle.png`),fullPage:false});
+    const status=scene.locator(':scope > [role="status"]');
+    await captureEvidence(page,`${viewport.width}-relative-order-track-idle.png`);
 
     const wrongLabel=await keyboardWrongChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
-    await status.filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await status.textContent())?.trim(),"Belum tepat. Coba lagi!");
     assert.equal(await completed(page),false,"wrong relative position cannot complete activity");
-    await assertFullyVisible(status,viewportHeight,`retry relative-order feedback at ${viewport.width}`);
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-relative-order-track-try.png`),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-relative-order-track-try.png`);
 
     await page.getByRole("button",{name:correctLabel}).click();
-    await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector("[data-relative-order-track] > [role='status']")?.textContent?.includes("Tepat!"),
+      undefined,{timeout:2000});
+    assert.match((await status.textContent())??"",/C berada tepat setelah B/,
+      "canonical success explanation is screen-reader accessible");
     assert.equal(await completed(page),true,"correct relative position completes canonical activity");
-    await assertFullyVisible(status,viewportHeight,`success relative-order feedback at ${viewport.width}`);
     const completion=page.locator("[data-activity-completion]");
     await completion.waitFor({state:"visible",timeout:2000});
     const completionBox=await completion.boundingBox();
@@ -175,7 +210,9 @@ async function inspect(viewport){
     assert.equal(state.retryCount,1);
     assert.equal(state.accuracy,0.5);
 
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-relative-order-track-success.png`),fullPage:false});
+    assert.equal(await completion.getByText("Hebat!",{exact:true}).count(),1,
+      "concise completion retains canonical three-star navigation");
+    await captureEvidence(page,`${viewport.width}-relative-order-track-success.png`);
     await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:2000});
@@ -197,7 +234,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Relative-order-track browser QA passed ${viewports.length} viewports with canonical Logic Wave B readiness, keyboard wrong-state, pointer completion, masked target slot, feedback/canonical Completion visibility and assessed evidence checks.`);
+  console.log(`VSG-08 Relative Order QA passed ${viewports.length} viewports × idle/help/wrong/success; restored 320px question, masked slot, keyboard, evidence and completion.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);

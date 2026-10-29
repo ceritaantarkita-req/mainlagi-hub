@@ -251,6 +251,17 @@ jobs:
           retention-days: 14
           include-hidden-files: true
 
+      # VSG-08: 5 viewport Relative Order, original masked-slot and cue.
+      - name: Upload VSG-08 Relative Order screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vsg08-relative-order-screenshots
+          path: .vsg08-relative-order/
+          if-no-files-found: error
+          retention-days: 14
+          include-hidden-files: true
+
       # 30 canonical idle/try/success captures + 10 on-demand Help states,
       # isolated from hundreds of unrelated mobile QA images for visual approval.
       - name: Upload VQA-08 Picture Word visual evidence
