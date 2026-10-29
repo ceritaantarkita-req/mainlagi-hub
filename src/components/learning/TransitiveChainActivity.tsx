@@ -111,7 +111,7 @@ export function TransitiveChainActivity({ childId, activityId }: { childId: stri
           >{helpOpen ? "×" : "?"}</button>
         </div>
         {helpOpen && hierarchy.onDemandHelp ? (
-          <p className={visual.assistance} data-transitive-help>{hierarchy.onDemandHelp}</p>
+          <p className={`${visual.assistance} ${visual.assistancePanel}`} data-transitive-help>{hierarchy.onDemandHelp}</p>
         ) : null}
 
         <div className={styles.chainCard} role="group" aria-label="Rantai dua premis">

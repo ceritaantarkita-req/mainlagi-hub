@@ -126,7 +126,7 @@ export function InvestigationBoardActivity({ childId, activityId }: { childId: s
           >{helpOpen ? "×" : "?"}</button>
         </div>
         {helpOpen && hierarchy.onDemandHelp ? (
-          <p className={visual.assistance} data-investigation-help>{hierarchy.onDemandHelp}</p>
+          <p className={`${visual.assistance} ${visual.assistancePanel}`} data-investigation-help>{hierarchy.onDemandHelp}</p>
         ) : null}
 
         <div className={styles.processRail} role="list" aria-label="Langkah penyelidikan sains">

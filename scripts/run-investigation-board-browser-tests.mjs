@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { assertReadableHelpPanel } from "./assert-child-help-contrast.mjs";
 import { spawn } from "node:child_process";
 import { copyFileSync, mkdirSync } from "node:fs";
 import path from "node:path";
@@ -134,6 +135,7 @@ async function inspect(viewport){
     await page.getByRole("button",{name:"Cara main"}).click();
     assert.match(await page.locator("[data-investigation-help]").innerText(),
       /Baca bukti yang tersedia, lalu gunakan langkah sains yang tepat/);
+    await assertReadableHelpPanel(page,"[data-investigation-help]",viewport.width,"investigation-board");
     await page.getByRole("button",{name:"Tutup bantuan"}).click();
     assert.equal(await page.locator("[data-investigation-help]").count(),0);
     assert.equal(await page.locator("[data-investigation-step='observe'][aria-current='step']").count(),1,"representative activity highlights observe step");

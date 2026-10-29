@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { assertReadableHelpPanel } from "./assert-child-help-contrast.mjs";
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -140,6 +141,7 @@ async function inspect(viewport){
       "Baca dua aturan, lalu pilih jawaban yang memenuhi keduanya.",
       "canonical supplementary help remains available");
     await captureEvidence(page,`${viewport.width}-set-reasoning-help.png`);
+    await assertReadableHelpPanel(page,"[data-set-reasoning-help]",viewport.width,"set-reasoning");
     await page.getByRole("button",{name:"Tutup bantuan"}).click();
     const choices=page.locator("[data-set-reasoning-choice]");
     assert.equal(await choices.count(),3,"set reasoning keeps three canonical choices");

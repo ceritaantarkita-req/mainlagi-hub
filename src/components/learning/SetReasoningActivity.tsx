@@ -111,7 +111,7 @@ export function SetReasoningActivity({ childId, activityId }: { childId: string;
           >{helpOpen ? "×" : "?"}</button>
         </div>
         {helpOpen && hierarchy.onDemandHelp ? (
-          <p className={visualStyles.assistance} data-set-reasoning-help>{hierarchy.onDemandHelp}</p>
+          <p className={`${visualStyles.assistance} ${visualStyles.assistancePanel}`} data-set-reasoning-help>{hierarchy.onDemandHelp}</p>
         ) : null}
 
         <div className={styles.ruleBoard} role="group" aria-label="Dua aturan">

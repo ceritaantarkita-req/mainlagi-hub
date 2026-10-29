@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { assertReadableHelpPanel } from "./assert-child-help-contrast.mjs";
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -137,6 +138,7 @@ async function inspect(viewport){
     assert.equal(await page.locator("[data-transitive-help]").innerText(),
       "Baca dua hubungan berurutan, lalu tarik kesimpulan yang benar.");
     await captureEvidence(page,`${viewport.width}-transitive-chain-help.png`);
+    await assertReadableHelpPanel(page,"[data-transitive-help]",viewport.width,"transitive-chain");
     await page.getByRole("button",{name:"Tutup bantuan"}).click();
 
     const choices=page.locator("[data-transitive-chain-choice]");

@@ -114,7 +114,7 @@ export function RulePipelineActivity({ childId, activityId }: { childId: string;
           >{helpOpen ? "×" : "?"}</button>
         </div>
         {helpOpen && hierarchy.onDemandHelp ? (
-          <p className={visualStyles.assistance} data-rule-pipeline-help>{hierarchy.onDemandHelp}</p>
+          <p className={`${visualStyles.assistance} ${visualStyles.assistancePanel}`} data-rule-pipeline-help>{hierarchy.onDemandHelp}</p>
         ) : null}
 
         <div className={styles.pipeline} role="group" aria-label="Alur dua aturan">
