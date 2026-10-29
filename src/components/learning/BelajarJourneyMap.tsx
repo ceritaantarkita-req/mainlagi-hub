@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { buildBelajarJourneyMap, type BelajarJourneyMapStage } from "@/lib/learning/journeyMap";
 import { getActivitiesForStage, getStage, type LearningProgress, type LearningSubjectId } from "@/lib/learning/system";
 import type { LearningAnalyticsSnapshot } from "@/lib/learning/attempts";
@@ -29,15 +29,57 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
     [childId, subjectId, progress, analytics]
   );
   const [selectedStageId, setSelectedStageId] = useState<string | null>(null);
+  const stageTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const stageDialogRef = useRef<HTMLElement | null>(null);
+  const stageCloseButtonRef = useRef<HTMLButtonElement | null>(null);
+
+  const openStage = (id: string, trigger: HTMLButtonElement) => {
+    stageTriggerRef.current = trigger;
+    setSelectedStageId(id);
+  };
+
+  const closeStage = useCallback(() => {
+    const trigger = stageTriggerRef.current;
+    setSelectedStageId(null);
+    // After the dialog unmounts, return keyboard focus to the exact opener.
+    window.requestAnimationFrame(() => {
+      if (trigger?.isConnected && !trigger.disabled) trigger.focus();
+    });
+  }, []);
 
   useEffect(() => {
     if (!selectedStageId) return;
-    const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setSelectedStageId(null);
+    stageCloseButtonRef.current?.focus();
+    const handleDialogKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeStage();
+        return;
+      }
+      if (event.key !== "Tab") return;
+      const dialog = stageDialogRef.current;
+      if (!dialog) return;
+      const controls = Array.from(dialog.querySelectorAll<HTMLElement>(
+        'button:not([disabled]),a[href],summary,[tabindex]:not([tabindex="-1"])'
+      )).filter((element) => element.getClientRects().length > 0 && getComputedStyle(element).visibility !== "hidden");
+      if (!controls.length) {
+        event.preventDefault();
+        dialog.focus();
+        return;
+      }
+      const first = controls[0];
+      const last = controls[controls.length - 1];
+      if (event.shiftKey && (document.activeElement === first || document.activeElement === dialog)) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
-    window.addEventListener("keydown", closeOnEscape);
-    return () => window.removeEventListener("keydown", closeOnEscape);
-  }, [selectedStageId]);
+    window.addEventListener("keydown", handleDialogKeyDown);
+    return () => window.removeEventListener("keydown", handleDialogKeyDown);
+  }, [selectedStageId, closeStage]);
 
   if (!model) return null;
 
@@ -80,7 +122,7 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
       {currentStage ? (
         <section className={styles.resume} data-journey-resume>
           <div><span>Petualangan berikutnya</span><strong>{currentStage.title}</strong></div>
-          <button type="button" onClick={() => setSelectedStageId(currentStage.id)} aria-label={"Buka " + currentStage.title}>Ayo lanjut! <span aria-hidden="true">▶</span></button>
+          <button type="button" onClick={(event) => openStage(currentStage.id, event.currentTarget)} aria-label={"Buka " + currentStage.title}>Ayo lanjut! <span aria-hidden="true">▶</span></button>
         </section>
       ) : null}
 
@@ -104,7 +146,7 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
                   disabled={locked}
                   aria-current={stage.current ? "step" : undefined}
                   aria-label={`Stage ${stage.order}: ${stage.title}. ${qaUnlockAll && stage.locked ? "QA terbuka" : stageStateLabel(stage)}`}
-                  onClick={() => setSelectedStageId(stage.id)}
+                  onClick={(event) => openStage(stage.id, event.currentTarget)}
                 >
                   <span className={styles.stageNumber}>{stage.order}</span>
                   <span className={styles.stageEmoji} aria-hidden>{stage.emoji}</span>
@@ -158,8 +200,8 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
       </details>
 
       {selected && selectedCanonical ? (
-        <div className={styles.detailBackdrop} data-stage-detail-open onClick={() => setSelectedStageId(null)}>
-          <section className={styles.stageDetail} role="dialog" aria-modal="true" aria-labelledby={detailTitleId} onClick={(event) => event.stopPropagation()}>
+        <div className={styles.detailBackdrop} data-stage-detail-open onClick={closeStage}>
+          <section ref={stageDialogRef} tabIndex={-1} className={styles.stageDetail} role="dialog" aria-modal="true" aria-labelledby={detailTitleId} onClick={(event) => event.stopPropagation()}>
             <div className={styles.detailHandle} aria-hidden />
             <div className={styles.detailHead}>
               <div>
@@ -167,7 +209,7 @@ export function BelajarJourneyMap({ subjectId, childId, age, progress, analytics
                 <h2 id={detailTitleId}>{selected.title}</h2>
                 <span className={styles.visuallyHidden}>{selected.subtitle}</span>
               </div>
-              <button type="button" className={styles.closeButton} onClick={() => setSelectedStageId(null)} aria-label="Tutup detail stage">×</button>
+              <button type="button" ref={stageCloseButtonRef} className={styles.closeButton} onClick={closeStage} aria-label="Tutup detail stage">×</button>
             </div>
             <div className={styles.readiness}>
               <div className={styles.readinessTop}>
