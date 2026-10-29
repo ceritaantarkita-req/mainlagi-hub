@@ -166,9 +166,23 @@ async function testViewport(browser,size){
 
     await canvas.scrollIntoViewIfNeeded();
     b=await canvas.boundingBox();assert(b);
-    await page.mouse.move(b.x+b.width*.18,b.y+b.height*.3);
+    // On short landscape (568×320) the canvas is taller than the viewport.
+    // Compute a stroke within its *visible intersection*, not from
+    // percentages of a partially offscreen bounding box. Offscreen mouse
+    // coordinates do not dispatch the drawing pointer events in Chromium.
+    const top=Math.max(b.y,0);
+    const bottom=Math.min(b.y+b.height,size.height);
+    const left=Math.max(b.x,0);
+    const right=Math.min(b.x+b.width,size.width);
+    assert(bottom-top>=60&&right-left>=100,
+      tag+" canvas must expose an actual drawable intersection");
+    const startX=left+(right-left)*.22;
+    const endX=left+(right-left)*.78;
+    const startY=top+(bottom-top)*.32;
+    const endY=top+(bottom-top)*.68;
+    await page.mouse.move(startX,startY);
     await page.mouse.down();
-    await page.mouse.move(b.x+b.width*.78,b.y+b.height*.66,{steps:12});
+    await page.mouse.move(endX,endY,{steps:12});
     await page.mouse.up();
     assert.equal(await finish.isEnabled(),true,"pointer stroke enables Finish");
     const artwork=await pixels(canvas);
