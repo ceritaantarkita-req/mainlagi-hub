@@ -116,7 +116,7 @@ export function CauseEffectActivity({ childId, activityId }: { childId: string; 
           >{helpOpen ? "×" : "?"}</button>
         </div>
         {helpOpen && hierarchy.onDemandHelp ? (
-          <p className={visual.assistance} data-cause-effect-help>{hierarchy.onDemandHelp}</p>
+          <p className={`${visual.assistance} ${visual.assistancePanel}`} data-cause-effect-help>{hierarchy.onDemandHelp}</p>
         ) : null}
 
         <div className={styles.flow} role="group" aria-label="Urutan sebab dan akibat">
