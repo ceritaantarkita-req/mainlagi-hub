@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { assertReadableHelpPanel } from "./assert-child-help-contrast.mjs";
 import { spawn } from "node:child_process";
 import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -72,6 +73,7 @@ async function inspect(viewport){
     assert.equal(await page.locator("[data-cause-effect-help]").innerText(),
       "Apa hasil yang paling masuk akal setelah es menerima panas?",
       "science cue remains intact and accessible on demand");
+    await assertReadableHelpPanel(page,"[data-cause-effect-help]",viewport.width,"cause-effect");
     await page.getByRole("button",{name:"Tutup bantuan"}).click();
     assert.equal(await page.locator("[data-cause-effect-help]").count(),0);
     const questionBox=await page.getByRole("heading",{name:"Apa yang terjadi?"}).boundingBox();
