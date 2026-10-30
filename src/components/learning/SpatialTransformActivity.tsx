@@ -119,7 +119,7 @@ export function SpatialTransformActivity({ childId, activityId }: { childId: str
         </div>
         {helpOpen && hierarchy.onDemandHelp ? (
           <p className={`${visualStyles.assistance} ${visualStyles.assistancePanel}`} data-spatial-transform-help>{hierarchy.onDemandHelp}</p>
-        ) : null
+        ) : null}
 
         <div className={styles.transformBoard} role="group" aria-label="Transformasi arah">
           <div className={styles.startCard} data-transform-start={config.startDirection}>
