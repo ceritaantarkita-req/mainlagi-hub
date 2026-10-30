@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,7 +13,15 @@ const route="/child/demo-gian/activity/logic-spatial-halfturn-up";
 const activityId="logic-spatial-halfturn-up";
 const correctLabel="Pilih arah: bawah ↓";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const evidenceDir=path.join(root,".vsg12-spatial-transform");
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
+async function captureEvidence(page,name){
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const bytes=await page.screenshot({fullPage:true});
+  writeFileSync(path.join(screenshotDir,name),bytes);
+  writeFileSync(path.join(evidenceDir,name),bytes);
+}
 let server=null;
 let serverLog="";
 
@@ -88,12 +96,6 @@ async function keyboardWrongChoice(page){
   throw new Error("Keyboard navigation did not reach a wrong spatial-transform choice");
 }
 
-async function assertFullyVisible(locator,viewportHeight,label){
-  const box=await locator.boundingBox();
-  assert(box,`${label} must render`);
-  assert(box.y>=-1&&box.y+box.height<=viewportHeight+1,`${label} must remain fully visible in viewport`);
-}
-
 async function inspect(viewport){
   const browser=await chromium.launch({headless:true});
   try{
@@ -110,6 +112,28 @@ async function inspect(viewport){
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route,`progression guard must accept canonical Logic Wave C readiness at ${viewport.width}`);
 
+    const scene=page.locator('[data-spatial-transform][data-child-visual-hierarchy="spatial-transform-vsg12"]');
+    assert.equal(await scene.count(),1,"Spatial Transform uses the same opt-in child visual hierarchy");
+    const question=scene.getByRole("heading",{level:1,name:"Arah akhirnya ke mana?"});
+    assert.equal(await question.count(),1,"one visible answer-safe primary question");
+    const qbox=await question.boundingBox();
+    assert(qbox && qbox.y>=0 && qbox.y+qbox.height<=viewport.height &&
+      qbox.x>=0 && qbox.x+qbox.width<=viewport.width+1,
+      `primary question must be visible at ${viewport.width}px`);
+    assert.equal(await page.getByText("Putar arah di kepala",{exact:true}).count(),0,
+      "old duplicated heading removed");
+    assert.equal((await scene.locator(':scope > [role="status"]').textContent())?.trim(),"",
+      "idle state has no duplicate instruction status");
+    const help=page.getByRole("button",{name:"Cara main"});
+    assert.equal(await help.getAttribute("aria-expanded"),"false");
+    assert.equal(await page.locator("[data-spatial-transform-help]").count(),0);
+    await help.click();
+    assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
+    assert.equal(await page.locator("[data-spatial-transform-help]").innerText(),
+      "Lihat arah awal, ikuti putaran atau cermin, lalu pilih hasilnya.");
+    await captureEvidence(page,`${viewport.width}-spatial-transform-help.png`);
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
+
     const choices=page.locator("[data-spatial-transform-choice]");
     assert.equal(await choices.count(),3,"spatial transform keeps three canonical choices");
     assert.deepEqual(new Set(await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label")))),new Set([
@@ -123,7 +147,6 @@ async function inspect(viewport){
     assert.equal(await completed(page),false,"idle spatial-transform board cannot complete activity");
 
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
-    const viewportHeight=await page.evaluate(()=>window.innerHeight);
     const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
     assert(scrollWidth<=viewportWidth+1,`spatial-transform board overflows horizontally at ${viewport.width}`);
     for(const box of await choices.evaluateAll(nodes=>nodes.map(node=>{const rect=node.getBoundingClientRect();return{width:rect.width,height:rect.height,left:rect.left,right:rect.right};}))){
@@ -131,22 +154,23 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"spatial-transform choices remain inside viewport");
     }
 
-    const status=page.getByRole("status");
-    await assertFullyVisible(status,viewportHeight,`idle spatial-transform feedback at ${viewport.width}`);
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-spatial-transform-idle.png`),fullPage:false});
+    const status=scene.locator(':scope > [role="status"]');
+    await captureEvidence(page,`${viewport.width}-spatial-transform-idle.png`);
 
     const wrongLabel=await keyboardWrongChoice(page);
     assert.notEqual(wrongLabel,correctLabel);
-    await status.filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await status.textContent())?.trim(),"Belum tepat. Coba lagi!");
     assert.equal(await completed(page),false,"wrong transformed direction cannot complete activity");
-    await assertFullyVisible(status,viewportHeight,`retry spatial-transform feedback at ${viewport.width}`);
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-spatial-transform-try.png`),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-spatial-transform-try.png`);
 
     await page.getByRole("button",{name:correctLabel}).click();
-    await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector("[data-spatial-transform] > [role='status']")?.textContent?.includes("Tepat!"),
+      undefined,{timeout:2000});
+    assert.match((await status.textContent())??"",
+      /Panah atas setelah setengah putaran mengarah ke bawah/,
+      "canonical success explanation remains accessible");
     assert.equal(await completed(page),true,"correct transformed direction completes canonical activity");
-    await assertFullyVisible(status,viewportHeight,`success spatial-transform feedback at ${viewport.width}`);
     const completion=page.locator("[data-activity-completion]");
     await completion.waitFor({state:"visible",timeout:2000});
     const completionBox=await completion.boundingBox();
@@ -174,7 +198,9 @@ async function inspect(viewport){
     assert.equal(state.retryCount,1);
     assert.equal(state.accuracy,0.5);
 
-    await page.screenshot({path:path.join(screenshotDir,`${viewport.width}-spatial-transform-success.png`),fullPage:false});
+    assert.equal(await completion.getByText("Hebat!",{exact:true}).count(),1,
+      "concise completion preserves canonical three-star navigation");
+    await captureEvidence(page,`${viewport.width}-spatial-transform-success.png`);
     await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:2000});
@@ -196,7 +222,7 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log(`Spatial-transform browser QA passed ${viewports.length} viewports with canonical Logic Wave C progression, keyboard wrong-state, pointer completion, hidden-result transform board, feedback/canonical Completion visibility and assessed evidence checks.`);
+  console.log(`VSG-12 Spatial Transform browser QA passed ${viewports.length} viewports x idle/help/wrong/success, 320px question, transformation board, keyboard/retry, evidence and concise completion.`);
 }
 
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
