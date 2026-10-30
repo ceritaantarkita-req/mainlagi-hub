@@ -131,6 +131,13 @@ async function inspect(viewport){
     assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
     assert.equal(await page.locator("[data-spatial-transform-help]").innerText(),
       "Lihat arah awal, ikuti putaran atau cermin, lalu pilih hasilnya.");
+    const helpColor=await page.locator("[data-spatial-transform-help]").evaluate(node=>{
+      const style=getComputedStyle(node);
+      return {background:style.backgroundColor,color:style.color};
+    });
+    assert.equal(helpColor.background,"rgb(255, 253, 244)",
+      "Spatial Transform help uses the shared solid high-contrast panel");
+    assert.equal(helpColor.color,"rgb(25, 59, 85)");
     await captureEvidence(page,`${viewport.width}-spatial-transform-help.png`);
     await page.getByRole("button",{name:"Tutup bantuan"}).click();
 
