@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,7 +13,15 @@ const route="/child/demo-gian/activity/math-shape-find-circle";
 const activityId="math-shape-find-circle";
 const correctLabel="Pilih bentuk: lingkaran";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const evidenceDir=path.join(root,".vsg13-shape-attribute");
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
+async function captureEvidence(page,name){
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const screenshot=await page.screenshot({fullPage:true});
+  writeFileSync(path.join(screenshotDir,name),screenshot);
+  writeFileSync(path.join(evidenceDir,name),screenshot);
+}
 let server=null;
 let serverLog="";
 
@@ -98,10 +106,31 @@ async function inspect(viewport){
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route,"progression guard must accept prior Math readiness at "+viewport.width);
 
-    const scene=page.locator("[data-shape-attribute-board]");
+    const scene=page.locator('[data-shape-attribute-board][data-child-visual-hierarchy="shape-attribute-vsg13"]');
+    assert.equal(await scene.count(),1,"shape board adopts shared child hierarchy");
     assert.equal(await scene.getAttribute("data-shape-mode"),"identify_circle");
     assert.equal(await scene.getAttribute("data-shape-resolved"),"false");
-    assert.equal(await page.locator("[data-shape-cue]").getByText("Bandingkan bentuknya. Cari yang bulat tanpa sudut.").count(),1);
+    const question=scene.getByRole("heading",{level:1,name:"Bentuk mana yang bulat tanpa sudut?"});
+    assert.equal(await question.count(),1,"the original question is the single primary heading");
+    const qbox=await question.boundingBox();
+    assert(qbox&&qbox.x>=0&&qbox.x+qbox.width<=viewport.width+1&&
+      qbox.y>=0&&qbox.y+qbox.height<=viewport.height,
+      "visible first question must fit 320/390/430/768/1280 viewport");
+    assert.equal(await page.getByText("Amati bentuknya",{exact:true}).count(),0,
+      "redundant generic heading is removed");
+    assert.equal(await page.locator("[data-shape-cue]").count(),0,
+      "original explanatory cue is initially on demand, not a duplicate panel");
+    assert.equal((await scene.locator(':scope > [role="status"]').textContent())?.trim(),"",
+      "no repeated idle status instruction");
+    const help=page.getByRole("button",{name:"Cara main"});
+    assert.equal(await help.getAttribute("aria-expanded"),"false");
+    await help.click();
+    assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
+    assert.equal(await page.locator("[data-shape-cue]").innerText(),
+      "Bandingkan bentuknya. Cari yang bulat tanpa sudut.");
+    await captureEvidence(page,`${viewport.width}-shape-attribute-help.png`);
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
+    assert.equal(await page.locator("[data-shape-cue]").count(),0);
 
     const choices=page.locator("[data-shape-attribute-choice]");
     assert.equal(await choices.count(),3);
@@ -119,22 +148,22 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"shape choices remain inside viewport");
     }
 
-    const status=page.getByRole("status");
-    await assertFullyVisible(status,viewportHeight,"idle shape feedback at "+viewport.width);
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-shape-attribute-idle.png"),fullPage:false});
+    const status=scene.locator(':scope > [role="status"]');
+    await captureEvidence(page,`${viewport.width}-shape-attribute-idle.png`);
 
     await chooseWrongWithKeyboard(page);
-    await status.filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await status.textContent())?.trim(),"Belum tepat. Coba lagi!");
     assert.equal(await completed(page),false,"wrong shape choice cannot complete");
     assert.equal(await scene.getAttribute("data-shape-resolved"),"false");
     assert.deepEqual(await choices.evaluateAll(items=>items.map(node=>node.disabled)),[false,false,false],"wrong choice keeps all canonical choices retryable");
-    await assertFullyVisible(status,viewportHeight,"retry shape feedback at "+viewport.width);
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-shape-attribute-try.png"),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-shape-attribute-try.png`);
 
     const correct=page.getByRole("button",{name:correctLabel,exact:true});
     if(viewport.width===390)await correct.tap();else await correct.click();
-    await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector('[data-shape-attribute-board] > [role="status"]')?.textContent?.includes("Tepat!"),undefined,{timeout:2000});
+    assert.match((await status.textContent())??"",/Lingkaran tidak memiliki sudut/,
+      "canonical full success explanation must remain accessible");
     assert.equal(await completed(page),true);
     assert.equal(await scene.getAttribute("data-shape-resolved"),"true");
     const successDetail=page.locator("[data-shape-success-detail]");
@@ -161,7 +190,9 @@ async function inspect(viewport){
     assert.equal(attempt.metadata?.shapeMode,"identify_circle");
     assert.equal(attempt.metadata?.selectedChoice,"●");
 
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-shape-attribute-success.png"),fullPage:false});
+    assert.equal(await completion.getByText("Hebat!",{exact:true}).count(),1,
+      "canonical concise completion preserves three-star navigation");
+    await captureEvidence(page,`${viewport.width}-shape-attribute-success.png`);
     await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:2000});
@@ -181,6 +212,6 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log("Pattern 47 shape-attribute browser QA passed 3 viewports with keyboard wrong-state, pointer/actual-touch completion, assessed evidence and 9 screenshots.");
+  console.log("VSG-13 Shape Attribute QA passed 5 viewports × idle/help/wrong/success with canonical question, 3 shapes, keyboard/assessment, accessible explanation and 20 screenshots.");
 }
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
