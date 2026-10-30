@@ -118,7 +118,7 @@ export function SpatialTransformActivity({ childId, activityId }: { childId: str
           >{helpOpen ? "×" : "?"}</button>
         </div>
         {helpOpen && hierarchy.onDemandHelp ? (
-          <p className={visualStyles.assistance} data-spatial-transform-help>{hierarchy.onDemandHelp}</p>
+          <p className={`${visualStyles.assistance} ${visualStyles.assistancePanel}`} data-spatial-transform-help>{hierarchy.onDemandHelp}</p>
         ) : null
 
         <div className={styles.transformBoard} role="group" aria-label="Transformasi arah">
