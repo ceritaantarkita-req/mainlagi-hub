@@ -7,8 +7,10 @@ import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isSpatialTransformActivity } from "@/lib/learning/gameplayPresentation";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
 import { spatialTransformConfig } from "@/lib/learning/spatialTransformConfig";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./SpatialTransformActivity.module.css";
+import visualStyles from "./ChildVisualHierarchy.module.css";
 
 export function SpatialTransformActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -19,12 +21,22 @@ export function SpatialTransformActivity({ childId, activityId }: { childId: str
   const retryRef = useRef(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.spatialTransformReady = "true";
   }, []);
 
   if (!activity || !config || !isSpatialTransformActivity(activity) || !activity.correctChoice) return null;
+
+  // Child-first question stays answer-safe: the operation label and result
+  // slot remain evidence, and the correct direction is never revealed here.
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: "Arah akhirnya ke mana?",
+    supportingHint: "Lihat arah awal, ikuti putaran atau cermin, lalu pilih hasilnya."
+  });
 
   const choose = (choice: string) => {
     if (feedback === "good") return;
@@ -73,6 +85,7 @@ export function SpatialTransformActivity({ childId, activityId }: { childId: str
     retryRef.current = 0;
     setSelected(null);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   const transformSymbol = config.transformKind === "mirror"
@@ -82,7 +95,6 @@ export function SpatialTransformActivity({ childId, activityId }: { childId: str
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
       spacious
@@ -91,14 +103,23 @@ export function SpatialTransformActivity({ childId, activityId }: { childId: str
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-spatial-transform
+        data-child-visual-hierarchy="spatial-transform-vsg12"
+        aria-label={hierarchy.contextTitle}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🧭</span>
-          <div>
-            <h1>Putar arah di kepala</h1>
-            <p>Lihat arah awal dan transformasinya. Pilih arah akhirnya tanpa mengubah aturan.</p>
-          </div>
+          <h1 className={visualStyles.primaryInstruction} data-spatial-transform-primary-instruction>{hierarchy.primaryInstruction}</h1>
+          <button
+            type="button"
+            className={styles.helpButton}
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen((value) => !value)}
+          >{helpOpen ? "×" : "?"}</button>
         </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={visualStyles.assistance} data-spatial-transform-help>{hierarchy.onDemandHelp}</p>
+        ) : null
 
         <div className={styles.transformBoard} role="group" aria-label="Transformasi arah">
           <div className={styles.startCard} data-transform-start={config.startDirection}>
@@ -146,19 +167,19 @@ export function SpatialTransformActivity({ childId, activityId }: { childId: str
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? "💡 Belum tepat. Mulai dari panah awal, lakukan transformasi satu langkah demi satu langkah."
-              : "💡 Bayangkan panah bergerak sesuai operasi. Hasilnya belum ditampilkan sampai kamu memilih."}
+              ? "Belum tepat. Coba lagi!"
+              : ""}
         </div>
 
         {feedback === "good" ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>
