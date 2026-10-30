@@ -9,8 +9,10 @@ import {
   shapeAttributeBoardConfig
 } from "@/lib/learning/shapeAttributeBoardConfig";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./ShapeAttributeBoardActivity.module.css";
+import visualStyles from "./ChildVisualHierarchy.module.css";
 
 export function ShapeAttributeBoardActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -21,12 +23,22 @@ export function ShapeAttributeBoardActivity({ childId, activityId }: { childId: 
   const retryRef = useRef(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.shapeAttributeReady = "true";
   }, []);
 
   if (!activity || !config || !isShapeAttributeBoardActivity(activity) || !activity.correctChoice) return null;
+
+  // Canonical prompt, not a generic replacement heading: each of the four
+  // shape questions has a distinct child-facing meaning.
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: activity.prompt,
+    supportingHint: config.cue
+  });
 
   const choose = (choice: string) => {
     if (feedback === "good") return;
@@ -73,6 +85,7 @@ export function ShapeAttributeBoardActivity({ childId, activityId }: { childId: 
     retryRef.current = 0;
     setSelected(null);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   const resolved = feedback === "good";
@@ -80,7 +93,6 @@ export function ShapeAttributeBoardActivity({ childId, activityId }: { childId: 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
       spacious
@@ -89,22 +101,27 @@ export function ShapeAttributeBoardActivity({ childId, activityId }: { childId: 
         ref={sceneRef}
         className={`${styles.scene} ${resolved ? styles.sceneDone : ""}`}
         data-shape-attribute-board
+        data-child-visual-hierarchy="shape-attribute-vsg13"
+        aria-label={hierarchy.contextTitle}
         data-shape-mode={config.mode}
         data-shape-resolved={resolved ? "true" : "false"}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>📐</span>
-          <div>
-            <span className={styles.badge}>Kenali bentuk</span>
-            <h1>Amati bentuknya</h1>
-            <p>{activity.prompt}</p>
-          </div>
+          <h1 className={visualStyles.primaryInstruction} data-shape-primary-instruction>{hierarchy.primaryInstruction}</h1>
+          <button
+            type="button"
+            className={styles.helpButton}
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen((value) => !value)}
+          >{helpOpen ? "×" : "?"}</button>
         </div>
-
-        <div className={styles.cue} data-shape-cue>
-          <span aria-hidden>💡</span>
-          <span>{config.cue}</span>
-        </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={`${visualStyles.assistance} ${visualStyles.assistancePanel}`} data-shape-cue data-shape-help>
+            {hierarchy.onDemandHelp}
+          </p>
+        ) : null}
 
         <div className={styles.shapeMat} role="group" aria-label="Pilihan bentuk">
           {(activity.choices ?? []).map((choice, index) => {
@@ -131,15 +148,15 @@ export function ShapeAttributeBoardActivity({ childId, activityId }: { childId: 
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${resolved ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${resolved ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {resolved
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? "💡 Belum tepat. Amati bentuknya lagi lalu coba pilihan lain."
-              : "💡 Pilih satu bentuk yang paling sesuai dengan pertanyaan."}
+              ? "Belum tepat. Coba lagi!"
+              : ""}
         </div>
 
         {resolved ? (
@@ -150,7 +167,7 @@ export function ShapeAttributeBoardActivity({ childId, activityId }: { childId: 
         ) : null}
 
         {resolved ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>
