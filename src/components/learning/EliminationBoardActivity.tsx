@@ -6,8 +6,10 @@ import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { eliminationBoardConfig, isEliminationBoardActivity } from "@/lib/learning/eliminationBoardConfig";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./EliminationBoardActivity.module.css";
+import visualStyles from "./ChildVisualHierarchy.module.css";
 
 export function EliminationBoardActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -20,12 +22,22 @@ export function EliminationBoardActivity({ childId, activityId }: { childId: str
   const [selected, setSelected] = useState<string | null>(null);
   const [eliminatedChoices, setEliminatedChoices] = useState<string[]>([]);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.eliminationBoardReady = "true";
   }, []);
 
   if (!activity || !config || !isEliminationBoardActivity(activity) || !activity.correctChoice) return null;
+
+  // Keep the original variant-specific question and core elimination clue.
+  // Only the secondary explanation belongs behind optional Help.
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: activity.prompt,
+    supportingHint: config.hint
+  });
 
   const choose = (choice: string) => {
     if (feedback === "good") return;
@@ -80,12 +92,12 @@ export function EliminationBoardActivity({ childId, activityId }: { childId: str
     setSelected(null);
     setEliminatedChoices([]);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
       spacious
@@ -94,23 +106,31 @@ export function EliminationBoardActivity({ childId, activityId }: { childId: str
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-elimination-board
+        data-child-visual-hierarchy="elimination-vsg14"
+        aria-label={hierarchy.contextTitle}
         data-elimination-mode={config.mode}
         data-eliminated-count={eliminatedChoices.length}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🔎</span>
-          <div>
-            <span className={styles.badge}>Eliminasi</span>
-            <h1>Singkirkan lalu simpulkan</h1>
-            <p data-elimination-prompt>{activity.prompt}</p>
-          </div>
+          <h1 className={visualStyles.primaryInstruction} data-elimination-prompt>{hierarchy.primaryInstruction}</h1>
+          <button
+            type="button"
+            className={styles.helpButton}
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen(value => !value)}
+          >{helpOpen ? "×" : "?"}</button>
         </div>
-
         <div className={styles.clueCard} data-elimination-clue>
           <span className={styles.clueTag}>Petunjuk</span>
           <strong>{config.clueLabel}</strong>
-          <p>{config.hint}</p>
         </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={`${visualStyles.assistance} ${visualStyles.assistancePanel}`} data-elimination-help>
+            {hierarchy.onDemandHelp}
+          </p>
+        ) : null}
 
         <div className={styles.choiceGrid} role="group" aria-label="Pilihan untuk dieliminasi dan disimpulkan">
           {(activity.choices ?? []).map((choice, index) => {
@@ -139,15 +159,15 @@ export function EliminationBoardActivity({ childId, activityId }: { childId: str
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? "💡 Pilihan itu tersisih. Gunakan petunjuk lagi dan pilih kesimpulan yang paling tepat."
-              : "💡 Gunakan petunjuk untuk menyisihkan pilihan yang tidak cocok, lalu tentukan kesimpulannya."}
+              ? "Tersisih. Coba pilihan lain!"
+              : ""}
         </div>
 
         {feedback === "good" ? (
@@ -159,7 +179,7 @@ export function EliminationBoardActivity({ childId, activityId }: { childId: str
         ) : null}
 
         {feedback === "good" ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>
