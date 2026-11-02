@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,7 +13,15 @@ const route="/child/demo-gian/activity/logic-infer-not-red";
 const activityId="logic-infer-not-red";
 const correctLabel="Pilih kesimpulan: biru 🔵";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const evidenceDir=path.join(root,".vsg14-elimination-board");
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
+async function captureEvidence(page,name){
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const capture=await page.screenshot({fullPage:true});
+  writeFileSync(path.join(screenshotDir,name),capture);
+  writeFileSync(path.join(evidenceDir,name),capture);
+}
 let server=null;
 let serverLog="";
 
@@ -99,8 +107,28 @@ async function inspect(viewport){
     assert(response&&response.status()<400,"elimination-board bad HTTP at "+viewport.width);
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route);
-    const scene=page.locator("[data-elimination-board]");
+    const scene=page.locator('[data-elimination-board][data-child-visual-hierarchy="elimination-vsg14"]');
+    assert.equal(await scene.count(),1,"Elimination Board uses shared child hierarchy");
     assert.equal(await scene.getAttribute("data-elimination-mode"),"negative_exclusion");
+    const question=scene.getByRole("heading",{level:1,name:"Pilih yang bukan merah."});
+    assert.equal(await question.count(),1,"original question is the only dominant instruction");
+    const qbox=await question.boundingBox();
+    assert(qbox&&qbox.y>=0&&qbox.y+qbox.height<=viewport.height&&
+      qbox.x>=0&&qbox.x+qbox.width<=viewport.width+1,
+      "question visible before scroll on each representative viewport");
+    assert.equal(await page.getByText("Singkirkan lalu simpulkan",{exact:true}).count(),0);
+    assert.equal((await scene.locator(':scope > [role="status"]').textContent())?.trim(),"",
+      "idle status is no longer another instruction strip");
+    assert.equal(await page.locator("[data-elimination-help]").count(),0);
+    const help=page.getByRole("button",{name:"Cara main"});
+    assert.equal(await help.getAttribute("aria-expanded"),"false");
+    await help.click();
+    assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
+    assert.equal(await page.locator("[data-elimination-help]").innerText(),
+      "Periksa ciri warna tiap pilihan. Yang merah bisa kamu sisihkan.");
+    await captureEvidence(page,`${viewport.width}-elimination-board-help.png`);
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
+    assert.equal(await page.locator("[data-elimination-help]").count(),0);
     assert.equal(await scene.getAttribute("data-eliminated-count"),"0");
     assert.equal(await page.locator("[data-elimination-clue]").getByText("Cari yang bukan merah",{exact:true}).count(),1);
 
@@ -124,25 +152,25 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"elimination choices remain inside viewport");
     }
 
-    const status=page.getByRole("status");
-    await assertFullyVisible(status,viewportHeight,"idle elimination feedback");
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-elimination-board-idle.png"),fullPage:false});
+    const status=scene.locator(':scope > [role="status"]');
+    await captureEvidence(page,`${viewport.width}-elimination-board-idle.png`);
 
     const wrongLabel=await chooseWrongWithKeyboard(page);
     assert.notEqual(wrongLabel,correctLabel);
-    await status.filter({hasText:"tersisih"}).waitFor({state:"visible",timeout:2000});
+    await page.getByText("Tersisih. Coba pilihan lain!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await status.textContent())?.trim(),"Tersisih. Coba pilihan lain!");
     assert.equal(await completed(page),false,"wrong elimination cannot complete");
     assert.equal(await scene.getAttribute("data-eliminated-count"),"1");
     assert.equal(await page.locator('[data-elimination-state="eliminated"]').count(),1);
     assert.equal(await page.locator('[data-elimination-state="eliminated"]').getByText("Tersisih",{exact:true}).count(),1);
     assert.deepEqual(await choices.evaluateAll(items=>items.map(node=>node.disabled)),[false,false,false],"wrong choice remains present and retryable");
-    await assertFullyVisible(status,viewportHeight,"retry elimination feedback");
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-elimination-board-try.png"),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-elimination-board-try.png`);
 
     const correct=page.getByRole("button",{name:correctLabel});
     if(viewport.width===390)await correct.tap(); else await correct.click();
-    await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector('[data-elimination-board] > [role="status"]')?.textContent?.includes("Tepat!"),undefined,{timeout:2000});
+    assert.match((await status.textContent())??"",/Biru tidak termasuk pilihan merah/,
+      "full canonical correct-explanation remains available for screen readers");
     assert.equal(await completed(page),true,"correct elimination conclusion completes activity");
     assert.equal(await page.locator('[data-elimination-state="correct"]').count(),1);
     assert.equal(await page.locator("[data-elimination-conclusion]").getByText("biru 🔵",{exact:true}).count(),1);
@@ -172,7 +200,9 @@ async function inspect(viewport){
     assert.equal(state.retryCount,1);
     assert.equal(state.accuracy,0.5);
 
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-elimination-board-success.png"),fullPage:false});
+    assert.equal(await completion.getByText("Hebat!",{exact:true}).count(),1,
+      "concise completion preserves canonical navigation");
+    await captureEvidence(page,`${viewport.width}-elimination-board-success.png`);
     await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:2000});
@@ -193,6 +223,6 @@ async function main(){
   startServer();
   await waitForServer();
   for(const viewport of viewports)await inspect(viewport);
-  console.log("Pattern 45 elimination-board browser QA passed 3 viewports with Logic readiness, keyboard elimination, pointer/touch completion, touch targets, canonical choices, canonical Completion + local Again and assessed evidence.");
+  console.log("VSG-14 Elimination Board QA passed 5 viewports × idle/help/wrong/success with 3 choices, preserved clue, keyboard elimination, assessed evidence and concise completion.");
 }
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
