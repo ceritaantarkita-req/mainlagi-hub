@@ -80,6 +80,7 @@ export function SubitizingGlanceActivity({ childId, activityId }: { childId: str
     });
 
     completeActivity(childId, activity.id);
+    setHelpOpen(false);
     setFeedback("good");
   };
 
