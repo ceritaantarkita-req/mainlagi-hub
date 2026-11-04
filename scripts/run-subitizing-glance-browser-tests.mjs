@@ -374,10 +374,10 @@ async function inspectAdditionalVariants(viewport){
           "variant Help may be reopened before completion: "+variant.id);
         const correctButton=page.getByRole("button",{name:"Pilih jumlah "+variant.correct,exact:true});
         if(viewport.width===390)await correctButton.tap(); else await correctButton.click();
-        assert.equal(await page.locator("[data-subitizing-help]").count(),0,
-          "variant Help closes on success: "+variant.id);
         const completion=page.locator('[data-activity-completion]');
         await completion.waitFor({state:"visible",timeout:3000});
+        assert.equal(await page.locator("[data-subitizing-help]").count(),0,
+          "variant Help closes on success: "+variant.id);
         const record=await page.evaluate(id=>{
           const all=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
           return (all["demo-gian"]??[]).filter(a=>a.activityId===id);
