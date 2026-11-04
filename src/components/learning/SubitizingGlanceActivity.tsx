@@ -6,8 +6,10 @@ import { GardenActivityFrame } from "./GardenActivityFrame";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { isSubitizingGlanceActivity, subitizingGlanceConfig } from "@/lib/learning/subitizingGlanceConfig";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./SubitizingGlanceActivity.module.css";
+import visualStyles from "./ChildVisualHierarchy.module.css";
 
 export function SubitizingGlanceActivity({ childId, activityId }: { childId: string; activityId: string }) {
   const activity = getActivity(activityId);
@@ -18,6 +20,7 @@ export function SubitizingGlanceActivity({ childId, activityId }: { childId: str
   const retryRef = useRef(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.subitizingGlanceReady = "true";
@@ -25,6 +28,14 @@ export function SubitizingGlanceActivity({ childId, activityId }: { childId: str
 
   if (!activity || !config || !isSubitizingGlanceActivity(activity) || !activity.correctChoice) return null;
 
+  // Preserve the complete 3x3 stimulus and source narration; only simplify
+  // repeated first-action chrome for children on small screens.
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: activity.prompt,
+    supportingHint: config.cue
+  });
   const visibleCells = new Set(config.dotCells);
 
   const choose = (choice: string) => {
@@ -73,12 +84,12 @@ export function SubitizingGlanceActivity({ childId, activityId }: { childId: str
     retryRef.current = 0;
     setSelected(null);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
       spacious
@@ -87,19 +98,32 @@ export function SubitizingGlanceActivity({ childId, activityId }: { childId: str
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-subitizing-glance
+        data-child-visual-hierarchy="subitizing-vsg16"
+        aria-label={hierarchy.contextTitle}
         data-pattern-mode={config.mode}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>👀</span>
-          <div>
-            <span className={styles.badge}>Jumlah sekilas</span>
-            <h1>Lihat polanya</h1>
-            <p data-subitizing-prompt>{activity.prompt}</p>
-          </div>
+          <h1 className={visualStyles.primaryInstruction} data-subitizing-prompt>
+            {hierarchy.primaryInstruction}
+          </h1>
+          <button
+            type="button"
+            className={styles.helpButton}
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen(value => !value)}
+          >
+            {helpOpen ? "×" : "?"}
+          </button>
         </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={`${visualStyles.assistance} ${visualStyles.assistancePanel}`} data-subitizing-help>
+            {hierarchy.onDemandHelp}
+          </p>
+        ) : null}
 
         <div className={styles.board}>
-          <div className={styles.patternLabel}>Kenali pola titiknya</div>
           <div
             className={styles.dotGrid}
             role="img"
@@ -118,7 +142,6 @@ export function SubitizingGlanceActivity({ childId, activityId }: { childId: str
             ))}
           </div>
 
-          <div className={styles.choiceLabel}>Berapa jumlahnya?</div>
           <div className={styles.choices} role="group" aria-label="Pilihan jumlah">
             {(activity.choices ?? []).map((choice) => {
               const active = selected === choice;
@@ -147,19 +170,19 @@ export function SubitizingGlanceActivity({ childId, activityId }: { childId: str
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? `💡 Belum tepat. ${config.cue}`
-              : "💡 Lihat susunannya sebagai satu pola. Coba kenali jumlahnya tanpa menghitung satu-satu."}
+              ? "Belum tepat. Coba lagi!"
+              : ""}
         </div>
 
         {feedback === "good" ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>
