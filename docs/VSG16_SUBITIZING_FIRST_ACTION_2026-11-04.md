@@ -21,8 +21,11 @@ the copy stack; actual screenshot severity must be reviewed, not presumed.**
   do not shorten stimulus duration, hide dots, or reveal answers through Help.
 - Keep all three original number choices and their order, color/state feedback,
   keyboard/touch behavior and accessible `aria-label`.
-- Move exact `config.cue` behind the existing solid, high-contrast `Cara main (?)`
-  surface, 44px and keyboard operable; initially closed.
+- Show an **answer-safe generic** `Cara main (?)` hint before the first
+  attempt, 44px/keyboard operable and initially closed. Some original canonical
+  `config.cue` values *literally name the correct number* (e.g. "dua" and
+  "empat"), so expose the exact original cue **only after an incorrect answer**
+  in the same high-contrast Help panel. Never leak answer in pre-attempt Help.
 - Remove repeated pattern/choice subtitles; retain semantic group and pattern
   accessibility labels. Idle status empty; wrong = "Belum tepat. Coba lagi!";
   original successful reasoning remains announced to screen readers,
