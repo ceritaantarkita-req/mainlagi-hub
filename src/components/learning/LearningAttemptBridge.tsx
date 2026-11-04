@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useLayoutEffect, useRef } from "react";
 import { getActivity, readProgress } from "@/lib/learning/system";
 import { getActivityLearningSpec } from "@/lib/learning/catalog";
 import { readLearningAttempts, recordLearningAttempt, type LearningAttemptOutcome } from "@/lib/learning/attempts";
@@ -119,7 +119,10 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
   const statsRef = useRef<Map<string, RuntimeStats>>(new Map());
   const explicitOutcomeRef = useRef<Map<string, LearningAttemptOutcome>>(new Map());
 
-  useEffect(() => {
+  // Attach the click-capture evidence listener before the browser paints a
+  // hydrated choice. Passive effects may install after the first fast tap,
+  // causing the UI to show Try again while incorrectly scoring 0 mistakes.
+  useLayoutEffect(() => {
     const getStats = (activityId: string) => {
       const current = statsRef.current.get(activityId) ?? emptyStats();
       if (!statsRef.current.has(activityId)) statsRef.current.set(activityId, current);
@@ -262,7 +265,13 @@ export function LearningAttemptBridge({ childId }: { childId: string }) {
     document.addEventListener("click", onClickCapture, true);
     window.addEventListener(LEARNING_MEASUREMENT_EVENT, onMeasurement);
     window.addEventListener("mainlagi-learning-progress", onProgress);
+    // Deterministic readiness for browser QA: never click a server-rendered
+    // choice before the attempt observer has installed its handlers.
+    document.documentElement.dataset.mainlagiAttemptBridgeReady = childId;
     return () => {
+      if (document.documentElement.dataset.mainlagiAttemptBridgeReady === childId) {
+        delete document.documentElement.dataset.mainlagiAttemptBridgeReady;
+      }
       document.removeEventListener("click", onClickCapture, true);
       window.removeEventListener(LEARNING_MEASUREMENT_EVENT, onMeasurement);
       window.removeEventListener("mainlagi-learning-progress", onProgress);

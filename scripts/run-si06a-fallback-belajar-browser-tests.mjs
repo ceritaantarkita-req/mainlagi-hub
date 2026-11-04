@@ -184,11 +184,23 @@ async function assertNoOverflow(page,label){
   assert(metrics.html<=metrics.viewport+1&&metrics.body<=metrics.viewport+1,`${label}: horizontal overflow ${JSON.stringify(metrics)}`);
 }
 
+// A visible SSR choice is not evidence that the capture-phase assessment
+// listener is installed. This guard prevents a wrong click from reaching React
+// before LearningAttemptBridge can count the interaction.
+async function waitForAttemptBridge(page){
+  await page.waitForFunction(
+    () => document.documentElement.dataset.mainlagiAttemptBridgeReady === "demo-gian",
+    undefined,
+    {timeout:10000}
+  );
+}
+
 async function inspectChoice(browser){
   const context=await newContext(browser);
   const page=await context.newPage();
   try{
     const response=await page.goto(baseUrl+routes.choice,{waitUntil:"domcontentloaded",timeout:30000});
+    await waitForAttemptBridge(page);
     assert(response&&response.status()<400,"fallback choice route loads");
     const grid=page.locator("[data-choices]");
     await grid.waitFor({state:"visible",timeout:5000});
@@ -244,6 +256,7 @@ async function inspectMatching(browser){
   const page=await context.newPage();
   try{
     const response=await page.goto(baseUrl+routes.matching,{waitUntil:"domcontentloaded",timeout:30000});
+    await waitForAttemptBridge(page);
     assert(response&&response.status()<400,"fallback matching route loads");
     const board=page.locator("[data-visible-matching]");
     await board.waitFor({state:"visible",timeout:5000});
@@ -269,6 +282,7 @@ async function inspectTrace(browser){
   const page=await context.newPage();
   try{
     const response=await page.goto(baseUrl+routes.trace,{waitUntil:"domcontentloaded",timeout:30000});
+    await waitForAttemptBridge(page);
     assert(response&&response.status()<400,"fallback trace route loads");
     const canvas=page.getByLabel("Area menulis huruf A",{exact:true});
     await canvas.waitFor({state:"visible",timeout:5000});
@@ -299,6 +313,7 @@ async function inspectStory(browser){
   const page=await context.newPage();
   try{
     const response=await page.goto(baseUrl+routes.story,{waitUntil:"domcontentloaded",timeout:30000});
+    await waitForAttemptBridge(page);
     assert(response&&response.status()<400,"fallback story route loads");
     await page.getByText("Paca melihat Gavi duduk sendiri di taman.",{exact:true}).waitFor({state:"visible",timeout:5000});
     const finish=page.getByRole("button",{name:/Selesai/});

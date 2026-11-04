@@ -35,6 +35,14 @@ function DrawingCanvas({activity,onDone}:{activity:LearningActivity;onDone:()=>v
   const [strokes,setStrokes]=useState<Stroke[]>([]);
   const [color,setColor]=useState(PALETTE[0].hex);
   const [guide,setGuide]=useState(true);
+  // Give pointer-based QA a true post-hydration readiness signal. A server-
+  // rendered canvas can be visible before React's pointer handlers are active.
+  useLayoutEffect(()=>{
+    const canvas=canvasRef.current;
+    if(!canvas)return;
+    canvas.dataset.drawingHydrated="true";
+    return ()=>{delete canvas.dataset.drawingHydrated;};
+  },[]);
   const render=()=>{
     const canvas=canvasRef.current;
     const context=canvas?.getContext("2d");
