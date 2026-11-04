@@ -172,7 +172,9 @@ async function inspect(viewport){
     const help=page.getByRole("button",{name:"Cara main"});
     assert.equal(await help.getAttribute("aria-expanded"),"false");
     await help.click();
-    assert.equal(await page.locator("[data-subitizing-help]").innerText(),"Lihat empat sudutnya sebagai satu bentuk persegi.");
+    assert.equal(await page.locator("[data-subitizing-help]").innerText(),
+      "Lihat seluruh pola titik, lalu pilih angka yang cocok.",
+      "initial Help must not reveal the count");
     await captureEvidence(page,`${viewport.width}-subitizing-help.png`);
     await page.getByRole("button",{name:"Tutup bantuan"}).click();
     assert.equal(await page.locator("[data-subitizing-help]").count(),0);
@@ -211,6 +213,11 @@ async function inspect(viewport){
     assert.notEqual(wrong,correctLabel);
     await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
     assert.equal((await status.textContent())?.trim(),"Belum tepat. Coba lagi!");
+    await page.getByRole("button",{name:"Cara main"}).click();
+    assert.equal(await page.locator("[data-subitizing-help]").innerText(),
+      "Lihat empat sudutnya sebagai satu bentuk persegi.",
+      "canonical variant cue remains available only after wrong");
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
     assert.equal(await completed(page),false,"wrong subitizing answer cannot complete");
     assert.equal(await page.locator('[data-subitizing-dot="true"]').count(),4,"wrong answer does not hide or mutate the audited stimulus");
     await captureEvidence(page,`${viewport.width}-subitizing-try.png`);
@@ -342,7 +349,9 @@ async function inspectAdditionalVariants(viewport){
         const prefix=String(viewport.width)+"-subitizing-"+variant.slug+"-";
         await captureEvidence(page,prefix+"idle.png");
         await page.getByRole("button",{name:"Cara main"}).click();
-        assert.equal(await page.locator("[data-subitizing-help]").innerText(),variant.cue);
+        assert.equal(await page.locator("[data-subitizing-help]").innerText(),
+          "Lihat seluruh pola titik, lalu pilih angka yang cocok.",
+          "initial Help must remain answer-safe: "+variant.id);
         await captureEvidence(page,prefix+"help.png");
         await page.getByRole("button",{name:"Tutup bantuan"}).click();
         const wrong=variant.choiceLabels.find(x=>x!==variant.correct);
@@ -350,6 +359,10 @@ async function inspectAdditionalVariants(viewport){
         await wrongButton.focus();await page.keyboard.press("Enter");
         await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:3000});
         assert.equal(await scene.locator('[data-subitizing-dot="true"]').count(),variant.dots.length);
+        await page.getByRole("button",{name:"Cara main"}).click();
+        assert.equal(await page.locator("[data-subitizing-help]").innerText(),variant.cue,
+          "canonical specific cue only after wrong: "+variant.id);
+        await page.getByRole("button",{name:"Tutup bantuan"}).click();
         await captureEvidence(page,prefix+"try.png");
         const correctButton=page.getByRole("button",{name:"Pilih jumlah "+variant.correct,exact:true});
         if(viewport.width===390)await correctButton.tap(); else await correctButton.click();
