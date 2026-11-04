@@ -86,6 +86,33 @@ async function measure(page){
     };
   });
 }
+// A screenshot captured at DOMContentLoaded+100ms can preserve a transient
+// hydration state (observed: WebKit profile "Memuat profil..." and blank lazy
+// category/shop thumbnails) while reporting structural PASS. Stabilize first.
+async function settleRouteVisuals(page,route){
+  await page.waitForLoadState("load");
+  if(route.name==="child-select"){
+    await page.locator("[data-mainlagi-account-first-gate]").waitFor({state:"visible",timeout:15000});
+    await page.getByText("Memuat profil...",{exact:true}).waitFor({state:"hidden",timeout:15000});
+  }
+  // The evidence uses full-page screenshots; lazy images below the fold must
+  // not be mistaken for an approved blank or placeholder product card.
+  await page.evaluate(()=>{
+    for(const img of document.querySelectorAll('img[loading="lazy"]')){
+      img.loading="eager";
+    }
+  });
+  await page.waitForFunction(()=>{
+    const imgs=Array.from(document.images).filter(img=>{
+      const rect=img.getBoundingClientRect();
+      return rect.width>=12&&rect.height>=12&&Boolean(img.getAttribute("src")||img.currentSrc);
+    });
+    return imgs.every(img=>img.complete&&img.naturalWidth>0);
+  },undefined,{timeout:20000});
+  await page.evaluate(()=>document.fonts?.ready);
+  await page.waitForTimeout(240);
+}
+
 async function inspect(browser,route,viewport,isLandscape=false){
   const phone=viewport.width<=430||isLandscape;
   const context=await browser.newContext({
@@ -104,8 +131,7 @@ async function inspect(browser,route,viewport,isLandscape=false){
     state.httpStatus=response?.status()??0;
     await page.locator("main").first().waitFor({state:"visible",timeout:13000});
     await page.locator("h1").first().waitFor({state:"visible",timeout:13000});
-    await page.evaluate(()=>document.fonts?.ready);
-    await page.waitForTimeout(100);
+    await settleRouteVisuals(page,route);
     const metrics=await measure(page);
     state={...state,...metrics,pageErrors};
     const capture=screenshotWidths.has(viewport.width)||(isLandscape&&landscapeRoutes.has(route.name));
