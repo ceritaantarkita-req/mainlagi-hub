@@ -102,6 +102,11 @@ async function inspectDrawing(browser){
     assert(response&&response.status()<400,"Drawing creative route loads");
     const canvas=page.getByLabel("Kanvas menggambar",{exact:true});
     await canvas.waitFor({state:"visible",timeout:5000});
+    await page.waitForFunction(()=>
+      document.querySelector('canvas[aria-label="Kanvas menggambar"]')?.getAttribute("data-drawing-hydrated")==="true",
+      undefined,{timeout:7000}
+    );
+    const emptyCanvas=await canvas.evaluate(node=>node.toDataURL());
     assert.equal(await page.locator('[data-activity-completion]').count(),0,"fresh Drawing workspace is not covered by Completion");
 
     const box=await canvas.boundingBox();
@@ -112,9 +117,18 @@ async function inspectDrawing(browser){
     await page.mouse.up();
 
     const finish=page.getByRole("button",{name:"Selesai",exact:true});
+    await page.waitForFunction(()=>
+      Array.from(document.querySelectorAll("button")).some(button=>
+        button.textContent?.trim()==="Selesai"&&!button.disabled),
+      undefined,{timeout:5000}
+    );
     assert.equal(await finish.isEnabled(),true,"Drawing finish enables after a stroke");
+    await page.waitForFunction(empty=>{
+      const surface=document.querySelector('canvas[aria-label="Kanvas menggambar"]');
+      return surface instanceof HTMLCanvasElement && surface.toDataURL()!==empty;
+    },emptyCanvas,{timeout:5000});
     const artworkBefore=await canvas.evaluate(node=>node.toDataURL());
-    assert(artworkBefore.length>100,"Drawing stroke produces canvas pixels");
+    assert.notEqual(artworkBefore,emptyCanvas,"Drawing stroke genuinely changes canvas pixels");
 
     await finish.click();
     const completion=await canonicalCompletion(page,"Drawing");
