@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,7 +13,15 @@ const route="/child/demo-gian/activity/logic-if-red-then-circle";
 const activityId="logic-if-red-then-circle";
 const correctLabel="Pilih hasil: 🔴 lingkaran";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const evidenceDir=path.join(root,".vsg15-single-rule");
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
+async function captureEvidence(page,name) {
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const shot=await page.screenshot({fullPage:true});
+  writeFileSync(path.join(screenshotDir,name),shot);
+  writeFileSync(path.join(evidenceDir,name),shot);
+}
 let server=null;
 let serverLog="";
 
@@ -78,12 +86,6 @@ async function chooseWrongWithKeyboard(page){
   }
   throw new Error("Keyboard navigation did not reach a wrong single-rule choice");
 }
-async function assertFullyVisible(locator,viewportHeight,label){
-  const box=await locator.boundingBox();
-  assert(box,label+" must render");
-  assert(box.y>=-1&&box.y+box.height<=viewportHeight+1,label+" must remain fully visible");
-}
-
 async function inspect(viewport){
   const browser=await chromium.launch({headless:true});
   try{
@@ -99,6 +101,27 @@ async function inspect(viewport){
     assert(response&&response.status()<400,"single-rule bad HTTP at "+viewport.width);
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route);
+    const scene=page.locator('[data-single-rule-apply][data-child-visual-hierarchy="single-rule-vsg15"]');
+    assert.equal(await scene.count(),1,"uses existing child-first hierarchy");
+    const heading=scene.getByRole("heading",{level:1,name:"Aturannya: jika merah, pilih lingkaran. Mana yang benar?"});
+    assert.equal(await heading.count(),1,"canonical original question remains prominent");
+    const qbox=await heading.boundingBox();
+    assert(qbox&&qbox.y>=0&&qbox.y+qbox.height<=viewport.height&&
+      qbox.x>=0&&qbox.x+qbox.width<=viewport.width+1,
+      "first action visible at 320/390/430/768/1280px");
+    assert.equal(await page.getByText("Terapkan aturannya",{exact:true}).count(),0);
+    const status=scene.locator(':scope > [role="status"]');
+    assert.equal((await status.textContent())?.trim(),"","no repeated idle status");
+    const help=page.getByRole("button",{name:"Cara main"});
+    assert.equal(await help.getAttribute("aria-expanded"),"false");
+    assert.equal(await page.locator("[data-single-rule-help]").count(),0);
+    await help.click();
+    assert.equal(await page.getByRole("button",{name:"Tutup bantuan"}).getAttribute("aria-expanded"),"true");
+    assert.equal(await page.locator("[data-single-rule-help]").innerText(),
+      "Cocokkan kondisi merah dengan bentuk yang diminta aturan.");
+    await captureEvidence(page,`${viewport.width}-single-rule-help.png`);
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
+    assert.equal(await page.locator("[data-single-rule-help]").count(),0);
     assert.equal(await page.locator("[data-single-rule-rule]").count(),1);
     assert.equal(await page.locator("[data-single-rule-input]").count(),1);
     assert.equal(await page.locator("[data-single-rule-target]").getAttribute("data-single-rule-target-state"),"unknown");
@@ -110,7 +133,6 @@ async function inspect(viewport){
     assert.equal(await choices.count(),3);
     assert.deepEqual(new Set(await choices.evaluateAll(items=>items.map(node=>node.getAttribute("aria-label")))),new Set(["Pilih hasil: 🔴 lingkaran","Pilih hasil: 🔴 segitiga","Pilih hasil: 🔵 lingkaran"]));
     const viewportWidth=await page.evaluate(()=>document.documentElement.clientWidth);
-    const viewportHeight=await page.evaluate(()=>window.innerHeight);
     const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
     assert(scrollWidth<=viewportWidth+1,"single-rule overflows horizontally at "+viewport.width);
     for(const box of await choices.evaluateAll(items=>items.map(node=>{const rect=node.getBoundingClientRect();return{width:rect.width,height:rect.height,left:rect.left,right:rect.right};}))){
@@ -118,21 +140,22 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"single-rule choices remain inside viewport");
     }
 
-    const status=page.getByRole("status");
-    await assertFullyVisible(status,viewportHeight,"idle single-rule feedback");
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-single-rule-idle.png"),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-single-rule-idle.png`);
 
     const wrong=await chooseWrongWithKeyboard(page);
     assert.notEqual(wrong,correctLabel);
-    await status.filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await status.textContent())?.trim(),"Belum tepat. Coba lagi!");
     assert.equal(await completed(page),false,"wrong single-rule answer cannot complete");
     assert.equal(await page.locator("[data-single-rule-target]").getAttribute("data-single-rule-target-state"),"unknown");
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-single-rule-try.png"),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-single-rule-try.png`);
 
     const correct=page.getByRole("button",{name:correctLabel});
     if(viewport.width===390)await correct.tap(); else await correct.click();
-    await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector('[data-single-rule-apply] > [role="status"]')?.textContent?.includes("Tepat!"),
+      undefined,{timeout:2000});
+    assert.match((await status.textContent())??"",/Pilihan merah berbentuk lingkaran memenuhi satu aturan/,
+      "full canonical success explanation remains accessible");
     assert.equal(await completed(page),true,"correct single-rule answer completes canonical activity");
     assert.equal(await page.locator("[data-single-rule-target]").getAttribute("data-single-rule-target-state"),"complete");
     assert.equal(await page.locator("[data-single-rule-target]").getByText("🔴 lingkaran",{exact:true}).count(),1);
@@ -159,7 +182,9 @@ async function inspect(viewport){
     assert.equal(state.retryCount,1);
     assert.equal(state.accuracy,0.5);
 
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-single-rule-success.png"),fullPage:false});
+    assert.equal(await completion.getByText("Hebat!",{exact:true}).count(),1,
+      "concise completion preserves canonical star navigation");
+    await captureEvidence(page,`${viewport.width}-single-rule-success.png`);
     await page.evaluate(()=>{window.__si06eReplayMarker="alive";});
     await completion.locator('[data-completion-action="again"]').click();
     await completion.waitFor({state:"hidden",timeout:2000});
@@ -176,10 +201,120 @@ async function inspect(viewport){
     await browser.close();
   }
 }
+
+// VSG-15 release gate: explicitly sample ALL four remaining canonical variants.
+// Keeping them separate from the red-circle deep regression prevents a single
+// representative from being mistaken for five-variant visual approval.
+const otherVariants=[
+  {
+    id:"logic-if-two-then-star",slug:"two-stars",mode:"constraint_match",
+    prompt:"Aturannya: jika jumlahnya 2, pilih bintang. Mana yang cocok?",
+    rule:"Jika jumlahnya 2, pilih bintang.",cue:"Periksa jumlah dan bentuk sekaligus.",
+    labels:["★★","●●","★★★"],correct:"★★"
+  },
+  {
+    id:"logic-rule-small-goes-left",slug:"small-left",mode:"constraint_match",
+    prompt:"Aturannya: benda kecil harus di kiri benda besar. Mana susunan yang benar?",
+    rule:"Benda kecil harus di kiri benda besar.",cue:"Cari susunan dengan benda kecil di sebelah kiri benda besar.",
+    labels:["●  ⬤","⬤  ●","⬤  ⬤"],correct:"●  ⬤"
+  },
+  {
+    id:"logic-rule-up-means-one",slug:"arrow-mapping",mode:"symbol_mapping",
+    prompt:"Aturannya: ↑ berarti satu titik dan → berarti dua titik. Apa pasangan untuk → ?",
+    rule:"↑ berarti satu titik; → berarti dua titik.",cue:"Gunakan pasangan yang diberikan untuk panah kanan.",
+    labels:["●●","●","●●●"],correct:"●●"
+  },
+  {
+    id:"logic-rule-switch-shape",slug:"shape-transform",mode:"single_transform",
+    prompt:"Aturannya: lingkaran berubah jadi segitiga. Jika mulai dari ●, hasilnya?",
+    rule:"Lingkaran berubah menjadi segitiga.",cue:"Terapkan satu perubahan dari bentuk awal.",
+    labels:["▲","■","●"],correct:"▲"
+  }
+];
+async function inspectOtherVariants(viewport){
+  const browser=await chromium.launch({headless:true});
+  try{
+    for(const variant of otherVariants){
+      const context=await browser.newContext({viewport,reducedMotion:"reduce",hasTouch:viewport.width===390});
+      try{
+        await seedPrerequisiteReadiness(context);
+        const page=await context.newPage();
+        const errors=[];
+        page.on("pageerror",error=>errors.push(error.message));
+        const targetRoute="/child/demo-gian/activity/"+variant.id;
+        const response=await page.goto(baseUrl+targetRoute,{waitUntil:"domcontentloaded",timeout:30000});
+        assert(response&&response.status()<400,"other variant bad HTTP: "+variant.id);
+        await waitForScene(page);
+        assert.equal(new URL(page.url()).pathname,targetRoute,"canonical route accessible: "+variant.id);
+        const scene=page.locator('[data-single-rule-apply][data-child-visual-hierarchy="single-rule-vsg15"]');
+        assert.equal(await scene.count(),1,"canonical VSG-15 hierarchy: "+variant.id);
+        assert.equal(await scene.getAttribute("data-rule-mode"),variant.mode);
+        const heading=scene.getByRole("heading",{level:1,name:variant.prompt,exact:true});
+        assert.equal(await heading.count(),1,"one original first-action question: "+variant.id);
+        const headingBox=await heading.boundingBox();
+        assert(headingBox&&headingBox.x>=-1&&headingBox.x+headingBox.width<=viewport.width+1&&
+          headingBox.y>=-1&&headingBox.y+headingBox.height<=viewport.height+1,
+          "primary question initially visible: "+variant.id+" "+viewport.width);
+        assert.equal(await scene.locator('[data-single-rule-rule]').innerText().then(s=>s.includes(variant.rule)),true);
+        assert.equal(await scene.locator('[data-single-rule-target]').getAttribute("data-single-rule-target-state"),"unknown");
+        assert.equal(await scene.locator('[data-single-rule-target]').getByText("?",{exact:true}).count(),1);
+        const choiceButtons=scene.locator("[data-single-rule-choice]");
+        assert.equal(await choiceButtons.count(),3);
+        assert.deepEqual(new Set(await choiceButtons.evaluateAll(items=>items.map(item=>item.getAttribute("aria-label")))),
+          new Set(variant.labels.map(label=>"Pilih hasil: "+label)),"all original choices: "+variant.id);
+        const vw=await page.evaluate(()=>document.documentElement.clientWidth);
+        const sw=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
+        assert(sw<=vw+1,"horizontal overflow: "+variant.id+" "+viewport.width);
+        const boxes=await choiceButtons.evaluateAll(items=>items.map(item=>{const r=item.getBoundingClientRect();return{w:r.width,h:r.height,left:r.left,right:r.right};}));
+        for(const box of boxes)assert(box.w>=44&&box.h>=44&&box.left>=-1&&box.right<=vw+1,"invalid touch target: "+variant.id);
+        const prefix=String(viewport.width)+"-single-rule-"+variant.slug+"-";
+        await captureEvidence(page,prefix+"idle.png");
+        const help=page.getByRole("button",{name:"Cara main"});
+        await help.click();
+        assert.equal(await page.locator("[data-single-rule-help]").innerText(),variant.cue);
+        await captureEvidence(page,prefix+"help.png");
+        await page.getByRole("button",{name:"Tutup bantuan"}).click();
+        const wrong=variant.labels.find(x=>x!==variant.correct);
+        const wrongButton=page.getByRole("button",{name:"Pilih hasil: "+wrong,exact:true});
+        await wrongButton.focus();
+        await page.keyboard.press("Enter");
+        const status=scene.locator(':scope > [role="status"]');
+        await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:3000});
+        assert.equal(await scene.locator('[data-single-rule-target]').getAttribute("data-single-rule-target-state"),"unknown");
+        await captureEvidence(page,prefix+"try.png");
+        const correctButton=page.getByRole("button",{name:"Pilih hasil: "+variant.correct,exact:true});
+        if(viewport.width===390)await correctButton.tap();else await correctButton.click();
+        await page.locator("[data-activity-completion]").waitFor({state:"visible",timeout:4000});
+        assert.equal(await scene.locator('[data-single-rule-target]').getAttribute("data-single-rule-target-state"),"complete");
+        assert((await status.textContent()??"").includes("Tepat!"),"canonical success feedback: "+variant.id);
+        const attempts=await page.evaluate(id=>{
+          const data=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+          return(data["demo-gian"]??[]).filter(item=>item.activityId===id);
+        },variant.id);
+        assert.equal(attempts.length,1,"exactly one assessed attempt: "+variant.id);
+        assert.equal(attempts[0].accuracy,0.5,"one keyboard retry must yield 0.5 accuracy: "+variant.id);
+        assert.equal(attempts[0].metadata?.ruleMode,variant.mode);
+        assert.equal(attempts[0].metadata?.selectedChoice,variant.correct);
+        await captureEvidence(page,prefix+"success.png");
+        await page.locator('[data-completion-action="again"]').click();
+        await page.locator("[data-activity-completion]").waitFor({state:"hidden",timeout:3000});
+        assert.deepEqual(errors,[],"no browser errors: "+variant.id+" "+viewport.width);
+      }finally{
+        await context.close();
+      }
+    }
+  }finally{
+    await browser.close();
+  }
+}
+
 async function main(){
   startServer();
   await waitForServer();
-  for(const viewport of viewports)await inspect(viewport);
-  console.log("Pattern 43 browser QA passed 3 viewports with Logic readiness, hidden target, keyboard retry, pointer/touch completion, touch targets, canonical Completion + local Again and assessed evidence checks.");
+  for(const viewport of viewports){
+    await inspect(viewport);
+    if([320,390,768].includes(viewport.width))await inspectOtherVariants(viewport);
+  }
+  console.log("VSG-15 Single Rule Apply QA passed 5 viewports and 4 additional canonical variants across 320/390/768 idle/help/wrong/success.");
 }
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);

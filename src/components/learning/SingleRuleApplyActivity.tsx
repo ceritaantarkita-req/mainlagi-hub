@@ -10,8 +10,10 @@ import {
   type SingleRuleChoiceVisual
 } from "@/lib/learning/singleRuleApplyConfig";
 import { emitLearningRuntimeMeasurement } from "@/lib/learning/runtimeMeasurement";
+import { planChildVisualHierarchy } from "@/lib/learning/childVisualHierarchy";
 import { completeActivity, getActivity } from "@/lib/learning/system";
 import styles from "./SingleRuleApplyActivity.module.css";
+import visualStyles from "./ChildVisualHierarchy.module.css";
 
 function ChoiceVisual({ visual }: { visual: SingleRuleChoiceVisual }) {
   return (
@@ -30,12 +32,22 @@ export function SingleRuleApplyActivity({ childId, activityId }: { childId: stri
   const retryRef = useRef(0);
   const [selected, setSelected] = useState<string | null>(null);
   const [feedback, setFeedback] = useState<"idle" | "try" | "good">("idle");
+  const [helpOpen, setHelpOpen] = useState(false);
 
   useEffect(() => {
     if (sceneRef.current) sceneRef.current.dataset.singleRuleApplyReady = "true";
   }, []);
 
   if (!activity || !config || !isSingleRuleApplyActivity(activity) || !activity.correctChoice) return null;
+
+  // One original answer-safe question. The rule, input and unknown output
+  // remain the essential separate learning board; no answer is leaked.
+  const hierarchy = planChildVisualHierarchy({
+    mode: "choice",
+    activityTitle: activity.title,
+    visibleInstruction: activity.prompt,
+    supportingHint: config.cue
+  });
 
   const correctVisual = config.choiceVisuals.find((visual) => visual.label === activity.correctChoice);
   if (!correctVisual) return null;
@@ -85,12 +97,12 @@ export function SingleRuleApplyActivity({ childId, activityId }: { childId: stri
     retryRef.current = 0;
     setSelected(null);
     setFeedback("idle");
+    setHelpOpen(false);
   };
 
   return (
     <GardenActivityFrame
       backHref={`/child/${childId}/subject/${activity.subjectId}`}
-      title={activity.title}
       narration={activity.prompt ?? activity.title}
       lang="id-ID"
       spacious
@@ -99,16 +111,26 @@ export function SingleRuleApplyActivity({ childId, activityId }: { childId: stri
         ref={sceneRef}
         className={`${styles.scene} ${feedback === "good" ? styles.sceneDone : ""}`}
         data-single-rule-apply
+        data-child-visual-hierarchy="single-rule-vsg15"
+        aria-label={hierarchy.contextTitle}
         data-rule-mode={config.mode}
       >
         <div className={styles.promptCard}>
           <span className={styles.promptIcon} aria-hidden>🧠</span>
-          <div>
-            <span className={styles.badge}>Satu aturan</span>
-            <h1>Terapkan aturannya</h1>
-            <p data-single-rule-prompt>{activity.prompt}</p>
-          </div>
+          <h1 className={visualStyles.primaryInstruction} data-single-rule-prompt>{hierarchy.primaryInstruction}</h1>
+          <button
+            type="button"
+            className={styles.helpButton}
+            aria-label={helpOpen ? "Tutup bantuan" : "Cara main"}
+            aria-expanded={helpOpen}
+            onClick={() => setHelpOpen(value => !value)}
+          >{helpOpen ? "×" : "?"}</button>
         </div>
+        {helpOpen && hierarchy.onDemandHelp ? (
+          <p className={`${visualStyles.assistance} ${visualStyles.assistancePanel}`} data-single-rule-help>
+            {hierarchy.onDemandHelp}
+          </p>
+        ) : null}
 
         <div className={styles.ruleBoard} role="group" aria-label="Satu aturan dan kondisi">
           <div className={styles.ruleCard} data-single-rule-rule>
@@ -169,19 +191,19 @@ export function SingleRuleApplyActivity({ childId, activityId }: { childId: stri
         </div>
 
         <div
-          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.statusGood : ""}`}
+          className={`${styles.status} ${feedback === "try" ? styles.statusTry : ""} ${feedback === "good" ? styles.srOnly : ""}`}
           role="status"
           aria-live="polite"
         >
           {feedback === "good"
             ? `⭐ Tepat! ${config.successText}`
             : feedback === "try"
-              ? `💡 Belum tepat. ${config.cue}`
-              : `💡 ${config.cue}`}
+              ? "Belum tepat. Coba lagi!"
+              : ""}
         </div>
 
         {feedback === "good" ? (
-          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} />
+          <ActivityCompletion childId={childId} activity={activity} onTryAgain={restart} concise />
         ) : null}
       </section>
     </GardenActivityFrame>
