@@ -222,6 +222,9 @@ async function inspect(viewport){
     assert.equal(await page.locator('[data-subitizing-dot="true"]').count(),4,"wrong answer does not hide or mutate the audited stimulus");
     await captureEvidence(page,`${viewport.width}-subitizing-try.png`);
 
+    // Completing with Help still open must close the supplementary overlay.
+    await page.getByRole("button",{name:"Cara main"}).click();
+    assert.equal(await page.locator("[data-subitizing-help]").count(),1,"Help open before success");
     const correct=page.getByRole("button",{name:correctLabel});
     if(viewport.width===390)await correct.tap();else await correct.click();
     await page.waitForFunction(()=>document.querySelector('[data-subitizing-glance] > [role="status"]')?.textContent?.includes("Tepat!"),undefined,{timeout:2000});
@@ -229,6 +232,8 @@ async function inspect(viewport){
       "canonical success reasoning remains available to assistive tech");
     assert.equal(await completed(page),true,"correct subitizing answer completes canonical activity");
 
+    assert.equal(await page.locator("[data-subitizing-help]").count(),0,
+      "open Help closes immediately on correct answer");
     const completion=page.locator('[data-canonical-completion="v1"][data-activity-completion]');
     await completion.waitFor({state:"visible",timeout:3000});
     assert.deepEqual(
@@ -364,8 +369,13 @@ async function inspectAdditionalVariants(viewport){
           "canonical specific cue only after wrong: "+variant.id);
         await page.getByRole("button",{name:"Tutup bantuan"}).click();
         await captureEvidence(page,prefix+"try.png");
+        await page.getByRole("button",{name:"Cara main"}).click();
+        assert.equal(await page.locator("[data-subitizing-help]").count(),1,
+          "variant Help may be reopened before completion: "+variant.id);
         const correctButton=page.getByRole("button",{name:"Pilih jumlah "+variant.correct,exact:true});
         if(viewport.width===390)await correctButton.tap(); else await correctButton.click();
+        assert.equal(await page.locator("[data-subitizing-help]").count(),0,
+          "variant Help closes on success: "+variant.id);
         const completion=page.locator('[data-activity-completion]');
         await completion.waitFor({state:"visible",timeout:3000});
         const record=await page.evaluate(id=>{
