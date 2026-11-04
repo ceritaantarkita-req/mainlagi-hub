@@ -201,10 +201,120 @@ async function inspect(viewport){
     await browser.close();
   }
 }
+
+// VSG-15 release gate: explicitly sample ALL four remaining canonical variants.
+// Keeping them separate from the red-circle deep regression prevents a single
+// representative from being mistaken for five-variant visual approval.
+const otherVariants=[
+  {
+    id:"logic-if-two-then-star",slug:"two-stars",mode:"constraint_match",
+    prompt:"Aturannya: jika jumlahnya 2, pilih bintang. Mana yang cocok?",
+    rule:"Jika jumlahnya 2, pilih bintang.",cue:"Periksa jumlah dan bentuk sekaligus.",
+    labels:["★★","●●","★★★"],correct:"★★"
+  },
+  {
+    id:"logic-rule-small-goes-left",slug:"small-left",mode:"constraint_match",
+    prompt:"Aturannya: benda kecil harus di kiri benda besar. Mana susunan yang benar?",
+    rule:"Benda kecil harus di kiri benda besar.",cue:"Cari susunan dengan benda kecil di sebelah kiri benda besar.",
+    labels:["●  ⬤","⬤  ●","⬤  ⬤"],correct:"●  ⬤"
+  },
+  {
+    id:"logic-rule-up-means-one",slug:"arrow-mapping",mode:"symbol_mapping",
+    prompt:"Aturannya: ↑ berarti satu titik dan → berarti dua titik. Apa pasangan untuk → ?",
+    rule:"↑ berarti satu titik; → berarti dua titik.",cue:"Gunakan pasangan yang diberikan untuk panah kanan.",
+    labels:["●●","●","●●●"],correct:"●●"
+  },
+  {
+    id:"logic-rule-switch-shape",slug:"shape-transform",mode:"single_transform",
+    prompt:"Aturannya: lingkaran berubah jadi segitiga. Jika mulai dari ●, hasilnya?",
+    rule:"Lingkaran berubah menjadi segitiga.",cue:"Terapkan satu perubahan dari bentuk awal.",
+    labels:["▲","■","●"],correct:"▲"
+  }
+];
+async function inspectOtherVariants(viewport){
+  const browser=await chromium.launch({headless:true});
+  try{
+    for(const variant of otherVariants){
+      const context=await browser.newContext({viewport,reducedMotion:"reduce",hasTouch:viewport.width===390});
+      try{
+        await seedPrerequisiteReadiness(context);
+        const page=await context.newPage();
+        const errors=[];
+        page.on("pageerror",error=>errors.push(error.message));
+        const targetRoute="/child/demo-gian/activity/"+variant.id;
+        const response=await page.goto(baseUrl+targetRoute,{waitUntil:"domcontentloaded",timeout:30000});
+        assert(response&&response.status()<400,"other variant bad HTTP: "+variant.id);
+        await waitForScene(page);
+        assert.equal(new URL(page.url()).pathname,targetRoute,"canonical route accessible: "+variant.id);
+        const scene=page.locator('[data-single-rule-apply][data-child-visual-hierarchy="single-rule-vsg15"]');
+        assert.equal(await scene.count(),1,"canonical VSG-15 hierarchy: "+variant.id);
+        assert.equal(await scene.getAttribute("data-rule-mode"),variant.mode);
+        const heading=scene.getByRole("heading",{level:1,name:variant.prompt,exact:true});
+        assert.equal(await heading.count(),1,"one original first-action question: "+variant.id);
+        const headingBox=await heading.boundingBox();
+        assert(headingBox&&headingBox.x>=-1&&headingBox.x+headingBox.width<=viewport.width+1&&
+          headingBox.y>=-1&&headingBox.y+headingBox.height<=viewport.height+1,
+          "primary question initially visible: "+variant.id+" "+viewport.width);
+        assert.equal(await scene.locator('[data-single-rule-rule]').innerText().then(s=>s.includes(variant.rule)),true);
+        assert.equal(await scene.locator('[data-single-rule-target]').getAttribute("data-single-rule-target-state"),"unknown");
+        assert.equal(await scene.locator('[data-single-rule-target]').getByText("?",{exact:true}).count(),1);
+        const choiceButtons=scene.locator("[data-single-rule-choice]");
+        assert.equal(await choiceButtons.count(),3);
+        assert.deepEqual(new Set(await choiceButtons.evaluateAll(items=>items.map(item=>item.getAttribute("aria-label")))),
+          new Set(variant.labels.map(label=>"Pilih hasil: "+label)),"all original choices: "+variant.id);
+        const vw=await page.evaluate(()=>document.documentElement.clientWidth);
+        const sw=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
+        assert(sw<=vw+1,"horizontal overflow: "+variant.id+" "+viewport.width);
+        const boxes=await choiceButtons.evaluateAll(items=>items.map(item=>{const r=item.getBoundingClientRect();return{w:r.width,h:r.height,left:r.left,right:r.right};}));
+        for(const box of boxes)assert(box.w>=44&&box.h>=44&&box.left>=-1&&box.right<=vw+1,"invalid touch target: "+variant.id);
+        const prefix=String(viewport.width)+"-single-rule-"+variant.slug+"-";
+        await captureEvidence(page,prefix+"idle.png");
+        const help=page.getByRole("button",{name:"Cara main"});
+        await help.click();
+        assert.equal(await page.locator("[data-single-rule-help]").innerText(),variant.cue);
+        await captureEvidence(page,prefix+"help.png");
+        await page.getByRole("button",{name:"Tutup bantuan"}).click();
+        const wrong=variant.labels.find(x=>x!==variant.correct);
+        const wrongButton=page.getByRole("button",{name:"Pilih hasil: "+wrong,exact:true});
+        await wrongButton.focus();
+        await page.keyboard.press("Enter");
+        const status=scene.locator(':scope > [role="status"]');
+        await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:3000});
+        assert.equal(await scene.locator('[data-single-rule-target]').getAttribute("data-single-rule-target-state"),"unknown");
+        await captureEvidence(page,prefix+"try.png");
+        const correctButton=page.getByRole("button",{name:"Pilih hasil: "+variant.correct,exact:true});
+        if(viewport.width===390)await correctButton.tap();else await correctButton.click();
+        await page.locator("[data-activity-completion]").waitFor({state:"visible",timeout:4000});
+        assert.equal(await scene.locator('[data-single-rule-target]').getAttribute("data-single-rule-target-state"),"complete");
+        assert((await status.textContent()??"").includes("Tepat!"),"canonical success feedback: "+variant.id);
+        const attempts=await page.evaluate(id=>{
+          const data=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+          return(data["demo-gian"]??[]).filter(item=>item.activityId===id);
+        },variant.id);
+        assert.equal(attempts.length,1,"exactly one assessed attempt: "+variant.id);
+        assert.equal(attempts[0].accuracy,0.5,"one keyboard retry must yield 0.5 accuracy: "+variant.id);
+        assert.equal(attempts[0].metadata?.ruleMode,variant.mode);
+        assert.equal(attempts[0].metadata?.selectedChoice,variant.correct);
+        await captureEvidence(page,prefix+"success.png");
+        await page.locator('[data-completion-action="again"]').click();
+        await page.locator("[data-activity-completion]").waitFor({state:"hidden",timeout:3000});
+        assert.deepEqual(errors,[],"no browser errors: "+variant.id+" "+viewport.width);
+      }finally{
+        await context.close();
+      }
+    }
+  }finally{
+    await browser.close();
+  }
+}
+
 async function main(){
   startServer();
   await waitForServer();
-  for(const viewport of viewports)await inspect(viewport);
-  console.log("VSG-15 Single Rule Apply QA passed 5 viewports × idle/help/wrong/success with hidden target, canonical rule/condition, keyboard retry, assessed evidence and concise completion.");
+  for(const viewport of viewports){
+    await inspect(viewport);
+    if([320,390,768].includes(viewport.width))await inspectOtherVariants(viewport);
+  }
+  console.log("VSG-15 Single Rule Apply QA passed 5 viewports and 4 additional canonical variants across 320/390/768 idle/help/wrong/success.");
 }
 main().catch(error=>{console.error(error);console.error(serverLog.slice(-6000));process.exitCode=1;}).finally(stopServer);
