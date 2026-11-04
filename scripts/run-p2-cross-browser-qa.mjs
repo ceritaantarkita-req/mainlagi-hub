@@ -132,8 +132,27 @@ async function inspect(browser,route,viewport,isLandscape=false){
         "primary activity header controls must have >=44px hit targets");
     }
     if(route.deviceChecklist){
-      assert((await page.getByRole("heading",{name:"Physical Device QA"}).count())===1,
+      assert.equal(await page.getByRole("heading",{name:"Physical Device QA"}).count(),1,
         "manual evidence harness missing");
+      // The real-device matrix must keep all 22 documented acceptance rows.
+      // This is only DOM coverage, never evidence that a physical device passed.
+      const statusChoices=page.locator('[data-mainlagi-route-boundary="device-qa"] select');
+      await page.waitForFunction(()=>document.querySelectorAll('[data-mainlagi-route-boundary="device-qa"] select').length===22,
+        undefined,{timeout:8000});
+      assert.equal(await statusChoices.count(),22,"physical-device QA matrix must have exactly 22 test rows");
+      const controls=await statusChoices.evaluateAll(nodes=>nodes.map(node=>{
+        const r=node.getBoundingClientRect();
+        return {value:node.value,options:Array.from(node.options).map(opt=>opt.value),
+          height:r.height,width:r.width,left:r.left,right:r.right};
+      }));
+      for(const control of controls){
+        assert.equal(control.value,"PENDING","fresh independent QA browser must not pre-certify a physical test");
+        assert.deepEqual(control.options,["PENDING","PASS","FAIL","BLOCKED"],"manual evidence statuses are canonical");
+        assert(control.width>=44&&control.height>=44,"device checklist status target below 44px");
+        assert(control.left>=-1&&control.right<=metrics.viewportWidth+1,
+          "device checklist status target extends outside viewport");
+      }
+      state.deviceChecklistRows=controls.length;
     }
     state.pass=true;
   }catch(error){
