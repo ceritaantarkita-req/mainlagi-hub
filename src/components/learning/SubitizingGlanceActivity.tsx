@@ -34,7 +34,11 @@ export function SubitizingGlanceActivity({ childId, activityId }: { childId: str
     mode: "choice",
     activityTitle: activity.title,
     visibleInstruction: activity.prompt,
-    supportingHint: config.cue
+    // Original variant-specific cues can literally name the answer (e.g. "dua").
+    // Show answer-safe generic Help until the child makes a wrong attempt.
+    supportingHint: feedback === "try"
+      ? config.cue
+      : "Lihat seluruh pola titik, lalu pilih angka yang cocok."
   });
   const visibleCells = new Set(config.dotCells);
 
