@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import { spawn } from "node:child_process";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import process from "node:process";
 import { chromium } from "playwright";
@@ -13,7 +13,15 @@ const route="/child/demo-gian/activity/math-subitize-4";
 const activityId="math-subitize-4";
 const correctLabel="Pilih jumlah 4";
 const screenshotDir=path.join(root,".mobile-route-qa");
-const viewports=[{width:320,height:720},{width:390,height:844},{width:768,height:1024}];
+const evidenceDir=path.join(root,".vsg16-subitizing");
+const viewports=[{width:320,height:720},{width:390,height:844},{width:430,height:860},{width:768,height:1024},{width:1280,height:800}];
+async function captureEvidence(page,filename){
+  mkdirSync(screenshotDir,{recursive:true});
+  mkdirSync(evidenceDir,{recursive:true});
+  const png=await page.screenshot({fullPage:true});
+  writeFileSync(path.join(screenshotDir,filename),png);
+  writeFileSync(path.join(evidenceDir,filename),png);
+}
 let server=null;
 let serverLog="";
 
@@ -149,7 +157,25 @@ async function inspect(viewport){
     assert(response&&response.status()<400,"subitizing bad HTTP at "+viewport.width);
     await waitForScene(page);
     assert.equal(new URL(page.url()).pathname,route,"progression guard must accept seeded Math readiness");
-    assert.equal(await page.locator("[data-subitizing-glance]").getAttribute("data-pattern-mode"),"square");
+    const scene=page.locator('[data-subitizing-glance][data-child-visual-hierarchy="subitizing-vsg16"]');
+    assert.equal(await scene.count(),1,"VSG-16 visual hierarchy opt-in");
+    assert.equal(await scene.getAttribute("data-pattern-mode"),"square");
+    const heading=scene.getByRole("heading",{name:"Lihat pola ● ● / ● ●. Ada berapa titik?",level:1,exact:true});
+    assert.equal(await heading.count(),1,"canonical source question is the sole primary heading");
+    assert.equal(await page.getByText("Lihat polanya",{exact:true}).count(),0,"no competing generic heading");
+    const qBox=await heading.boundingBox();
+    assert(qBox&&qBox.y>=0&&qBox.y+qBox.height<=viewport.height&&
+      qBox.x>=0&&qBox.x+qBox.width<=viewport.width+1,
+      "first-action question visible without horizontal clipping at "+viewport.width);
+    const status=scene.locator(':scope > [role="status"]');
+    assert.equal((await status.textContent())?.trim(),"","idle repeated guidance is hidden");
+    const help=page.getByRole("button",{name:"Cara main"});
+    assert.equal(await help.getAttribute("aria-expanded"),"false");
+    await help.click();
+    assert.equal(await page.locator("[data-subitizing-help]").innerText(),"Lihat empat sudutnya sebagai satu bentuk persegi.");
+    await captureEvidence(page,`${viewport.width}-subitizing-help.png`);
+    await page.getByRole("button",{name:"Tutup bantuan"}).click();
+    assert.equal(await page.locator("[data-subitizing-help]").count(),0);
     assert.equal(await completed(page),false,"idle subitizing cannot complete");
 
     const cells=page.locator("[data-cell-index]");
@@ -178,21 +204,22 @@ async function inspect(viewport){
       assert(box.left>=-1&&box.right<=viewportWidth+1,"subitizing choices remain inside viewport");
     }
 
-    const status=page.getByRole("status");
-    await assertFullyVisible(status,viewportHeight,"idle subitizing feedback");
-    mkdirSync(screenshotDir,{recursive:true});
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-subitizing-idle.png"),fullPage:false});
+    assert.equal(await status.textContent(),"","idle status remains empty");
+    await captureEvidence(page,`${viewport.width}-subitizing-idle.png`);
 
     const wrong=await chooseWrongWithKeyboard(page);
     assert.notEqual(wrong,correctLabel);
-    await status.filter({hasText:"Belum tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:2000});
+    assert.equal((await status.textContent())?.trim(),"Belum tepat. Coba lagi!");
     assert.equal(await completed(page),false,"wrong subitizing answer cannot complete");
     assert.equal(await page.locator('[data-subitizing-dot="true"]').count(),4,"wrong answer does not hide or mutate the audited stimulus");
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-subitizing-try.png"),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-subitizing-try.png`);
 
     const correct=page.getByRole("button",{name:correctLabel});
     if(viewport.width===390)await correct.tap();else await correct.click();
-    await status.filter({hasText:"Tepat"}).waitFor({state:"visible",timeout:2000});
+    await page.waitForFunction(()=>document.querySelector('[data-subitizing-glance] > [role="status"]')?.textContent?.includes("Tepat!"),undefined,{timeout:2000});
+    assert.match((await status.textContent())??"",/Kamu mengenali empat titik dari pola persegi/,
+      "canonical success reasoning remains available to assistive tech");
     assert.equal(await completed(page),true,"correct subitizing answer completes canonical activity");
 
     const completion=page.locator('[data-canonical-completion="v1"][data-activity-completion]');
@@ -203,7 +230,9 @@ async function inspect(viewport){
       "subitizing success uses canonical action order"
     );
     assert.equal(await completion.getAttribute("data-completion-stars"),"3","subitizing success keeps exact three-star completion");
-    await assertFullyVisible(status,viewportHeight,"success subitizing feedback");
+    await assertFullyVisible(completion,viewportHeight,"canonical subitizing completion");
+    assert.equal(await completion.getByText("Hebat!",{exact:true}).count(),1,
+      "succinct praise without repeated visible success explanation");
 
     const state=await page.evaluate(({id})=>{
       const attempts=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -224,7 +253,7 @@ async function inspect(viewport){
     assert.equal(state.accuracy,0.5);
     assert.equal(await targetAttemptCount(page),1,"subitizing success writes exactly one attempt/evidence record");
 
-    await page.screenshot({path:path.join(screenshotDir,String(viewport.width)+"-subitizing-success.png"),fullPage:false});
+    await captureEvidence(page,`${viewport.width}-subitizing-success.png`);
 
     if(viewport.width===390){
       await page.evaluate(()=>{window.__mainlagiSi11SubitizingDocument="same-document";});
@@ -257,11 +286,103 @@ async function inspect(viewport){
   }
 }
 
+
+// The additional two canonical dot layouts are distinct visual/semantic variants.
+// Independent 320/390/768 QA prevents four-dot representative success from
+// being mistaken for full three-variant release acceptance.
+const additionalVariants=[
+  {id:"math-subitize-2",slug:"two-dots",mode:"pair",
+    prompt:"Tanpa menghitung lama, berapa titik yang terlihat: ● ● ?",
+    dots:[3,5],choiceLabels:["1","2","3"],correct:"2",
+    cue:"Lihat dua titik sebagai satu pasangan.",
+    accessiblePattern:"Dua titik berjajar mendatar."},
+  {id:"math-subitize-5",slug:"five-dots",mode:"dice_five",
+    prompt:"Lihat pola seperti dadu lima. Berapa jumlah titiknya?",
+    dots:[0,2,4,6,8],choiceLabels:["4","5","6"],correct:"5",
+    cue:"Lihat empat sudut dan satu titik di tengah sebagai satu pola.",
+    accessiblePattern:"Lima titik seperti pola angka lima pada dadu."}
+];
+async function inspectAdditionalVariants(viewport){
+  const browser=await chromium.launch({headless:true});
+  try{
+    for(const variant of additionalVariants){
+      const context=await browser.newContext({viewport,reducedMotion:"reduce",hasTouch:viewport.width===390});
+      try{
+        await seedPrerequisiteReadiness(context);
+        const page=await context.newPage();
+        const pageErrors=[];
+        page.on("pageerror",e=>pageErrors.push(e.message));
+        const path="/child/demo-gian/activity/"+variant.id;
+        const response=await page.goto(baseUrl+path,{waitUntil:"domcontentloaded",timeout:30000});
+        assert(response&&response.status()<400,"route resolves: "+variant.id);
+        await waitForScene(page);
+        assert.equal(new URL(page.url()).pathname,path,"canonical stage guard: "+variant.id);
+        const scene=page.locator('[data-subitizing-glance][data-child-visual-hierarchy="subitizing-vsg16"]');
+        assert.equal(await scene.getAttribute("data-pattern-mode"),variant.mode);
+        const heading=scene.getByRole("heading",{level:1,name:variant.prompt,exact:true});
+        assert.equal(await heading.count(),1,"original canonical question shown: "+variant.id);
+        const box=await heading.boundingBox();
+        assert(box&&box.y>=0&&box.y+box.height<=viewport.height&&box.x>=0&&box.x+box.width<=viewport.width+1,"first fold: "+variant.id);
+        const pattern=scene.locator("[data-subitizing-pattern]");
+        assert.equal(await pattern.getAttribute("aria-label"),variant.accessiblePattern);
+        const dots=scene.locator('[data-subitizing-dot="true"]');
+        assert.deepEqual((await dots.evaluateAll(nodes=>nodes.map(node=>Number(node.getAttribute("data-cell-index"))))).sort((a,b)=>a-b),
+          variant.dots,"canonical dot arrangement: "+variant.id);
+        const choices=scene.locator("[data-subitizing-choice]");
+        assert.deepEqual(await choices.evaluateAll(nodes=>nodes.map(node=>node.getAttribute("aria-label"))),
+          variant.choiceLabels.map(x=>"Pilih jumlah "+x),"canonical choice ordering: "+variant.id);
+        const width=await page.evaluate(()=>document.documentElement.clientWidth);
+        const scrollWidth=await page.evaluate(()=>Math.max(document.documentElement.scrollWidth,document.body.scrollWidth));
+        assert(scrollWidth<=width+1,"horizontal overflow: "+variant.id);
+        for(const rect of await choices.evaluateAll(nodes=>nodes.map(node=>{const r=node.getBoundingClientRect();return{width:r.width,height:r.height,x:r.x,right:r.right};}))){
+          assert(rect.width>=44&&rect.height>=44&&rect.x>=-1&&rect.right<=width+1,"min touch target: "+variant.id);
+        }
+        const status=scene.locator(':scope > [role="status"]');
+        assert.equal((await status.textContent())?.trim(),"");
+        const prefix=String(viewport.width)+"-subitizing-"+variant.slug+"-";
+        await captureEvidence(page,prefix+"idle.png");
+        await page.getByRole("button",{name:"Cara main"}).click();
+        assert.equal(await page.locator("[data-subitizing-help]").innerText(),variant.cue);
+        await captureEvidence(page,prefix+"help.png");
+        await page.getByRole("button",{name:"Tutup bantuan"}).click();
+        const wrong=variant.choiceLabels.find(x=>x!==variant.correct);
+        const wrongButton=page.getByRole("button",{name:"Pilih jumlah "+wrong,exact:true});
+        await wrongButton.focus();await page.keyboard.press("Enter");
+        await page.getByText("Belum tepat. Coba lagi!",{exact:true}).waitFor({state:"visible",timeout:3000});
+        assert.equal(await scene.locator('[data-subitizing-dot="true"]').count(),variant.dots.length);
+        await captureEvidence(page,prefix+"try.png");
+        const correctButton=page.getByRole("button",{name:"Pilih jumlah "+variant.correct,exact:true});
+        if(viewport.width===390)await correctButton.tap(); else await correctButton.click();
+        const completion=page.locator('[data-activity-completion]');
+        await completion.waitFor({state:"visible",timeout:3000});
+        const record=await page.evaluate(id=>{
+          const all=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
+          return (all["demo-gian"]??[]).filter(a=>a.activityId===id);
+        },variant.id);
+        assert.equal(record.length,1,"one assessed completion attempt");
+        assert.equal(record[0].accuracy,0.5);
+        assert.equal(record[0].retryCount,1);
+        assert.equal(record[0].metadata?.selectedChoice,variant.correct);
+        assert.equal(record[0].metadata?.visibleDotCount,variant.dots.length);
+        assert.equal(record[0].metadata?.patternMode,variant.mode);
+        await captureEvidence(page,prefix+"success.png");
+        await completion.locator('[data-completion-action="again"]').click();
+        await completion.waitFor({state:"hidden",timeout:3000});
+        assert.equal(await choices.evaluateAll(nodes=>nodes.every(n=>!n.disabled)),true,"Again restores choices");
+        assert.deepEqual(pageErrors,[],"no browser exceptions");
+      }finally{await context.close();}
+    }
+  }finally{await browser.close();}
+}
+
 async function main(){
   startServer();
   await waitForServer();
-  for(const viewport of viewports)await inspect(viewport);
-  console.log("Pattern 44 browser QA passed: three viewports preserve the audited stimulus/evidence contract, canonical Completion+Share, rotation state, and single-attempt semantics.");
+  for(const viewport of viewports){
+    await inspect(viewport);
+    if([320,390,768].includes(viewport.width))await inspectAdditionalVariants(viewport);
+  }
+  console.log("VSG-16 Subitizing QA passed all 3 canonical dot patterns, 44 screenshots, five main viewports, 320/390/768 variant sampling, keyboard/touch, evidence and Again.");
 }
 
 main().catch(error=>{
