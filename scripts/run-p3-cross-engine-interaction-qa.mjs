@@ -81,10 +81,6 @@ async function contextFor(browser,viewport,withMathPrerequisite=false){
   }
   return context;
 }
-function attemptInStorage(activityId){
-  const all=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
-  return(all["demo-gian"]??[]).filter(item=>item.activityId===activityId);
-}
 async function readAttempts(page,id){
   return page.evaluate(key=>{
     const all=JSON.parse(localStorage.getItem("mainlagi-learning-attempts-v1")??"{}");
@@ -225,6 +221,9 @@ async function inspectEnglish(browser,viewport){
     captures.push(await screenshot(page,"english-"+viewport.width+"-again"));
     return{case:"english-choice",viewport,pass:true,screenshots:captures,
       attempt:{correct:attempts[0].correctCount,incorrect:attempts[0].incorrectCount,retry:attempts[0].retryCount,accuracy:attempts[0].accuracy}};
+  }catch(error){
+    try{await screenshot(page,"p3-failure-"+engine+"-"+viewport.width+"-"+Date.now());}catch{}
+    throw error;
   }finally{await context.close();}
 }
 async function inspectSubitizing(browser,viewport){
@@ -301,6 +300,9 @@ async function inspectSubitizing(browser,viewport){
     captures.push(await screenshot(page,"subitizing-"+viewport.width+"-again"));
     return{case:"subitizing",viewport,pass:true,screenshots:captures,
       attempt:{correct:attempts[0].correctCount,incorrect:attempts[0].incorrectCount,retry:attempts[0].retryCount,accuracy:attempts[0].accuracy}};
+  }catch(error){
+    try{await screenshot(page,"p3-failure-"+engine+"-"+viewport.width+"-"+Date.now());}catch{}
+    throw error;
   }finally{await context.close();}
 }
 async function inspectHarness(browser,viewport){
@@ -325,7 +327,6 @@ async function inspectHarness(browser,viewport){
     await first.focus();
     assert(await first.evaluate(node=>document.activeElement===node),"QA status not keyboard focusable");
     await first.selectOption("FAIL");
-    await page.locator(".testCard textarea").first().count(); // no selector-driven mutation
     await page.waitForFunction(()=>localStorage.getItem("mainlagi:physical-device-qa:v1")?.includes('"status":"FAIL"'),
       undefined,{timeout:5000});
     await page.reload({waitUntil:"domcontentloaded"});
@@ -347,6 +348,9 @@ async function inspectHarness(browser,viewport){
     captures.push(await screenshot(page,"harness-"+viewport.width+"-reset"));
     return{case:"device-evidence-harness",viewport,pass:true,screenshots:captures,
       note:"Automation tested FAIL/persistence/reset only. No physical-device PASS was issued."};
+  }catch(error){
+    try{await screenshot(page,"p3-failure-"+engine+"-"+viewport.width+"-"+Date.now());}catch{}
+    throw error;
   }finally{await context.close();}
 }
 async function main(){
