@@ -1,0 +1,48 @@
+name: P3 cross-engine interactive learning QA
+
+on:
+  pull_request:
+    paths:
+      - scripts/run-p3-cross-engine-interaction-qa.mjs
+      - .github/workflows/p3-cross-engine-interaction.yml
+      - docs/P3_INTERACTION_ACCEPTANCE_2026-11-05.md
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  child-interaction-matrix:
+    name: P3 interaction (${{ matrix.browser }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, webkit]
+    env:
+      MAINLAGI_P3_ENGINE: ${{ matrix.browser }}
+      NEXT_PUBLIC_DATA_BACKEND: local
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Install Playwright browser and native dependencies
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+      - name: Build local production app
+        run: npm run build
+      - name: Verify child interaction and QA evidence state
+        run: node scripts/run-p3-cross-engine-interaction-qa.mjs
+      - name: Upload P3 screenshots and manifest (even on failure)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: p3-interaction-${{ matrix.browser }}
+          path: .qa/p3-interaction/${{ matrix.browser }}/
+          if-no-files-found: error
+          include-hidden-files: true
+          retention-days: 14
